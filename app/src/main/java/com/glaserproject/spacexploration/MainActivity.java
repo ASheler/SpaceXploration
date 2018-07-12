@@ -56,19 +56,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mDb = AppDatabase.getInstance(this);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -89,7 +76,6 @@ public class MainActivity extends AppCompatActivity
         onNavigationItemSelected(item);
         //set menu item as checked for UI consistency
         item.setChecked(true);
-
 
 
     }
@@ -113,16 +99,6 @@ public class MainActivity extends AppCompatActivity
         //check if ActiveNetwork isn't null && is Connected
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
-
-
-
-    private void initAndCallRetrofit (){
-
-
-
-
-    }
-
 
 
 

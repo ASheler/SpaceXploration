@@ -9,9 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
@@ -40,8 +42,9 @@ public class LaunchesMainFragment extends Fragment {
 
 
     LaunchesAdapter launchesAdapter;
-    ViewModel viewModel;
+    MainViewModel mainViewModel;
     AppDatabase mDb;
+
 
 
 
@@ -61,7 +64,7 @@ public class LaunchesMainFragment extends Fragment {
         launchesRV.setAdapter(launchesAdapter);
 
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mDb = AppDatabase.getInstance(getContext());
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -87,9 +90,9 @@ public class LaunchesMainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Launch>> call, Throwable t) {
-
             }
         });
+
 
         retrieveLaunches();
 
@@ -97,11 +100,17 @@ public class LaunchesMainFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     //get Launches from Db
     private void retrieveLaunches (){
-        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.getLaunches().observe(this, new Observer<List<Launch>>() {
+
+        mainViewModel.getLaunches().removeObservers(this);
+        mainViewModel.getLaunches().observe(getViewLifecycleOwner(), new Observer<List<Launch>>() {
             @Override
             public void onChanged(@Nullable List<Launch> launches) {
                 launchesAdapter.setLaunches(launches);
