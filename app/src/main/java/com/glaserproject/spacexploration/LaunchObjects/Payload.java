@@ -1,11 +1,13 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
+import java.util.List;
+
 class Payload {
 
     String payload_id;
     String cap_serial;
     boolean reused;
-    String[] customers;
+    List<String> customers;
     String payload_type;
     String payload_mass_kg;
     String payload_mass_lbs;

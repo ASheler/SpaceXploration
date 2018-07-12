@@ -1,6 +1,12 @@
 package com.glaserproject.spacexploration;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -21,6 +27,11 @@ import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
+import com.glaserproject.spacexploration.NetUtils.AppExecutors;
+import com.glaserproject.spacexploration.Room.AppDatabase;
+import com.glaserproject.spacexploration.ViewModels.MainViewModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,12 +42,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+
+    ViewModel viewModel;
+    AppDatabase mDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mDb = AppDatabase.getInstance(this);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,28 +78,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetConstants.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
 
-        Retrofit retrofit = builder.build();
 
-        ApiClient apiClient = retrofit.create(ApiClient.class);
-        Call<Launch> call = apiClient.getLatestLaunch();
 
-        call.enqueue(new Callback<Launch>() {
-            @Override
-            public void onResponse(Call<Launch> call, Response<Launch> response) {
 
-                Launch launch = response.body();
-                Toast.makeText(MainActivity.this, "" + launch.getMission_name(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Launch> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error " + t, Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         //set default fragment view
@@ -88,6 +92,26 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    }
+
+    //get Launches from Db
+    private void retrieveLaunches (){
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.getLaunches().observe(this, new Observer<List<Launch>>() {
+            @Override
+            public void onChanged(@Nullable List<Launch> launches) {
+                //data changed
+            }
+        });
+    }
+
+
+    //Check if Network connection is available
+    public boolean isNetworkAvailable(Context context) {
+        //set connectivity manager
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //check if ActiveNetwork isn't null && is Connected
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
 

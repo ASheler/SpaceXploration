@@ -1,6 +1,6 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
-class Telemetry {
+public class Telemetry {
 
     String flight_club;
 }

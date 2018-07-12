@@ -1,6 +1,6 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
-class LaunchSite {
+public class LaunchSite {
 
     String site_id;
     String site_name;

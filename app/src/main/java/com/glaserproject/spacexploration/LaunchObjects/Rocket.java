@@ -1,6 +1,6 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
-class Rocket {
+public class Rocket {
 
     String rocket_id;
     String rocket_name;

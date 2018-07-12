@@ -1,8 +1,10 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
+import java.util.List;
+
 class SecondStage {
 
     int block;
-    Payload[] payloads;
+    List<Payload> payloads;
 
 }

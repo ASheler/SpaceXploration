@@ -1,6 +1,6 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
-class Links {
+public class Links {
 
     String mission_patch;
     String mission_patch_small;

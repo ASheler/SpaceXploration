@@ -1,6 +1,6 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
-class Reuse {
+public class Reuse {
 
     boolean core;
     boolean side_core1;

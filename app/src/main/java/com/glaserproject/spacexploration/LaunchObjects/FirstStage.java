@@ -1,7 +1,9 @@
 package com.glaserproject.spacexploration.LaunchObjects;
 
+import java.util.List;
+
 class FirstStage {
 
-    Core[] cores;
+    List<Core> cores;
 
 }
