@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
@@ -21,6 +22,7 @@ import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.AppExecutors;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.Room.AppDatabase;
+import com.glaserproject.spacexploration.Room.InsertPastLaunchesAsyncTask;
 import com.glaserproject.spacexploration.RvAdapters.LaunchesAdapter;
 import com.glaserproject.spacexploration.ViewModels.MainViewModel;
 
@@ -34,7 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LaunchesMainFragment extends Fragment {
+public class LaunchesMainFragment extends Fragment implements InsertPastLaunchesAsyncTask.AsyncTaskListeners{
 
     //Default empty constructor
     public LaunchesMainFragment (){
@@ -50,6 +52,9 @@ public class LaunchesMainFragment extends Fragment {
 
     @BindView(R.id.launches_rv)
     RecyclerView launchesRV;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
 
     @Nullable
     @Override
@@ -83,7 +88,7 @@ public class LaunchesMainFragment extends Fragment {
                 AppExecutors.getsInstance().getDiskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        mDb.pastLaunchesDao().insertPastLaunches(response.body());
+                        new InsertPastLaunchesAsyncTask(LaunchesMainFragment.this).execute(getContext(), response.body());
                     }
                 });
             }
@@ -110,7 +115,7 @@ public class LaunchesMainFragment extends Fragment {
     private void retrieveLaunches (){
 
         mainViewModel.getLaunches().removeObservers(this);
-        mainViewModel.getLaunches().observe(getViewLifecycleOwner(), new Observer<List<Launch>>() {
+        mainViewModel.getLaunches().observe(this, new Observer<List<Launch>>() {
             @Override
             public void onChanged(@Nullable List<Launch> launches) {
                 launchesAdapter.setLaunches(launches);
@@ -119,4 +124,13 @@ public class LaunchesMainFragment extends Fragment {
     }
 
 
+    @Override
+    public void onTaskBegin() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onTaskComplete() {
+        progressBar.setVisibility(View.GONE);
+    }
 }

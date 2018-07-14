@@ -142,20 +142,23 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
-        if (id == R.id.nav_camera) {
-            fragment = new LaunchesMainFragment();
-
-        } else if (id == R.id.nav_gallery) {
-            fragment = new CompanyInfoFragment();
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id){
+            case R.id.nav_launches:
+                fragment = new LaunchesMainFragment();
+                break;
+            case R.id.nav_spacex:
+                fragment = new CompanyInfoFragment();
+                break;
+            case R.id.nav_launch_pads:
+                break;
+            case R.id.nav_rockets:
+                break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_support:
+                break;
+            case R.id.nav_about:
+                break;
         }
 
 

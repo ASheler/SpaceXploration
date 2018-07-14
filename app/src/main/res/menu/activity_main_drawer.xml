@@ -3,35 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <!-- TODO: edit icons -->
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_launches"
+            android:icon="@drawable/ic_launches"
+            android:title="Launches" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_spacex"
+            android:icon="@drawable/ic_spacex_logo_xonly"
+            android:title="SpaceX" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_launch_pads"
+            android:icon="@drawable/ic_launchpad"
+            android:title="Launch Pads" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_rockets"
+            android:icon="@drawable/ic_launches"
+            android:title="Rockets" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Other">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Settings" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_support"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Support Us" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_menu_send"
+                android:title="About App" />
         </menu>
     </item>
 
