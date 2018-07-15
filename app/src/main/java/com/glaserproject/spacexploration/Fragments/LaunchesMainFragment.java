@@ -20,6 +20,7 @@ import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.AppExecutors;
+import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.Room.AppDatabase;
 import com.glaserproject.spacexploration.Room.InsertPastLaunchesAsyncTask;
@@ -72,6 +73,24 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mDb = AppDatabase.getInstance(getContext());
 
+
+        retrieveLaunches();
+        if (CheckNetConnection.isNetworkAvailable(getContext())){
+            initRetrofit();
+        } else {
+            if (launchesAdapter.getItemCount() == 0){
+                Toast.makeText(getContext(), "No connection and no offline data", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "No connection, loading offline data", Toast.LENGTH_SHORT).show();
+            }
+            //TODO: Check if roomDb is empty
+        }
+
+        return rootView;
+    }
+
+    //Initialize and call Retrofit get Past Launches
+    private void initRetrofit() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(NetConstants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
@@ -88,6 +107,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
                 AppExecutors.getsInstance().getDiskIO().execute(new Runnable() {
                     @Override
                     public void run() {
+                        //insert launches into Db
                         new InsertPastLaunchesAsyncTask(LaunchesMainFragment.this).execute(getContext(), response.body());
                     }
                 });
@@ -97,12 +117,6 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
             public void onFailure(Call<List<Launch>> call, Throwable t) {
             }
         });
-
-
-        retrieveLaunches();
-
-
-        return rootView;
     }
 
     @Override
@@ -126,7 +140,10 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
     @Override
     public void onTaskBegin() {
-        progressBar.setVisibility(View.VISIBLE);
+        //if data is shown, there is no need to show loading bar as data is only updating, not downloading as whole
+        if (launchesAdapter.getItemCount() != 0) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
