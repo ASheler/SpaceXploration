@@ -9,6 +9,7 @@ import android.arch.persistence.room.Query;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao

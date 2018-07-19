@@ -1,29 +1,37 @@
 package com.glaserproject.spacexploration.ViewModels;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.ViewModel;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
-import com.glaserproject.spacexploration.Room.AppDatabase;
+import com.glaserproject.spacexploration.DependencyInjection.LaunchesRepository;
 
 import java.util.List;
 
-public class MainViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class MainViewModel extends ViewModel {
 
     private LiveData<List<Launch>> launches;
+    private LaunchesRepository launchesRepository;
 
 
-    public MainViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public MainViewModel(LaunchesRepository launchesRepository){
+        this.launchesRepository = launchesRepository;
 
-        AppDatabase mDb = AppDatabase.getInstance(this.getApplication());
-        launches = mDb.pastLaunchesDao().getPastLaunches();
     }
 
+    public void init(){
+        if (launches != null){
+            return;
+        }
+        launches = launchesRepository.getLaunches();
+    }
+
+
     public LiveData<List<Launch>> getLaunches() {
-        return launches;
+        return this.launches;
     }
 
 }

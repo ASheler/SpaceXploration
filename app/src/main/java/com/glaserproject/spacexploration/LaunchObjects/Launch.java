@@ -7,6 +7,8 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
+import java.util.Date;
+
 @Entity (tableName = "past_launches")
 public class Launch {
 
@@ -84,6 +86,7 @@ public class Launch {
     }
 
 
+
     public void setFlight_number(int flight_number) {
         this.flight_number = flight_number;
     }
@@ -135,4 +138,5 @@ public class Launch {
     public void setDetails(String details) {
         this.details = details;
     }
+
 }

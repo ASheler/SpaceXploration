@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 public class DataConverters {
@@ -136,6 +137,22 @@ public class DataConverters {
         Type type = new TypeToken<Links>() {}.getType();
         Links links = gson.fromJson(linksString, type);
         return links;
+    }
+
+    @TypeConverter
+    public Date toDate(Long timestamp) {
+        if (timestamp == null){
+            return (null);
+        }
+        return new Date(timestamp);
+    }
+
+    @TypeConverter
+    public Long fromDate(Date date) {
+        if (date == null){
+            return (null);
+        }
+        return date.getTime();
     }
 
 

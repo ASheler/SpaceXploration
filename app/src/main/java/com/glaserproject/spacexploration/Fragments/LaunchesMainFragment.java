@@ -2,6 +2,7 @@ package com.glaserproject.spacexploration.Fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,8 +30,11 @@ import com.glaserproject.spacexploration.ViewModels.MainViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.AndroidSupportInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,8 +48,11 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
     }
 
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     LaunchesAdapter launchesAdapter;
-    MainViewModel mainViewModel;
+    private MainViewModel mainViewModel;
 
 
 
@@ -54,6 +61,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
     RecyclerView launchesRV;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
 
 
     @Nullable
@@ -68,75 +76,23 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
         launchesAdapter = new LaunchesAdapter();
         launchesRV.setAdapter(launchesAdapter);
 
-
-
-
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
-        //retrieveLaunches();
-        
-        if (CheckNetConnection.isNetworkAvailable(getContext())){
-            initRetrofit();
-        } else {
-            Toast.makeText(getContext(), "No connection, loading offline data", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
-
-
-
-        // Create the observer which updates the UI.
-        final Observer<List<Launch>> nameObserver = new Observer<List<Launch>>() {
-            @Override
-            public void onChanged(@Nullable List<Launch> launches) {
-                launchesAdapter.setLaunches(launches);
-            }
-        };
-        mainViewModel.getLaunches().observe(this, nameObserver);
-
-
         return rootView;
     }
 
-    //Initialize and call Retrofit get Past Launches
-    private void initRetrofit() {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetConstants.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
 
-        Retrofit retrofit = builder.build();
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        ApiClient apiClient = retrofit.create(ApiClient.class);
-        Call<List<Launch>> pastLaunchesCall = apiClient.getLaunches();
+        AndroidSupportInjection.inject(this);
 
-        pastLaunchesCall.enqueue(new Callback<List<Launch>>() {
-
-            @Override
-            public void onResponse(Call<List<Launch>> call, final Response<List<Launch>> response) {
-                new InsertPastLaunchesAsyncTask(LaunchesMainFragment.this).execute(getContext(), response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Launch>> call, Throwable t) {
-            }
-        });
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+        mainViewModel.init();
+        mainViewModel.getLaunches().observe(this, launches -> updateUi(launches));
     }
 
-
-
-    //get Launches from Db
-    private void retrieveLaunches (){
-
-        mainViewModel.getLaunches().removeObservers(this);
-        mainViewModel.getLaunches().observe(this, new Observer<List<Launch>>() {
-            @Override
-            public void onChanged(@Nullable List<Launch> launches) {
-                launchesAdapter.setLaunches(launches);
-
-            }
-        });
+    private void updateUi(List<Launch> launches){
+        launchesAdapter.setLaunches(launches);
     }
 
 
