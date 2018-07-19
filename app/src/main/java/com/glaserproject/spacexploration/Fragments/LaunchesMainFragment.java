@@ -46,7 +46,6 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
     LaunchesAdapter launchesAdapter;
     MainViewModel mainViewModel;
-    AppDatabase mDb;
 
 
 
@@ -70,21 +69,33 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
         launchesRV.setAdapter(launchesAdapter);
 
 
+
+
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mDb = AppDatabase.getInstance(getContext());
 
-
-        retrieveLaunches();
+        //retrieveLaunches();
+        
         if (CheckNetConnection.isNetworkAvailable(getContext())){
             initRetrofit();
         } else {
-            if (launchesAdapter.getItemCount() == 0){
-                Toast.makeText(getContext(), "No connection and no offline data", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "No connection, loading offline data", Toast.LENGTH_SHORT).show();
-            }
-            //TODO: Check if roomDb is empty
+            Toast.makeText(getContext(), "No connection, loading offline data", Toast.LENGTH_SHORT).show();
         }
+
+
+
+
+
+
+
+        // Create the observer which updates the UI.
+        final Observer<List<Launch>> nameObserver = new Observer<List<Launch>>() {
+            @Override
+            public void onChanged(@Nullable List<Launch> launches) {
+                launchesAdapter.setLaunches(launches);
+            }
+        };
+        mainViewModel.getLaunches().observe(this, nameObserver);
+
 
         return rootView;
     }
@@ -104,13 +115,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
             @Override
             public void onResponse(Call<List<Launch>> call, final Response<List<Launch>> response) {
-                AppExecutors.getsInstance().getDiskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        //insert launches into Db
-                        new InsertPastLaunchesAsyncTask(LaunchesMainFragment.this).execute(getContext(), response.body());
-                    }
-                });
+                new InsertPastLaunchesAsyncTask(LaunchesMainFragment.this).execute(getContext(), response.body());
             }
 
             @Override
@@ -119,11 +124,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
         });
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     //get Launches from Db
     private void retrieveLaunches (){
@@ -133,6 +134,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
             @Override
             public void onChanged(@Nullable List<Launch> launches) {
                 launchesAdapter.setLaunches(launches);
+
             }
         });
     }
@@ -143,6 +145,7 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
         //if data is shown, there is no need to show loading bar as data is only updating, not downloading as whole
         if (launchesAdapter.getItemCount() != 0) {
             progressBar.setVisibility(View.VISIBLE);
+            Log.d("Ondra", "OnTaskBegin");
         }
     }
 
