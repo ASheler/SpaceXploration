@@ -49,11 +49,23 @@ public class LaunchesRepository {
 
     private void refreshLaunches(){
         executor.execute(() ->  {
-            
+
+            Date maxRefresh = getMaxRefreshTime(new Date());
+            List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
+            boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
+
+            if (refreshLaunchesExists) {
+
                 webservice.getLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
                     public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
                         executor.execute(() -> {
+                            List<Launch> launches = response.body();
+                            int i = 0;
+                            while (i < launches.size()){
+                                launches.get(i).setLastRefresh(new Date());
+                                i++;
+                            }
                             Log.d("hovno", "hovno");
                             launchesDao.insertPastLaunches(response.body());
                         });
@@ -64,13 +76,20 @@ public class LaunchesRepository {
                         Log.d("prdel", "prdel");
                     }
                 });
+            } else {
+                Log.d("jebat", "jebat");
+            }
+
 
         });
     }
 
-
-
-
+    private Date getMaxRefreshTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, -FRESH_TIMEOUT_IN_MINUTES);
+        return cal.getTime();
+    }
 
 
 }

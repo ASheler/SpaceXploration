@@ -20,4 +20,7 @@ public interface PastLaunchesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPastLaunches(List<Launch> pastLaunches);
+
+    @Query("SELECT * FROM past_launches WHERE lastRefresh < :lastRefreshMax")
+    List<Launch> launchesToRefresh(Date lastRefreshMax);
 }

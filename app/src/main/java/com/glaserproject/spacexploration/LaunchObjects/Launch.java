@@ -31,6 +31,8 @@ public class Launch {
     @TypeConverters(DataConverters.class)
     private Links links;
     private String details;
+    @TypeConverters(DataConverters.class)
+    private Date lastRefresh;
 
 
     public int getFlight_number() {
@@ -85,7 +87,9 @@ public class Launch {
         return details;
     }
 
-
+    public Date getLastRefresh() {
+        return lastRefresh;
+    }
 
     public void setFlight_number(int flight_number) {
         this.flight_number = flight_number;
@@ -137,6 +141,10 @@ public class Launch {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public void setLastRefresh(Date lastRefresh) {
+        this.lastRefresh = lastRefresh;
     }
 
 }
