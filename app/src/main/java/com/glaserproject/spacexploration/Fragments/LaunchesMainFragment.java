@@ -44,12 +44,14 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    //Rv Position
     SaveRvPositionListener saveRvPosition;
+    private Parcelable recyclerViewState;
+
 
     LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
 
-    private Parcelable recyclerViewState;
 
 
     @BindView(R.id.launches_rv)
@@ -80,6 +82,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
 
         launchesRV.setAdapter(launchesAdapter);
 
+        //get rv position from bundle
         Bundle bundle = getArguments();
         if (bundle != null){
             recyclerViewState = bundle.getParcelable(BundleKeys.SAVE_RV_POSITION_KEY);
@@ -113,6 +116,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         //send data to RvAdapter
         launchesAdapter.setLaunches(launches);
 
+        //set rv position
         if (recyclerViewState != null){
             launchesRV.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }
@@ -130,6 +134,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        //Attach Listener for saving rv position on configuration change
         try {
             saveRvPosition = (SaveRvPositionListener) context;
         } catch (ClassCastException e) {
@@ -146,16 +151,19 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         startActivity(intent);
     }
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("FUCK ", "onSaveInstanceState");
 
+        //get current rv state
         recyclerViewState = launchesRV.getLayoutManager().onSaveInstanceState();
+        //send the state to Main Activity
         saveRvPosition.save(recyclerViewState);
     }
 
 
+    //sending rv position to activity
     public interface SaveRvPositionListener{
         void save(Parcelable position);
     }

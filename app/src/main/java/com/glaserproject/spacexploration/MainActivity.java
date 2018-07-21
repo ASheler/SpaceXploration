@@ -155,10 +155,13 @@ public class MainActivity extends AppCompatActivity
         switch (id){
             case R.id.nav_launches:
                 fragment = new LaunchesMainFragment();
+
+                //put current rv position to bundle and send it to fragment
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
                 fragment.setArguments(bundle);
                 break;
+
             case R.id.nav_spacex:
                 fragment = new CompanyInfoFragment();
                 break;
@@ -174,17 +177,19 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-
+        //launch Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.content_main_layout, fragment)
                 .commit();
 
+        //close drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    //saving rv position from Launches Fragment
     @Override
     public void save(Parcelable position) {
         saveRvPosition = position;
@@ -193,6 +198,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        //save RV position
         outState.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
     }
 }
