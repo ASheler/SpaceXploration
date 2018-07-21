@@ -51,10 +51,13 @@ public class LaunchesRepository {
     private void refreshLaunches(){
         executor.execute(() ->  {
 
+            //set new Refresh reference
             Date maxRefresh = getMaxRefreshTime(new Date());
+            //get all launches with older time
             List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
             boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
 
+            //if we have some launches to update
             if (refreshLaunchesExists) {
 
                 webservice.getLaunches().enqueue(new Callback<List<Launch>>() {
@@ -64,6 +67,7 @@ public class LaunchesRepository {
                             Log.d(LOG, "got launches from net successfully");
                             List<Launch> launches = response.body();
                             int i = 0;
+                            //edit last Refresh reference for all launches
                             while (i < launches.size()){
                                 launches.get(i).setLastRefresh(new Date());
                                 i++;

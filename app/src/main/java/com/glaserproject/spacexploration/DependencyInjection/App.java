@@ -28,8 +28,6 @@ public class App extends Application implements HasActivityInjector {
         return dispatchingAndroidInjector;
     }
 
-    // ---
-
     private void initDagger(){
         DaggerLaunchesComponent.builder().application(this).build().inject(this);
     }

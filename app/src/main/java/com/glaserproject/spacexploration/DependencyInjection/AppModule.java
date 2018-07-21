@@ -23,8 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module(includes = ViewModelModule.class)
 public class AppModule {
 
-    // --- DATABASE INJECTION ---
-
     @Provides
     @Singleton
     AppDatabase provideDatabase(Application application) {
@@ -37,7 +35,6 @@ public class AppModule {
     @Singleton
     PastLaunchesDao provideLaunchesDao(AppDatabase database) { return database.pastLaunchesDao(); }
 
-    // --- REPOSITORY INJECTION ---
 
     @Provides
     Executor provideExecutor() {

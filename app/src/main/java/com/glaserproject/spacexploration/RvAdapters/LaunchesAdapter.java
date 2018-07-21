@@ -24,10 +24,12 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
     private List<Launch> launches;
     private final onClickHandler mClickHandler;
 
+    //Constructor for clickHandler
     public LaunchesAdapter (onClickHandler clickHandler){
         this.mClickHandler = clickHandler;
     }
 
+    //set Launches method
     public void setLaunches(List<Launch> launches) {
         this.launches = launches;
         notifyDataSetChanged();
@@ -80,6 +82,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         void bind (int index){
             launchTitle.setText(launches.get(index).getMission_name());
 
+            //set readable date from millis
             Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
             SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
             String formattedDate = sdf.format(date);

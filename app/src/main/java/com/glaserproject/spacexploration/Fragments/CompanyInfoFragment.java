@@ -38,15 +38,11 @@ public class CompanyInfoFragment extends Fragment {
 
         AndroidSupportInjection.inject(this);
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        viewModel.init();
-        viewModel.getLaunches().observe(this, launches -> updateUI(launches));
+
     }
 
 
-    private void updateUI(List<Launch> launches){
-        textView.setText(launches.get(1).getMission_name());
-    }
+
 
     @Nullable
     @Override
@@ -54,7 +50,7 @@ public class CompanyInfoFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragmnet_company_info, container, false);
 
         textView = rootView.findViewById(R.id.textView3);
-        textView.setText("hovno");
+        textView.setText("test");
 
         return rootView;
     }

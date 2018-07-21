@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 
+//Component for launches
+
 @Singleton
 @Component(modules={ActivityModule.class, FragmentModule.class, AppModule.class})
 public interface LaunchesComponent {
