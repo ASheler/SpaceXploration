@@ -23,6 +23,10 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
     public LaunchesAdapter (){
     }
 
+    public LaunchesAdapter (List<Launch> launches){
+        this.launches = launches;
+    }
+
     public void setLaunches(List<Launch> launches) {
         this.launches = launches;
         notifyDataSetChanged();

@@ -4,13 +4,15 @@ package com.glaserproject.spacexploration.LaunchObjects;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
 import java.util.Date;
 
 @Entity (tableName = "past_launches")
-public class Launch {
+public class Launch implements Parcelable {
 
     @PrimaryKey
     private int flight_number;
@@ -147,4 +149,60 @@ public class Launch {
         this.lastRefresh = lastRefresh;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.flight_number);
+        dest.writeString(this.mission_name);
+        dest.writeString(this.launch_year);
+        dest.writeLong(this.launch_date_unix);
+        dest.writeString(this.launch_date_utc);
+        dest.writeString(this.launch_date_local);
+        dest.writeParcelable(this.rocket, flags);
+        dest.writeParcelable(this.telemetry, flags);
+        dest.writeParcelable(this.reuse, flags);
+        dest.writeParcelable(this.launch_site, flags);
+        dest.writeByte(this.launch_success ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.links, flags);
+        dest.writeString(this.details);
+        dest.writeLong(this.lastRefresh != null ? this.lastRefresh.getTime() : -1);
+    }
+
+    public Launch() {
+    }
+
+    protected Launch(Parcel in) {
+        this.flight_number = in.readInt();
+        this.mission_name = in.readString();
+        this.launch_year = in.readString();
+        this.launch_date_unix = in.readLong();
+        this.launch_date_utc = in.readString();
+        this.launch_date_local = in.readString();
+        this.rocket = in.readParcelable(Rocket.class.getClassLoader());
+        this.telemetry = in.readParcelable(Telemetry.class.getClassLoader());
+        this.reuse = in.readParcelable(Reuse.class.getClassLoader());
+        this.launch_site = in.readParcelable(LaunchSite.class.getClassLoader());
+        this.launch_success = in.readByte() != 0;
+        this.links = in.readParcelable(Links.class.getClassLoader());
+        this.details = in.readString();
+        long tmpLastRefresh = in.readLong();
+        this.lastRefresh = tmpLastRefresh == -1 ? null : new Date(tmpLastRefresh);
+    }
+
+    public static final Parcelable.Creator<Launch> CREATOR = new Parcelable.Creator<Launch>() {
+        @Override
+        public Launch createFromParcel(Parcel source) {
+            return new Launch(source);
+        }
+
+        @Override
+        public Launch[] newArray(int size) {
+            return new Launch[size];
+        }
+    };
 }

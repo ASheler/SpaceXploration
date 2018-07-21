@@ -5,9 +5,11 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +30,8 @@ import com.glaserproject.spacexploration.Room.InsertPastLaunchesAsyncTask;
 import com.glaserproject.spacexploration.RvAdapters.LaunchesAdapter;
 import com.glaserproject.spacexploration.ViewModels.MainViewModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,7 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LaunchesMainFragment extends Fragment implements InsertPastLaunchesAsyncTask.AsyncTaskListeners{
+public class LaunchesMainFragment extends Fragment {
 
     //Default empty constructor
     public LaunchesMainFragment (){
@@ -53,6 +57,8 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
     LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
+
+    List<Launch> launchList;
 
 
 
@@ -71,10 +77,22 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
         ButterKnife.bind(this, rootView);
 
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         launchesRV.setLayoutManager(layoutManager);
         launchesAdapter = new LaunchesAdapter();
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(launchesRV.getContext(),
+                layoutManager.getOrientation());
+        launchesRV.addItemDecoration(dividerItemDecoration);
+
         launchesRV.setAdapter(launchesAdapter);
+
+
+
+        if (launchesAdapter.getItemCount() != 0){
+            progressBar.setVisibility(View.GONE);
+        }
 
         return rootView;
     }
@@ -86,27 +104,27 @@ public class LaunchesMainFragment extends Fragment implements InsertPastLaunches
 
         AndroidSupportInjection.inject(this);
 
+
+
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
         mainViewModel.init();
-        mainViewModel.getLaunches().observe(this, launches -> updateUi(launches));
+        mainViewModel.getLaunches().observe(this, this::updateUi);
     }
 
     private void updateUi(List<Launch> launches){
         launchesAdapter.setLaunches(launches);
-    }
+        launchList = launches;
 
 
-    @Override
-    public void onTaskBegin() {
-        //if data is shown, there is no need to show loading bar as data is only updating, not downloading as whole
-        if (launchesAdapter.getItemCount() != 0) {
-            progressBar.setVisibility(View.VISIBLE);
-            Log.d("Ondra", "OnTaskBegin");
+        if (launchesAdapter.getItemCount() != 0){
+            progressBar.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onTaskComplete() {
-        progressBar.setVisibility(View.GONE);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("hovno",(ArrayList<? extends Parcelable>) launchList);
     }
 }

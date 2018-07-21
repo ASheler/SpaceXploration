@@ -27,6 +27,7 @@ import retrofit2.Response;
 public class LaunchesRepository {
 
     private static int FRESH_TIMEOUT_IN_MINUTES = 3;
+    private static final String LOG = "Launches Repo";
 
     private final ApiClient webservice;
     private final PastLaunchesDao launchesDao;
@@ -60,6 +61,7 @@ public class LaunchesRepository {
                     @Override
                     public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
                         executor.execute(() -> {
+                            Log.d(LOG, "got launches from net successfully");
                             List<Launch> launches = response.body();
                             int i = 0;
                             while (i < launches.size()){
@@ -73,11 +75,11 @@ public class LaunchesRepository {
 
                     @Override
                     public void onFailure(Call<List<Launch>> call, Throwable t) {
-                        Log.d("prdel", "prdel");
+                        Log.d(LOG, "getting launches from net failed: " + t);
                     }
                 });
             } else {
-                Log.d("jebat", "jebat");
+                Log.d(LOG, "Loading from memory");
             }
 
 
