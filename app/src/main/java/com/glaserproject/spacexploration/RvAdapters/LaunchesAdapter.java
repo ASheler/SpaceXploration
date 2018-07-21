@@ -10,7 +10,10 @@ import android.widget.TextView;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,12 +22,10 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
 
     private List<Launch> launches;
+    private final onClickHandler mClickHandler;
 
-    public LaunchesAdapter (){
-    }
-
-    public LaunchesAdapter (List<Launch> launches){
-        this.launches = launches;
+    public LaunchesAdapter (onClickHandler clickHandler){
+        this.mClickHandler = clickHandler;
     }
 
     public void setLaunches(List<Launch> launches) {
@@ -60,22 +61,40 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
     }
 
 
-    public class LaunchesViewHolder extends RecyclerView.ViewHolder {
+    public class LaunchesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
         @BindView(R.id.launch_title)
         TextView launchTitle;
+        @BindView(R.id.launch_date)
+        TextView launchDate;
 
         public LaunchesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
 
         void bind (int index){
             launchTitle.setText(launches.get(index).getMission_name());
+
+            Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
+            SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            String formattedDate = sdf.format(date);
+            launchDate.setText(formattedDate);
         }
+
+        @Override
+        public void onClick(View v) {
+            mClickHandler.onClick(launches.get(getAdapterPosition()));
+        }
+    }
+
+
+    public interface onClickHandler {
+        void onClick(Launch launch);
     }
 
 }

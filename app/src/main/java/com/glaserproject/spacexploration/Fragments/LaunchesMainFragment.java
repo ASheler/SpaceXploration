@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -19,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
+import com.glaserproject.spacexploration.LaunchDetailActivity;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.AppExecutors;
@@ -45,7 +48,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LaunchesMainFragment extends Fragment {
+public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.onClickHandler{
 
     //Default empty constructor
     public LaunchesMainFragment (){
@@ -57,8 +60,6 @@ public class LaunchesMainFragment extends Fragment {
 
     LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
-
-    List<Launch> launchList;
 
 
 
@@ -81,7 +82,8 @@ public class LaunchesMainFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         launchesRV.setLayoutManager(layoutManager);
-        launchesAdapter = new LaunchesAdapter();
+        launchesAdapter = new LaunchesAdapter(this);
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(launchesRV.getContext(),
                 layoutManager.getOrientation());
         launchesRV.addItemDecoration(dividerItemDecoration);
@@ -113,7 +115,7 @@ public class LaunchesMainFragment extends Fragment {
 
     private void updateUi(List<Launch> launches){
         launchesAdapter.setLaunches(launches);
-        launchList = launches;
+
 
 
         if (launchesAdapter.getItemCount() != 0){
@@ -121,10 +123,15 @@ public class LaunchesMainFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
 
-        outState.putParcelableArrayList("hovno",(ArrayList<? extends Parcelable>) launchList);
+
+    @Override
+    public void onClick(Launch launch) {
+        Intent intent = new Intent(getActivity(), LaunchDetailActivity.class);
+        intent.putExtra(ExtrasKeys.LAUNCH_DETAIL_EXTA_KEY, launch);
+        startActivity(intent);
     }
+
+
+
 }
