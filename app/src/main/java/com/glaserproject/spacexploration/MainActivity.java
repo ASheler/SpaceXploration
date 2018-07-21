@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.glaserproject.spacexploration.AppConstants.BundleKeys;
+import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
@@ -34,15 +37,13 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HasSupportFragmentInjector
-{
+        HasSupportFragmentInjector, LaunchesMainFragment.SaveRvPositionListener {
 
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-    ViewModel viewModel;
-    AppDatabase mDb;
+    Parcelable saveRvPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         AndroidInjection.inject(this);
+
+        if (savedInstanceState != null){
+            saveRvPosition = savedInstanceState.getParcelable(BundleKeys.SAVE_RV_POSITION_KEY);
+        }
 
 
 
@@ -150,6 +155,9 @@ public class MainActivity extends AppCompatActivity
         switch (id){
             case R.id.nav_launches:
                 fragment = new LaunchesMainFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
+                fragment.setArguments(bundle);
                 break;
             case R.id.nav_spacex:
                 fragment = new CompanyInfoFragment();
@@ -169,11 +177,22 @@ public class MainActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_main_layout, fragment)
+                .add(R.id.content_main_layout, fragment)
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void save(Parcelable position) {
+        saveRvPosition = position;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
     }
 }

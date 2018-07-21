@@ -2,6 +2,7 @@ package com.glaserproject.spacexploration.Fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,11 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.LaunchDetailActivity;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
@@ -40,6 +43,8 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
+    SaveRvPositionListener saveRvPosition;
 
     LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
@@ -75,8 +80,9 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
 
         launchesRV.setAdapter(launchesAdapter);
 
-        if (savedInstanceState != null) {
-            recyclerViewState = savedInstanceState.getParcelable("rvState");
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            recyclerViewState = bundle.getParcelable(BundleKeys.SAVE_RV_POSITION_KEY);
         }
 
 
@@ -94,6 +100,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         super.onActivityCreated(savedInstanceState);
 
         AndroidSupportInjection.inject(this);
+
 
 
         //setUp View Model
@@ -114,8 +121,22 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         if (launchesAdapter.getItemCount() != 0){
             progressBar.setVisibility(View.GONE);
         }
+
+
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            saveRvPosition = (SaveRvPositionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     //OnClick handler for RV
     @Override
@@ -128,8 +149,16 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d("FUCK ", "onSaveInstanceState");
 
         recyclerViewState = launchesRV.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable("rvState", recyclerViewState);
+        saveRvPosition.save(recyclerViewState);
     }
+
+
+    public interface SaveRvPositionListener{
+        void save(Parcelable position);
+    }
+
+
 }
