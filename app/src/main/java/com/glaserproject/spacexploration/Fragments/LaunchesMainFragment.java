@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,7 +44,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
     LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
 
-
+    private Parcelable recyclerViewState;
 
 
     @BindView(R.id.launches_rv)
@@ -74,6 +75,10 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
 
         launchesRV.setAdapter(launchesAdapter);
 
+        if (savedInstanceState != null) {
+            recyclerViewState = savedInstanceState.getParcelable("rvState");
+        }
+
 
         //hide loading bar if we have data
         if (launchesAdapter.getItemCount() != 0){
@@ -101,6 +106,10 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         //send data to RvAdapter
         launchesAdapter.setLaunches(launches);
 
+        if (recyclerViewState != null){
+            launchesRV.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        }
+
         //hide progressBar if we have data
         if (launchesAdapter.getItemCount() != 0){
             progressBar.setVisibility(View.GONE);
@@ -116,6 +125,11 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         startActivity(intent);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-
+        recyclerViewState = launchesRV.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable("rvState", recyclerViewState);
+    }
 }
