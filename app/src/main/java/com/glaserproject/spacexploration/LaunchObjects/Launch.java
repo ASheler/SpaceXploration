@@ -11,7 +11,7 @@ import com.glaserproject.spacexploration.Room.DataConverters;
 
 import java.util.Date;
 
-@Entity (tableName = "past_launches")
+@Entity (tableName = "launches")
 public class Launch implements Parcelable {
 
     @PrimaryKey

@@ -1,7 +1,6 @@
 package com.glaserproject.spacexploration;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -20,11 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
-import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
-import com.glaserproject.spacexploration.Room.AppDatabase;
 import com.glaserproject.spacexploration.ViewModels.MainViewModel;
 
 import java.util.List;

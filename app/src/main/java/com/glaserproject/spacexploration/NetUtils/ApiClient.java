@@ -14,12 +14,14 @@ public interface ApiClient {
     Call<Launch> getLatestLaunch();
 
     //get all launches
-    @GET("launches")
+    @GET("launches/all")
     Call<List<Launch>> getLaunches();
 
     //get nearest launch
     @GET("launches/next")
     Call<Launch> getNextLaunch();
+
+
 
 
 }

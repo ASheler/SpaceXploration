@@ -80,13 +80,24 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
 
         void bind (int index){
+
+            Launch currentLaunch = launches.get(index);
             launchTitle.setText(launches.get(index).getMission_name());
 
             //set readable date from millis
             Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
             SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
             String formattedDate = sdf.format(date);
-            launchDate.setText(formattedDate);
+
+            long date1 = new Date().getTime() / 1000;
+
+            if (currentLaunch.getLaunch_date_unix() < date1){
+                launchDate.setText("flied on " + formattedDate);
+
+            }else {
+                launchDate.setText("will fly " + formattedDate);
+            }
+            //launchDate.setText(formattedDate);
         }
 
         @Override

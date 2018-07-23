@@ -5,8 +5,8 @@ import android.arch.persistence.room.Room;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.AppDatabase;
-import com.glaserproject.spacexploration.Room.PastLaunchesDao;
+import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.LaunchesDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,15 +25,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-    AppDatabase provideDatabase(Application application) {
-        return Room.databaseBuilder(application,
-                AppDatabase.class, "MyDatabase.db")
-                .build();
+    LaunchesDatabase provideDatabase(Application application) {
+        return LaunchesDatabase.getInstance(application);
     }
 
     @Provides
     @Singleton
-    PastLaunchesDao provideLaunchesDao(AppDatabase database) { return database.pastLaunchesDao(); }
+    LaunchesDao provideLaunchesDao(LaunchesDatabase database) { return database.pastLaunchesDao(); }
 
 
     @Provides
@@ -43,7 +41,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LaunchesRepository provideLaunchesRepository(ApiClient webservice, PastLaunchesDao userDao, Executor executor) {
+    LaunchesRepository provideLaunchesRepository(ApiClient webservice, LaunchesDao userDao, Executor executor) {
         return new LaunchesRepository(webservice, userDao, executor);
     }
 

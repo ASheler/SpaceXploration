@@ -1,16 +1,12 @@
 package com.glaserproject.spacexploration.DependencyInjection;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.PastLaunchesDao;
+import com.glaserproject.spacexploration.Room.LaunchesDao;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +26,12 @@ public class LaunchesRepository {
     private static final String LOG = "Launches Repo";
 
     private final ApiClient webservice;
-    private final PastLaunchesDao launchesDao;
+    private final LaunchesDao launchesDao;
     private final Executor executor;
 
 
     @Inject
-    public LaunchesRepository (ApiClient webservice, PastLaunchesDao launchesDao, Executor executor){
+    public LaunchesRepository (ApiClient webservice, LaunchesDao launchesDao, Executor executor){
         this.webservice = webservice;
         this.launchesDao = launchesDao;
         this.executor = executor;
@@ -43,7 +39,10 @@ public class LaunchesRepository {
 
     public LiveData<List<Launch>> getLaunches(){
         refreshLaunches();
-        return launchesDao.getPastLaunches();
+
+        return launchesDao.getLaunches();
+
+        //return launchesDao.getLaunches();
     }
 
 
@@ -55,10 +54,11 @@ public class LaunchesRepository {
             Date maxRefresh = getMaxRefreshTime(new Date());
             //get all launches with older time
             List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
+            Launch anyLaunch = launchesDao.getAnyLaunch();
             boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
 
             //if we have some launches to update
-            if (refreshLaunchesExists) {
+            if ((anyLaunch == null) | refreshLaunchesExists) {
 
                 webservice.getLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
@@ -73,7 +73,7 @@ public class LaunchesRepository {
                                 i++;
                             }
                             Log.d("hovno", "hovno");
-                            launchesDao.insertPastLaunches(response.body());
+                            launchesDao.insertLaunches(response.body());
                         });
                     }
 
