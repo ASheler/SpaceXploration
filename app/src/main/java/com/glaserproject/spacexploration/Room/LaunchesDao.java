@@ -37,5 +37,5 @@ public interface LaunchesDao {
     LiveData<List<Launch>> getPastLaunchesAndOne (int nextFlightNumber);
 
     @Query("SELECT * FROM launches WHERE launch_date_unix > :currentTime ORDER BY flight_number ASC LIMIT 1")
-    Launch getNextLaunch(Date currentTime);
+    Launch getNextLaunch(long currentTime);
 }

@@ -68,7 +68,6 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
             holder.timer = new CountDownTimer(timeTo, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    holder.launchDate.setText("h:" + millisUntilFinished/1000/60/60);
                     String time = convertMillisToReadable(millisUntilFinished);
                     holder.launchDate.setText(time);
                 }
