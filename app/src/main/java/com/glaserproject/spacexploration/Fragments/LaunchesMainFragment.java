@@ -135,7 +135,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         call.enqueue(new Callback<Launch>() {
             @Override
             public void onResponse(Call<Launch> call, Response<Launch> response) {
-                Toast.makeText(getContext(), response.body().getMission_name(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), response.body().getMission_name(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
