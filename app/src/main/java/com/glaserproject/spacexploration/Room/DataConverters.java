@@ -2,6 +2,7 @@ package com.glaserproject.spacexploration.Room;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.Headquarters;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.CompanyInfoObjects.MilestoneLinks;
 import com.glaserproject.spacexploration.LaunchObjects.LaunchSite;
@@ -201,5 +202,26 @@ public class DataConverters {
         return json;
     }
 
+    @TypeConverter
+    public Headquarters toHeadquarters(String headquartersString) {
+        if (headquartersString == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<Headquarters>() {}.getType();
+        Headquarters headquarters = gson.fromJson(headquartersString, type);
+        return headquarters;
+    }
+
+    @TypeConverter
+    public String fromHeadquarters(Headquarters headquarters) {
+        if (headquarters == null){
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<Headquarters>(){}.getType();
+        String json = gson.toJson(headquarters, type);
+        return json;
+    }
 
 }

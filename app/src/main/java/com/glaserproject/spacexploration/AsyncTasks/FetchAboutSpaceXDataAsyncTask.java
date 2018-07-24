@@ -2,9 +2,12 @@ package com.glaserproject.spacexploration.AsyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Parcelable;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
+import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.Room.LaunchesDatabase;
@@ -18,29 +21,35 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FetchMilestonesAsyncTask extends AsyncTask<Object, Void, List<Milestone>> {
+public class FetchAboutSpaceXDataAsyncTask extends AsyncTask<Object, Void, Pair<List<Milestone>, AboutSpaceX>> {
 
     private AsyncTaskProgressListener progressListener;
 
-    public FetchMilestonesAsyncTask(AsyncTaskProgressListener progressListener) {
+    public FetchAboutSpaceXDataAsyncTask(AsyncTaskProgressListener progressListener) {
         this.progressListener = progressListener;
     }
 
 
     @Override
-    protected List<Milestone> doInBackground(Object... objects) {
+    protected Pair<List<Milestone>, AboutSpaceX> doInBackground(Object... objects) {
 
         Context context = (Context) objects[0];
         LaunchesDatabase db = LaunchesDatabase.getInstance(context);
         Log.d("Milestones", "fetching from Db");
 
-        return db.pastLaunchesDao().getAllMilestones();
+        List<Milestone> milestones = db.pastLaunchesDao().getAllMilestones();
+        AboutSpaceX aboutSpaceX = db.pastLaunchesDao().getAboutSpaceX();
+
+        Pair<List<Milestone>, AboutSpaceX> pair = new Pair<>(milestones, aboutSpaceX);
+
+
+        return pair;
     }
 
     @Override
-    protected void onPostExecute(List<Milestone> milestones) {
-        super.onPostExecute(milestones);
-        progressListener.onTaskComplete(milestones);
+    protected void onPostExecute(Pair<List<Milestone>, AboutSpaceX> dataPair) {
+        super.onPostExecute(dataPair);
+        progressListener.onTaskComplete(dataPair);
 
     }
 
@@ -49,7 +58,7 @@ public class FetchMilestonesAsyncTask extends AsyncTask<Object, Void, List<Miles
 
     public interface AsyncTaskProgressListener{
 
-        void onTaskComplete(List<Milestone> milestones);
+        void onTaskComplete(Pair<List<Milestone>, AboutSpaceX> aboutPair);
     }
 
 

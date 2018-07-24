@@ -7,6 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
@@ -45,4 +46,11 @@ public interface LaunchesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMilestones(List<Milestone> milestones);
+
+    @Query("SELECT * FROM about_spacex LIMIT 1")
+    AboutSpaceX getAboutSpaceX();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAboutSpaceX(AboutSpaceX aboutSpaceX);
+
 }

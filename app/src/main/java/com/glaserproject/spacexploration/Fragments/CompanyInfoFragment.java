@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,8 +18,10 @@ import android.widget.TextView;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
-import com.glaserproject.spacexploration.AsyncTasks.FetchMilestonesAsyncTask;
+import com.glaserproject.spacexploration.AsyncTasks.FetchAboutSpaceXDataAsyncTask;
+import com.glaserproject.spacexploration.AsyncTasks.InsertAboutIntoDbAsyncTask;
 import com.glaserproject.spacexploration.AsyncTasks.InsertMilestonesAsyncTask;
+import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
@@ -40,7 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyncTask.AsyncTaskProgressListener {
+public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDataAsyncTask.AsyncTaskProgressListener {
 
     public CompanyInfoFragment() {
     }
@@ -48,8 +51,6 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    TextView textView;
-    private MainViewModel viewModel;
     private SaveCompanyInfoRvPositionListener positionListener;
     private Parcelable recyclerViewState;
 
@@ -102,21 +103,18 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
             recyclerViewState = bundle.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
         }
 
+        fetchDataFromDb();
+
         if (CheckNetConnection.isNetworkAvailable(getContext())){
             fetchDataFromNet();
-        } else {
-            fetchDataFromDb();
         }
-
-
-
 
 
         return rootView;
     }
 
     private void fetchDataFromDb() {
-        new FetchMilestonesAsyncTask(this).execute(getContext());
+        new FetchAboutSpaceXDataAsyncTask(this).execute(getContext());
     }
 
     private void fetchDataFromNet() {
@@ -128,17 +126,17 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
                 .build();
         ApiClient webservice = retrofit.create(ApiClient.class);
 
+
         Call milestones = webservice.getAllMilestones();
+
 
         milestones.enqueue(new Callback<List<Milestone>>() {
             @Override
             public void onResponse(Call<List<Milestone>> call, Response<List<Milestone>> response) {
 
                 Log.d("Milestones", "fetching from internet");
-
                 //show milestones
-
-                updateUI(response.body());
+                updateRv(response.body());
                 //insert newly fetched data into roomDb
                 new InsertMilestonesAsyncTask(response.body()).execute(getContext());
 
@@ -149,20 +147,44 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
 
             }
         });
+
+        Call aboutSpacex = webservice.getAboutSpaceX();
+        aboutSpacex.enqueue(new Callback<AboutSpaceX>() {
+
+            @Override
+            public void onResponse(Call<AboutSpaceX> call, Response<AboutSpaceX> response) {
+                updateAbout(response.body());
+                new InsertAboutIntoDbAsyncTask(response.body()).execute(getContext());
+            }
+
+            @Override
+            public void onFailure(Call<AboutSpaceX> call, Throwable t) {
+
+            }
+        });
     }
 
 
+    private void updateRv (List<Milestone> milestones){
+        infoAdapter.setMilestones(milestones);
+        if (recyclerViewState != null){
+            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        }
+    }
 
+    private void updateAbout(AboutSpaceX aboutSpaceX){
+
+    }
 
     @Override
-    public void onTaskComplete(List<Milestone> milestones) {
-        updateUI(milestones);
+    public void onTaskComplete(Pair<List<Milestone>, AboutSpaceX> aboutPair) {
+        updateUI(aboutPair);
     }
 
 
 
-    private void updateUI (List<Milestone> milestones){
-        infoAdapter.setMilestones(milestones);
+    private void updateUI (Pair<List<Milestone>, AboutSpaceX> aboutPair){
+        infoAdapter.setMilestones(aboutPair.first);
         if (recyclerViewState != null){
             recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }

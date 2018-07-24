@@ -1,5 +1,6 @@
 package com.glaserproject.spacexploration.NetUtils;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
@@ -25,6 +26,10 @@ public interface ApiClient {
     //get All Milestones
     @GET("info/history")
     Call<List<Milestone>> getAllMilestones();
+
+    //get About SpaceX
+    @GET("info")
+    Call<AboutSpaceX> getAboutSpaceX();
 
 
 
