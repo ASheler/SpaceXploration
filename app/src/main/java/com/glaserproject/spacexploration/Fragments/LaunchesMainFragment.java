@@ -120,30 +120,9 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         mainViewModel.getLaunches().observe(this, this::updateUi);
 
 
-        //fetch next launch
-        fetchNextLaunch();
     }
 
-    private void fetchNextLaunch() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(NetConstants.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        ApiClient client = retrofit.create(ApiClient.class);
-        Call<Launch> call = client.getNextLaunch();
-        call.enqueue(new Callback<Launch>() {
-            @Override
-            public void onResponse(Call<Launch> call, Response<Launch> response) {
-                //Toast.makeText(getContext(), response.body().getMission_name(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Launch> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void updateUi(List<Launch> launches){
         //send data to RvAdapter
