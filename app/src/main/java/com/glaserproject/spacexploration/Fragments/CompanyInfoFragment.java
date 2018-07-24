@@ -1,7 +1,9 @@
 package com.glaserproject.spacexploration.Fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.AsyncTasks.FetchMilestonesAsyncTask;
 import com.glaserproject.spacexploration.AsyncTasks.InsertMilestonesAsyncTask;
@@ -47,6 +50,8 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
 
     TextView textView;
     private MainViewModel viewModel;
+    private SaveCompanyInfoRvPositionListener positionListener;
+    private Parcelable recyclerViewState;
 
 
     @BindView(R.id.company_info_rv)
@@ -55,7 +60,17 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
     MilestonesAdapter infoAdapter;
 
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        //Attach Listener for saving rv position on configuration change
+        try {
+            positionListener = (SaveCompanyInfoRvPositionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -82,7 +97,10 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
         infoAdapter = new MilestonesAdapter();
         recyclerView.setAdapter(infoAdapter);
 
-
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            recyclerViewState = bundle.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
+        }
 
         if (CheckNetConnection.isNetworkAvailable(getContext())){
             fetchDataFromNet();
@@ -119,7 +137,8 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
                 Log.d("Milestones", "fetching from internet");
 
                 //show milestones
-                infoAdapter.setMilestones(response.body());
+
+                updateUI(response.body());
                 //insert newly fetched data into roomDb
                 new InsertMilestonesAsyncTask(response.body()).execute(getContext());
 
@@ -133,8 +152,33 @@ public class CompanyInfoFragment extends Fragment implements FetchMilestonesAsyn
     }
 
 
+
+
     @Override
     public void onTaskComplete(List<Milestone> milestones) {
-        infoAdapter.setMilestones(milestones);
+        updateUI(milestones);
     }
+
+
+
+    private void updateUI (List<Milestone> milestones){
+        infoAdapter.setMilestones(milestones);
+        if (recyclerViewState != null){
+            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        }
+    }
+
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+        positionListener.saveInfoRvPosition(recyclerViewState);
+    }
+
+    public interface SaveCompanyInfoRvPositionListener{
+        void saveInfoRvPosition(Parcelable position);
+    }
+
 }

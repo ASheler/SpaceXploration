@@ -93,7 +93,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         //get rv position from bundle
         Bundle bundle = getArguments();
         if (bundle != null){
-            recyclerViewState = bundle.getParcelable(BundleKeys.SAVE_RV_POSITION_KEY);
+            recyclerViewState = bundle.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
         }
 
 
@@ -171,13 +171,13 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         //get current rv state
         recyclerViewState = launchesRV.getLayoutManager().onSaveInstanceState();
         //send the state to Main Activity
-        saveRvPosition.save(recyclerViewState);
+        saveRvPosition.saveLaunchesRvPosition(recyclerViewState);
     }
 
 
     //sending rv position to activity
     public interface SaveRvPositionListener{
-        void save(Parcelable position);
+        void saveLaunchesRvPosition(Parcelable position);
     }
 
 

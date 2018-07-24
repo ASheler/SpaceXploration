@@ -34,13 +34,17 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HasSupportFragmentInjector, LaunchesMainFragment.SaveRvPositionListener {
+        HasSupportFragmentInjector,
+        LaunchesMainFragment.SaveRvPositionListener,
+        CompanyInfoFragment.SaveCompanyInfoRvPositionListener {
 
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-    Parcelable saveRvPosition;
+    private Parcelable saveLaunchesRvPosition;
+    private Parcelable saveInfoRvPosition;
+    private int fragmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,8 @@ public class MainActivity extends AppCompatActivity
         AndroidInjection.inject(this);
 
         if (savedInstanceState != null){
-            saveRvPosition = savedInstanceState.getParcelable(BundleKeys.SAVE_RV_POSITION_KEY);
+            saveLaunchesRvPosition = savedInstanceState.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
+            saveInfoRvPosition = savedInstanceState.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
         }
 
 
@@ -71,9 +76,12 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        //set or restore fragment view;
+        if (savedInstanceState != null){
+            fragmentId = savedInstanceState.getInt(BundleKeys.FRAGMENT_ID_KEY);
+        }
 
-        //set default fragment view
-        MenuItem item =  navigationView.getMenu().getItem(0);
+        MenuItem item =  navigationView.getMenu().getItem(fragmentId);
         onNavigationItemSelected(item);
         //set menu item as checked for UI consistency
         item.setChecked(true);
@@ -84,27 +92,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
-    }
-
-
-    //get Launches from Db
-    private void retrieveLaunches (){
-        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.getLaunches().observe(this, new Observer<List<Launch>>() {
-            @Override
-            public void onChanged(@Nullable List<Launch> launches) {
-                //data changed
-            }
-        });
-    }
-
-
-    //Check if Network connection is available
-    public boolean isNetworkAvailable(Context context) {
-        //set connectivity manager
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        //check if ActiveNetwork isn't null && is Connected
-        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
 
@@ -149,18 +136,24 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
+        Bundle bundle = new Bundle();
+
         switch (id){
             case R.id.nav_launches:
                 fragment = new LaunchesMainFragment();
 
+                fragmentId = 0;
+                bundle.putParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY, saveLaunchesRvPosition);
                 //put current rv position to bundle and send it to fragment
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
-                fragment.setArguments(bundle);
+
                 break;
 
             case R.id.nav_spacex:
                 fragment = new CompanyInfoFragment();
+
+                fragmentId = 1;
+                bundle.putParcelable(BundleKeys.INFO_RV_POSITION_KEY, saveInfoRvPosition);
+
                 break;
             case R.id.nav_launch_pads:
                 break;
@@ -173,6 +166,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_about:
                 break;
         }
+
+        fragment.setArguments(bundle);
 
         //launch Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -188,14 +183,25 @@ public class MainActivity extends AppCompatActivity
 
     //saving rv position from Launches Fragment
     @Override
-    public void save(Parcelable position) {
-        saveRvPosition = position;
+    public void saveLaunchesRvPosition(Parcelable position) {
+        saveLaunchesRvPosition = position;
+    }
+
+    @Override
+    public void saveInfoRvPosition(Parcelable position) {
+        saveInfoRvPosition = position;
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //save RV position
-        outState.putParcelable(BundleKeys.SAVE_RV_POSITION_KEY, saveRvPosition);
+        //save RV positions
+        outState.putParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY, saveLaunchesRvPosition);
+        outState.putParcelable(BundleKeys.INFO_RV_POSITION_KEY, saveInfoRvPosition);
+        //save Fragment id
+        outState.putInt(BundleKeys.FRAGMENT_ID_KEY, fragmentId);
+
     }
+
+
 }
