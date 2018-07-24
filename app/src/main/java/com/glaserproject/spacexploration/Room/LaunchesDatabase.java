@@ -7,14 +7,15 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
-@Database(entities = {Launch.class}, version = 2, exportSchema = false)
+@Database(entities = {Launch.class, Milestone.class}, version = 1, exportSchema = false)
 @TypeConverters(DataConverters.class)
 public abstract class LaunchesDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
-    private static final String DB_NAME = "MyDatabase.db";
+    private static final String DB_NAME = "SpaceXdatabase.db";
     private static LaunchesDatabase sInstance;
 
     public static LaunchesDatabase getInstance(final Context context) {

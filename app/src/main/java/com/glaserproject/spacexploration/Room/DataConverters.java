@@ -2,6 +2,8 @@ package com.glaserproject.spacexploration.Room;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
+import com.glaserproject.spacexploration.CompanyInfoObjects.MilestoneLinks;
 import com.glaserproject.spacexploration.LaunchObjects.LaunchSite;
 import com.glaserproject.spacexploration.LaunchObjects.Links;
 import com.glaserproject.spacexploration.LaunchObjects.Reuse;
@@ -153,6 +155,50 @@ public class DataConverters {
             return (null);
         }
         return date.getTime();
+    }
+
+    @TypeConverter
+    public Milestone toMilestone(String milestoneString) {
+        if (milestoneString == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<Milestone>() {}.getType();
+        Milestone milestone = gson.fromJson(milestoneString, type);
+        return milestone;
+    }
+
+    @TypeConverter
+    public String fromMilestone(Milestone milestone) {
+        if (milestone == null){
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<Milestone>(){}.getType();
+        String json = gson.toJson(milestone, type);
+        return json;
+    }
+
+    @TypeConverter
+    public MilestoneLinks toMilestoneLinks(String linksString) {
+        if (linksString == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<MilestoneLinks>() {}.getType();
+        MilestoneLinks links = gson.fromJson(linksString, type);
+        return links;
+    }
+
+    @TypeConverter
+    public String fromMilestoneLinks(MilestoneLinks milestoneLinks) {
+        if (milestoneLinks == null){
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<MilestoneLinks>(){}.getType();
+        String json = gson.toJson(milestoneLinks, type);
+        return json;
     }
 
 

@@ -7,6 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
 import java.util.Date;
@@ -38,4 +39,10 @@ public interface LaunchesDao {
 
     @Query("SELECT * FROM launches WHERE launch_date_unix > :currentTime ORDER BY flight_number ASC LIMIT 1")
     Launch getNextLaunch(long currentTime);
+
+    @Query("SELECT * FROM milestones ORDER BY event_date_unix DESC")
+    List<Milestone> getAllMilestones();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertMilestones(List<Milestone> milestones);
 }

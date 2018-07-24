@@ -1,5 +1,6 @@
 package com.glaserproject.spacexploration.NetUtils;
 
+import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public interface ApiClient {
     //get nearest launch
     @GET("launches/next")
     Call<Launch> getNextLaunch();
+
+    //get All Milestones
+    @GET("info/history")
+    Call<List<Milestone>> getAllMilestones();
 
 
 

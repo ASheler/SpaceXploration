@@ -45,7 +45,7 @@ public class AppModule {
         return new LaunchesRepository(webservice, userDao, executor);
     }
 
-    // --- NETWORK INJECTION ---
+    // NETWORK INJECTION
 
     private static String BASE_URL = NetConstants.API_BASE_URL;
 

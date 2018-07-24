@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity
         //launch Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.content_main_layout, fragment)
+                .replace(R.id.content_main_layout, fragment)
                 .commit();
 
         //close drawer
