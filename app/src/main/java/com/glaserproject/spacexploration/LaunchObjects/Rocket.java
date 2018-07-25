@@ -11,6 +11,18 @@ public class Rocket implements Parcelable {
     FirstStage first_stage;
     SecondStage second_stage;
 
+    public String getRocket_id() {
+        return rocket_id;
+    }
+
+    public String getRocket_name() {
+        return rocket_name;
+    }
+
+    public String getRocket_type() {
+        return rocket_type;
+    }
+
     @Override
     public int describeContents() {
         return 0;

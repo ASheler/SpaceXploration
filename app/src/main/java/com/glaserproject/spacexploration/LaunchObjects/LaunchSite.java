@@ -9,6 +9,18 @@ public class LaunchSite implements Parcelable {
     String site_name;
     String site_name_long;
 
+    public String getSite_id() {
+        return site_id;
+    }
+
+    public String getSite_name() {
+        return site_name;
+    }
+
+    public String getSite_name_long() {
+        return site_name_long;
+    }
+
     @Override
     public int describeContents() {
         return 0;
