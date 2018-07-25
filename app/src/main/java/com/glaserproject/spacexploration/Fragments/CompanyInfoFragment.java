@@ -49,8 +49,6 @@ public class CompanyInfoFragment extends Fragment {
     public CompanyInfoFragment() {
     }
 
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
 
     private SaveCompanyInfoRvPositionListener positionListener;
     private Parcelable recyclerViewState;
@@ -75,17 +73,8 @@ public class CompanyInfoFragment extends Fragment {
             positionListener = (SaveCompanyInfoRvPositionListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement rvPositionListener");
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-
     }
 
 

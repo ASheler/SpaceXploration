@@ -11,7 +11,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class FragmentModule {
     @ContributesAndroidInjector
-    abstract CompanyInfoFragment contributeCompanyInfoFragment();
-    @ContributesAndroidInjector
     abstract LaunchesMainFragment contributeLaunchesMainFragment();
 }
