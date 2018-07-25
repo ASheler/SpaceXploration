@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,10 @@ import butterknife.ButterKnife;
 
 public class LaunchDetailActivity extends AppCompatActivity {
 
-    Launch launch;
+    private Launch launch;
+
+    //Firebase Analytics
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @BindView(R.id.launch_name)
     TextView launchTitle;
@@ -44,25 +49,27 @@ public class LaunchDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        ButterKnife.bind(this);
-
+        //get incoming intent
         Intent intent = getIntent();
         launch = intent.getParcelableExtra(ExtrasKeys.LAUNCH_DETAIL_EXTA_KEY);
 
+        //set Toolbar Title
         toolbar.setTitle(launch.getMission_name());
+        //setup toolbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //bind
+        ButterKnife.bind(this);
 
 
-        launchTitle.setText(launch.getMission_name());
-        Date date = new java.util.Date(launch.getLaunch_date_unix()*1000L);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        String formattedDate = sdf.format(date);
-        launchDate.setText(formattedDate);
-        launchSite.setText(launch.getLaunch_site().getSite_name_long());
-        launchRocket.setText(launch.getRocket().getRocket_name());
+        //initialize analytics
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+
+        setUpUI();
 
 
 
@@ -70,7 +77,34 @@ public class LaunchDetailActivity extends AppCompatActivity {
         MobileAds.initialize(this, getString(R.string.admob_app_id));
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+        setAdListener();
+    }
 
+    private void setUpUI() {
+        launchTitle.setText(launch.getMission_name());
+        Date date = new Date(launch.getLaunch_date_unix()*1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = sdf.format(date);
+        launchDate.setText(formattedDate);
+        launchSite.setText(launch.getLaunch_site().getSite_name_long());
+        launchRocket.setText(launch.getRocket().getRocket_name());
+    }
+
+
+    public void setAdListener (){
+        adView.setAdListener(new AdListener(){
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                //send analytics on ad click
+                Bundle analyticsBundle = new Bundle();
+                //send analytics
+                analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ad_banner");
+                analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "ad_clicked");
+                //send analytics
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+            }
+        });
     }
 
 }

@@ -1,13 +1,8 @@
 package com.glaserproject.spacexploration;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -22,10 +17,7 @@ import android.view.MenuItem;
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
-import com.glaserproject.spacexploration.LaunchObjects.Launch;
-import com.glaserproject.spacexploration.ViewModels.MainViewModel;
-
-import java.util.List;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import javax.inject.Inject;
 
@@ -47,6 +39,10 @@ public class MainActivity extends AppCompatActivity
     private Parcelable saveInfoRvPosition;
     private int fragmentId;
 
+
+    //Firebase Analytics
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +50,24 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Dependency injection
         AndroidInjection.inject(this);
 
+        //initialize analytics
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+        //retrieve data from savedInstanceState
         if (savedInstanceState != null){
+            //rv position for fragments
             saveLaunchesRvPosition = savedInstanceState.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
             saveInfoRvPosition = savedInstanceState.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
+            //selected fragment
+            fragmentId = savedInstanceState.getInt(BundleKeys.FRAGMENT_ID_KEY);
         }
 
 
-
+        //setup nav drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,15 +78,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-
-
-
-        //set or restore fragment view;
-        if (savedInstanceState != null){
-            fragmentId = savedInstanceState.getInt(BundleKeys.FRAGMENT_ID_KEY);
-        }
-
+        //setup fragment from savedState or default(0)
         MenuItem item =  navigationView.getMenu().getItem(fragmentId);
         onNavigationItemSelected(item);
         //set menu item as checked for UI consistency
@@ -129,62 +126,91 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+
+
+
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        //setup Bundle for Analytics
+        Bundle analyticsBundle = new Bundle();
+        //put data into analytics bundle
+        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, fragmentId);
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.toString());
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "menu_selection");
+        //send analytics
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment fragment = null;
 
-        Bundle bundle = new Bundle();
+        //setup Fragment and its Bundle
+        Fragment fragment = null;
+        Bundle fragmentExtraBundle = new Bundle();
+
+        Intent activityIntent = null;
 
         switch (id){
             case R.id.nav_launches:
                 fragment = new LaunchesMainFragment();
 
                 fragmentId = 0;
-                bundle.putParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY, saveLaunchesRvPosition);
                 //put current rv position to bundle and send it to fragment
+                fragmentExtraBundle.putParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY, saveLaunchesRvPosition);
 
                 break;
 
-            case R.id.nav_spacex:
+            case R.id.nav_about_spacex:
                 fragment = new CompanyInfoFragment();
 
                 fragmentId = 1;
-                bundle.putParcelable(BundleKeys.INFO_RV_POSITION_KEY, saveInfoRvPosition);
+                fragmentExtraBundle.putParcelable(BundleKeys.INFO_RV_POSITION_KEY, saveInfoRvPosition);
 
-                break;
-            case R.id.nav_launch_pads:
-                break;
-            case R.id.nav_rockets:
-                break;
-            case R.id.nav_settings:
                 break;
             case R.id.nav_support:
-                Intent supportActivityIntent = new Intent(this, SupportUsActivity.class);
-                startActivity(supportActivityIntent);
-                return true;
+                activityIntent = new Intent(this, SupportUsActivity.class);
+                break;
             case R.id.nav_about:
-                Intent aboutActivityIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutActivityIntent);
-                return true;
+                activityIntent = new Intent(this, AboutActivity.class);
+                break;
         }
 
-        fragment.setArguments(bundle);
 
-        //launch Fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_main_layout, fragment)
-                .commit();
+        //check if we are running new activity
+        if (activityIntent != null){
+            startActivity(activityIntent);
+            return true;
+
+            //if not, run fragment
+        } else if (fragment != null){
+
+            //send data into Fragment
+            fragment.setArguments(fragmentExtraBundle);
+
+            //launch Fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_main_layout, fragment)
+                    .commit();
+        }
+
 
         //close drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
 
     //saving rv position from Launches Fragment
     @Override
@@ -196,6 +222,9 @@ public class MainActivity extends AppCompatActivity
     public void saveInfoRvPosition(Parcelable position) {
         saveInfoRvPosition = position;
     }
+
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
