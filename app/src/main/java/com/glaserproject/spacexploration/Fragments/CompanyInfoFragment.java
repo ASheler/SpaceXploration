@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
@@ -26,8 +25,7 @@ import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
-import com.glaserproject.spacexploration.RvAdapters.MilestonesAdapter;
-import com.glaserproject.spacexploration.ViewModels.MainViewModel;
+import com.glaserproject.spacexploration.RvAdapters.CompanyInfoAdapter;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -58,7 +56,8 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
     @BindView(R.id.company_info_rv)
     RecyclerView recyclerView;
 
-    MilestonesAdapter infoAdapter;
+
+    CompanyInfoAdapter infoAdapter;
 
 
     @Override
@@ -95,7 +94,7 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        infoAdapter = new MilestonesAdapter();
+        infoAdapter = new CompanyInfoAdapter();
         recyclerView.setAdapter(infoAdapter);
 
         Bundle bundle = getArguments();
@@ -173,7 +172,7 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
     }
 
     private void updateAbout(AboutSpaceX aboutSpaceX){
-
+        infoAdapter.setAboutSpaceX(aboutSpaceX);
     }
 
     @Override
@@ -184,10 +183,8 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
 
 
     private void updateUI (Pair<List<Milestone>, AboutSpaceX> aboutPair){
-        infoAdapter.setMilestones(aboutPair.first);
-        if (recyclerViewState != null){
-            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-        }
+        updateRv(aboutPair.first);
+        updateAbout(aboutPair.second);
     }
 
 
