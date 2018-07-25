@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +34,10 @@ public class LaunchDetailActivity extends AppCompatActivity {
     TextView launchSite;
     @BindView(R.id.launch_rocket)
     TextView launchRocket;
+
+    @BindView(R.id.adView)
+    AdView adView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,14 @@ public class LaunchDetailActivity extends AppCompatActivity {
         launchDate.setText(formattedDate);
         launchSite.setText(launch.getLaunch_site().getSite_name_long());
         launchRocket.setText(launch.getRocket().getRocket_name());
+
+
+
+        // used Sample Admob App Id
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
     }
 
 }

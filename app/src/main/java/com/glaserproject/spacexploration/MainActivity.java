@@ -3,6 +3,7 @@ package com.glaserproject.spacexploration;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -162,9 +163,13 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 break;
             case R.id.nav_support:
-                break;
+                Intent supportActivityIntent = new Intent(this, SupportUsActivity.class);
+                startActivity(supportActivityIntent);
+                return true;
             case R.id.nav_about:
-                break;
+                Intent aboutActivityIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutActivityIntent);
+                return true;
         }
 
         fragment.setArguments(bundle);

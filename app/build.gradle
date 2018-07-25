@@ -67,7 +67,6 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
 
-
-
-    
+    //AdMob
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
 }
