@@ -2,8 +2,8 @@
     <string name="app_name">SpaceXploration</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">SpaceXploration</string>
+    <string name="nav_header_subtitle">Explore the world of space launches</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_launch_detail">LaunchDetailActivity</string>
@@ -14,4 +14,11 @@
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="no_connection_n_data_message">No data available offline and no connection. Please check your connection and retry</string>
+    <string name="email_button_description">Email button</string>
+    <string name="contact_me_label">Contact Me:</string>
+    <string name="libraries_used_text">Libraries used: Dagger2, Picasso, ButterKnife, Retrofit</string>
+    <string name="special_thank_to_text">Special thanks to everyone at r/SpaceX and r/SpaceXLounge.</string>
+    <string name="created_by_label">created by:</string>
+    <string name="created_by_name">Andrew Glaser</string>
+    <string name="about_heading">SpaceXploration</string>
 </resources>

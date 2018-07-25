@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -72,6 +73,9 @@ dependencies {
 
     //AdMob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
+    //chrome custom tabs
+    implementation 'com.android.support:customtabs:27.1.1'
 }
 
 
