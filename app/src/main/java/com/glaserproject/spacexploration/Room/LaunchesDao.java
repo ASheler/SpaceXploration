@@ -42,13 +42,13 @@ public interface LaunchesDao {
     Launch getNextLaunch(long currentTime);
 
     @Query("SELECT * FROM milestones")
-    List<Milestone> getAllMilestones();
+    LiveData<List<Milestone>> getAllMilestones();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMilestones(List<Milestone> milestones);
 
     @Query("SELECT * FROM about_spacex LIMIT 1")
-    AboutSpaceX getAboutSpaceX();
+    LiveData<AboutSpaceX> getAboutSpaceX();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAboutSpaceX(AboutSpaceX aboutSpaceX);

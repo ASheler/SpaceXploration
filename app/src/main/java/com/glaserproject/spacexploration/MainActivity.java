@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(activityIntent);
             return true;
 
+
             //if not, run fragment
         } else if (fragment != null){
 

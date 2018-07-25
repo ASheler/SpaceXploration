@@ -1,6 +1,8 @@
 package com.glaserproject.spacexploration.Fragments;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -17,7 +19,6 @@ import android.view.ViewGroup;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
-import com.glaserproject.spacexploration.AsyncTasks.FetchAboutSpaceXDataAsyncTask;
 import com.glaserproject.spacexploration.AsyncTasks.InsertAboutIntoDbAsyncTask;
 import com.glaserproject.spacexploration.AsyncTasks.InsertMilestonesAsyncTask;
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
@@ -26,6 +27,8 @@ import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.RvAdapters.CompanyInfoAdapter;
+import com.glaserproject.spacexploration.ViewModels.AboutSpacexViewModel;
+import com.glaserproject.spacexploration.ViewModels.MilestonesViewModel;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -41,7 +44,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDataAsyncTask.AsyncTaskProgressListener {
+public class CompanyInfoFragment extends Fragment {
 
     public CompanyInfoFragment() {
     }
@@ -58,6 +61,10 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
 
 
     CompanyInfoAdapter infoAdapter;
+
+
+    MilestonesViewModel milestonesViewModel;
+    AboutSpacexViewModel aboutSpacexViewModel;
 
 
     @Override
@@ -97,12 +104,36 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
         infoAdapter = new CompanyInfoAdapter();
         recyclerView.setAdapter(infoAdapter);
 
+
+        //init AboutSpacex ViewModel
+        aboutSpacexViewModel = ViewModelProviders.of(this).get(AboutSpacexViewModel.class);
+        aboutSpacexViewModel.getAboutSpaceX().observe(this, new Observer<AboutSpaceX>() {
+            @Override
+            public void onChanged(@Nullable AboutSpaceX aboutSpaceX) {
+                updateAbout(aboutSpaceX);
+            }
+        });
+
+        //init milestones ViewModel
+        milestonesViewModel = ViewModelProviders.of(this).get(MilestonesViewModel.class);
+        milestonesViewModel.getMilestones().observe(this, new Observer<List<Milestone>>() {
+            @Override
+            public void onChanged(@Nullable List<Milestone> milestones) {
+                updateRv(milestones);
+            }
+        });
+
+
+
+
+
+
         Bundle bundle = getArguments();
         if (bundle != null){
             recyclerViewState = bundle.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
         }
 
-        fetchDataFromDb();
+
 
         if (CheckNetConnection.isNetworkAvailable(getContext())){
             fetchDataFromNet();
@@ -112,9 +143,6 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
         return rootView;
     }
 
-    private void fetchDataFromDb() {
-        new FetchAboutSpaceXDataAsyncTask(this).execute(getContext());
-    }
 
     private void fetchDataFromNet() {
 
@@ -173,18 +201,6 @@ public class CompanyInfoFragment extends Fragment implements FetchAboutSpaceXDat
 
     private void updateAbout(AboutSpaceX aboutSpaceX){
         infoAdapter.setAboutSpaceX(aboutSpaceX);
-    }
-
-    @Override
-    public void onTaskComplete(Pair<List<Milestone>, AboutSpaceX> aboutPair) {
-        updateUI(aboutPair);
-    }
-
-
-
-    private void updateUI (Pair<List<Milestone>, AboutSpaceX> aboutPair){
-        updateRv(aboutPair.first);
-        updateAbout(aboutPair.second);
     }
 
 
