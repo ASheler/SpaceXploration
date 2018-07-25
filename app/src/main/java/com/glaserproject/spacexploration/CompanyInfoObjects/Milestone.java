@@ -10,14 +10,19 @@ import com.glaserproject.spacexploration.Room.DataConverters;
 @Entity (tableName = "milestones")
 public class Milestone {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String event_date_utc;
-    @PrimaryKey
     private long event_date_unix;
     private int flight_number;
     private String details;
     @TypeConverters(DataConverters.class)
     private MilestoneLinks links;
+
+    public int getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -41,6 +46,10 @@ public class Milestone {
 
     public MilestoneLinks getLinks() {
         return links;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
