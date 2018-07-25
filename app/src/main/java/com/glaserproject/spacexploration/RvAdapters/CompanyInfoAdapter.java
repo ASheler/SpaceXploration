@@ -63,8 +63,6 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class CompanyInfoViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.company_info_loading_indicator)
-        ProgressBar companyInfoPb;
         @BindView(R.id.company_summary_tv)
         TextView companySummaryTv;
         @BindView(R.id.company_name_tv)
@@ -77,7 +75,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         void bind() {
             if (aboutSpaceX != null){
-                companyInfoPb.setVisibility(View.GONE);
+
                 companyNameTv.setText(aboutSpaceX.getName());
                 companySummaryTv.setText(aboutSpaceX.getSummary());
             }

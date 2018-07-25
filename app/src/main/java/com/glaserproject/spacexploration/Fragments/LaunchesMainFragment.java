@@ -17,19 +17,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
+import com.glaserproject.spacexploration.AsyncTasks.CheckIfLaunchesInDb;
 import com.glaserproject.spacexploration.LaunchDetailActivity;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
+import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.RvAdapters.LaunchesAdapter;
 import com.glaserproject.spacexploration.ViewModels.MainViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -42,7 +46,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.onClickHandler{
+public class LaunchesMainFragment extends Fragment implements
+        LaunchesAdapter.onClickHandler,
+        CheckIfLaunchesInDb.CheckInfoListener {
 
     //Default empty constructor
     public LaunchesMainFragment (){
@@ -66,6 +72,8 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
     RecyclerView launchesRV;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.no_data_message_tv)
+    TextView noDataMessageTv;
 
 
 
@@ -96,13 +104,26 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
             recyclerViewState = bundle.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
         }
 
-
-        //hide loading bar if we have data
-        if (launchesAdapter.getItemCount() != 0){
-            progressBar.setVisibility(View.GONE);
+        //check connection
+        if (!CheckNetConnection.isNetworkAvailable(Objects.requireNonNull(getContext()))){
+            //no connection - check if we have data stored
+            checkIfDataInDb();
         }
 
+
         return rootView;
+    }
+
+    private void checkIfDataInDb() {
+        new CheckIfLaunchesInDb(this).execute(getContext());
+    }
+    @Override
+    public void onDbChecked(Boolean dbIsFull) {
+        if (!dbIsFull){
+            //hide Loading Bar, show error message
+            progressBar.setVisibility(View.GONE);
+            noDataMessageTv.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -136,6 +157,7 @@ public class LaunchesMainFragment extends Fragment implements LaunchesAdapter.on
         //hide progressBar if we have data
         if (launchesAdapter.getItemCount() != 0){
             progressBar.setVisibility(View.GONE);
+            noDataMessageTv.setVisibility(View.GONE);
         }
 
 

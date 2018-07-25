@@ -1,7 +1,5 @@
 package com.glaserproject.spacexploration.Fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,16 +7,19 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
+import com.glaserproject.spacexploration.AsyncTasks.CheckIfInfoInDb;
 import com.glaserproject.spacexploration.AsyncTasks.InsertAboutIntoDbAsyncTask;
 import com.glaserproject.spacexploration.AsyncTasks.InsertMilestonesAsyncTask;
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
@@ -26,25 +27,25 @@ import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
+import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 import com.glaserproject.spacexploration.RvAdapters.CompanyInfoAdapter;
 import com.glaserproject.spacexploration.ViewModels.AboutSpacexViewModel;
 import com.glaserproject.spacexploration.ViewModels.MilestonesViewModel;
 import com.google.gson.Gson;
 
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.Objects;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.support.AndroidSupportInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CompanyInfoFragment extends Fragment {
+public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.CheckInfoListener{
 
     public CompanyInfoFragment() {
     }
@@ -56,6 +57,11 @@ public class CompanyInfoFragment extends Fragment {
 
     @BindView(R.id.company_info_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.no_data_message_tv)
+    TextView noDataMessageTv;
+    @BindView(R.id.company_info_progress_bar)
+    ProgressBar companyInfoProgressBar;
+
 
 
     CompanyInfoAdapter infoAdapter;
@@ -87,7 +93,7 @@ public class CompanyInfoFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-
+        //Setup RV
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         infoAdapter = new CompanyInfoAdapter();
@@ -96,21 +102,11 @@ public class CompanyInfoFragment extends Fragment {
 
         //init AboutSpacex ViewModel
         aboutSpacexViewModel = ViewModelProviders.of(this).get(AboutSpacexViewModel.class);
-        aboutSpacexViewModel.getAboutSpaceX().observe(this, new Observer<AboutSpaceX>() {
-            @Override
-            public void onChanged(@Nullable AboutSpaceX aboutSpaceX) {
-                updateAbout(aboutSpaceX);
-            }
-        });
+        aboutSpacexViewModel.getAboutSpaceX().observe(this, this::updateAbout);
 
         //init milestones ViewModel
         milestonesViewModel = ViewModelProviders.of(this).get(MilestonesViewModel.class);
-        milestonesViewModel.getMilestones().observe(this, new Observer<List<Milestone>>() {
-            @Override
-            public void onChanged(@Nullable List<Milestone> milestones) {
-                updateRv(milestones);
-            }
-        });
+        milestonesViewModel.getMilestones().observe(this, this::updateRv);
 
 
 
@@ -123,14 +119,35 @@ public class CompanyInfoFragment extends Fragment {
         }
 
 
+        //fetch Data from Internet
+        if (CheckNetConnection.isNetworkAvailable(Objects.requireNonNull(getContext()))){
+            //Hide message saying there's no data
+            noDataMessageTv.setVisibility(View.GONE);
 
-        if (CheckNetConnection.isNetworkAvailable(getContext())){
+            //reload Data from Net
             fetchDataFromNet();
+        } else {
+            //no connection - check if we have data stored
+            checkIfDataInDb();
         }
 
 
         return rootView;
     }
+
+    //check db if we have data
+    public void checkIfDataInDb (){
+        new CheckIfInfoInDb(this).execute(getContext());
+    }
+    @Override
+    public void onDbChecked(Boolean dbIsFull) {
+        if (!dbIsFull){
+            //hide Loading Bar, show error message
+            companyInfoProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
 
 
     private void fetchDataFromNet() {
@@ -142,13 +159,11 @@ public class CompanyInfoFragment extends Fragment {
                 .build();
         ApiClient webservice = retrofit.create(ApiClient.class);
 
-
-        Call milestones = webservice.getAllMilestones();
-
-
+        //get Milestones
+        Call<List<Milestone>> milestones = webservice.getAllMilestones();
         milestones.enqueue(new Callback<List<Milestone>>() {
             @Override
-            public void onResponse(Call<List<Milestone>> call, Response<List<Milestone>> response) {
+            public void onResponse(@NonNull Call<List<Milestone>> call, @NonNull Response<List<Milestone>> response) {
 
                 Log.d("Milestones", "fetching from internet");
                 //show milestones
@@ -159,22 +174,23 @@ public class CompanyInfoFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Milestone>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Milestone>> call, @NonNull Throwable t) {
 
             }
         });
 
-        Call aboutSpacex = webservice.getAboutSpaceX();
+        //call for AboutSpaceX data
+        Call<AboutSpaceX> aboutSpacex = webservice.getAboutSpaceX();
         aboutSpacex.enqueue(new Callback<AboutSpaceX>() {
 
             @Override
-            public void onResponse(Call<AboutSpaceX> call, Response<AboutSpaceX> response) {
+            public void onResponse(@NonNull Call<AboutSpaceX> call, @NonNull Response<AboutSpaceX> response) {
                 updateAbout(response.body());
                 new InsertAboutIntoDbAsyncTask(response.body()).execute(getContext());
             }
 
             @Override
-            public void onFailure(Call<AboutSpaceX> call, Throwable t) {
+            public void onFailure(@NonNull Call<AboutSpaceX> call, @NonNull Throwable t) {
 
             }
         });
@@ -186,10 +202,12 @@ public class CompanyInfoFragment extends Fragment {
         if (recyclerViewState != null){
             recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }
+        companyInfoProgressBar.setVisibility(View.GONE);
     }
 
     private void updateAbout(AboutSpaceX aboutSpaceX){
         infoAdapter.setAboutSpaceX(aboutSpaceX);
+        companyInfoProgressBar.setVisibility(View.GONE);
     }
 
 
@@ -200,6 +218,8 @@ public class CompanyInfoFragment extends Fragment {
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
         positionListener.saveInfoRvPosition(recyclerViewState);
     }
+
+
 
     public interface SaveCompanyInfoRvPositionListener{
         void saveInfoRvPosition(Parcelable position);

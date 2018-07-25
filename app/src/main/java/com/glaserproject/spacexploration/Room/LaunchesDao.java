@@ -44,6 +44,9 @@ public interface LaunchesDao {
     @Query("SELECT * FROM milestones")
     LiveData<List<Milestone>> getAllMilestones();
 
+    @Query("SELECT * FROM milestones LIMIT 1")
+    Milestone getOneMilestone();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMilestones(List<Milestone> milestones);
 

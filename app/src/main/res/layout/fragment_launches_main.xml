@@ -36,4 +36,13 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
+    <TextView
+        android:id="@+id/no_data_message_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_connection_n_data_message"
+        android:visibility="gone"
+        />
+
 </android.support.constraint.ConstraintLayout>
