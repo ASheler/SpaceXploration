@@ -21,4 +21,5 @@
     <string name="created_by_label">created by:</string>
     <string name="created_by_name">Andrew Glaser</string>
     <string name="about_heading">SpaceXploration</string>
+    <string name="widget_loading_string">Loading...</string>
 </resources>

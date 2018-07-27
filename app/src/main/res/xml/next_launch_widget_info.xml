@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/next_launch_widget"
     android:initialLayout="@layout/next_launch_widget"
-    android:minHeight="40dp"
+    android:minHeight="70dp"
     android:minWidth="110dp"
     android:previewImage="@mipmap/ic_launcher"
     android:resizeMode="horizontal|vertical"

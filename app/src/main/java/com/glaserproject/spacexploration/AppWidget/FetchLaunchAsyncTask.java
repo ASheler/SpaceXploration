@@ -40,14 +40,14 @@ public class FetchLaunchAsyncTask extends AsyncTask<Object, Void, Launch> {
 
         String formattedTime = formatLaunchTime(nextLaunch.getLaunch_date_unix());
         views.setTextViewText(R.id.launch_time_widget_tv, formattedTime);
-        views.setTextViewText(R.id.launch_details_widget_tv, nextLaunch.getDetails());
 
         Intent intent = new Intent(context, LaunchDetailActivity.class);
         intent.putExtra(ExtrasKeys.LAUNCH_DETAIL_EXTA_KEY, nextLaunch);
 
+
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        views.setOnClickPendingIntent(R.layout.next_launch_widget, pendingIntent);
+        views.setOnClickPendingIntent(R.id.wrapper_widget_rl, pendingIntent);
 
 
         appWidgetManager.updateAppWidget(appWidgetId, views);

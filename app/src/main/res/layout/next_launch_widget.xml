@@ -2,8 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#09C"
-    android:padding="@dimen/widget_margin">
+
+    android:padding="@dimen/widget_margin"
+    android:id="@+id/wrapper_widget_rl"
+    >
 
     <TextView
         android:id="@+id/launch_title_widget_tv"
@@ -17,6 +19,7 @@
         android:textColor="@color/textOnPrimary"
         android:textSize="24sp"
         android:textStyle="bold|italic"
+        android:text="@string/widget_loading_string"
         tools:text="GlaserProject Sat"
         android:layout_alignParentLeft="true" />
 
@@ -28,27 +31,13 @@
         android:layout_below="@+id/launch_title_widget_tv"
         android:background="@color/colorPrimaryLight"
         android:gravity="center"
+        android:text="@string/widget_loading_string"
         android:padding="8dp"
         android:textColor="@color/textOnPrimary"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         tools:text="2018-01-13"
         android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:id="@+id/launch_details_widget_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/launch_time_widget_tv"
-        android:background="@color/colorPrimaryLight"
-        android:gravity="center"
-        android:padding="8dp"
-        android:textColor="@color/textOnPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        tools:text="To infinity and beyond!" />
 
 
 </RelativeLayout>
