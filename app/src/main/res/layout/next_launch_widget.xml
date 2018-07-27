@@ -1,21 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#09C"
     android:padding="@dimen/widget_margin">
 
     <TextView
-        android:id="@+id/appwidget_text"
-        android:layout_width="wrap_content"
+        android:id="@+id/launch_title_widget_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/textOnPrimary"
         android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        tools:text="GlaserProject Sat"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/launch_time_widget_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/launch_title_widget_tv"
+        android:background="@color/colorPrimaryLight"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/textOnPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        tools:text="2018-01-13"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/launch_details_widget_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/launch_time_widget_tv"
+        android:background="@color/colorPrimaryLight"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/textOnPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        tools:text="To infinity and beyond!" />
+
 
 </RelativeLayout>

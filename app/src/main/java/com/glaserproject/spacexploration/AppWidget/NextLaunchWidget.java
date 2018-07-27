@@ -16,12 +16,13 @@ public class NextLaunchWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.next_launch_widget);
 
         new FetchLaunchAsyncTask().execute(context, appWidgetManager, appWidgetId);
         // Instruct the widget manager to update the widget
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
