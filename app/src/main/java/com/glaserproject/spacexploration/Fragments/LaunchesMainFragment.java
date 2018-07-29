@@ -91,10 +91,6 @@ public class LaunchesMainFragment extends Fragment implements
         //init Adapter with ClickListener
         launchesAdapter = new LaunchesAdapter(this);
 
-        //setDivider for items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(launchesRV.getContext(),
-                layoutManager.getOrientation());
-        launchesRV.addItemDecoration(dividerItemDecoration);
 
         launchesRV.setAdapter(launchesAdapter);
 

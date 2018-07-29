@@ -2,15 +2,19 @@ package com.glaserproject.spacexploration.RvAdapters;
 
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,6 +66,11 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         }
 
         if (new Date().getTime() < currentLaunch.getLaunch_date_unix()*1000L){
+
+            //set gray background
+            holder.launchBaseCard.setCardBackgroundColor(ContextCompat.getColor(holder.launchBaseCard.getContext(), R.color.card_gray_background));
+            //set lower elevation
+            holder.launchBaseCard.setCardElevation(2.3f);
 
             long timeTo = (currentLaunch.getLaunch_date_unix()*1000L) - new Date().getTime();
 
@@ -127,7 +136,14 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         TextView launchTitle;
         @BindView(R.id.launch_date)
         TextView launchDate;
+        @BindView(R.id.launch_detail_tv)
+        TextView launchDetailTv;
 
+        @BindView(R.id.launch_patch_iv)
+        ImageView launchPatchIv;
+
+        @BindView(R.id.launch_card_base)
+        CardView launchBaseCard;
 
         CountDownTimer timer;
 
@@ -142,22 +158,43 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         void bind (int index){
 
             Launch currentLaunch = launches.get(index);
-            launchTitle.setText(launches.get(index).getMission_name());
 
-            //set readable date from millis
-            Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
-            SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            String formattedDate = sdf.format(date);
+            //load Patch icon or set app logo as placeholder for loading or for no patch
+            Picasso.get()
+                    //.load(currentLaunch.getLinks().getMission_patch_small())
+                    .load(R.mipmap.ic_launcher)
+                    //TODO: change placeholder to actual link
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .into(launchPatchIv);
 
-            long date1 = new Date().getTime() / 1000;
-
-            if (currentLaunch.getLaunch_date_unix() < date1) {
-                launchDate.setText("flied on " + formattedDate);
+            launchTitle.setText(currentLaunch.getMission_name());
+            if (currentLaunch.getDetails() == null) {
+                launchDetailTv.setVisibility(View.INVISIBLE);
+            } else {
+                launchDetailTv.setText(currentLaunch.getDetails());
             }
+            launchDetailTv.setText(currentLaunch.getDetails());
+
+
+            long currentTime = new Date().getTime() / 1000;
+
+            //if flown already - set date with string
+            if (currentLaunch.getLaunch_date_unix() < currentTime) {
+
+                //set readable date from millis
+                Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
+                SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                String formattedDate = sdf.format(date);
+
+                //getting context from launchDate textview
+                String launchDateFlown = launchDate.getContext().getString(R.string.launch_tile_flied_on_text) + formattedDate;
+                launchDate.setText(launchDateFlown);
+            }
+
 
         }
 
-
+        //register click and send it to Fragment
         @Override
         public void onClick(View v) {
             mClickHandler.onClick(launches.get(getAdapterPosition()));
@@ -165,6 +202,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
     }
 
 
+    //interface for the click
     public interface onClickHandler {
         void onClick(Launch launch);
     }
