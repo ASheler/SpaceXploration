@@ -41,7 +41,7 @@ public interface LaunchesDao {
     @Query("SELECT * FROM launches WHERE launch_date_unix > :currentTime ORDER BY flight_number ASC LIMIT 1")
     Launch getNextLaunch(long currentTime);
 
-    @Query("SELECT * FROM milestones")
+    @Query("SELECT * FROM milestones ORDER BY event_date_unix DESC")
     LiveData<List<Milestone>> getAllMilestones();
 
     @Query("SELECT * FROM milestones LIMIT 1")

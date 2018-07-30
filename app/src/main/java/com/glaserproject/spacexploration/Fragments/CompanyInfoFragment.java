@@ -164,10 +164,6 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
         milestones.enqueue(new Callback<List<Milestone>>() {
             @Override
             public void onResponse(@NonNull Call<List<Milestone>> call, @NonNull Response<List<Milestone>> response) {
-
-                Log.d("Milestones", "fetching from internet");
-                //show milestones
-                updateRv(response.body());
                 //insert newly fetched data into roomDb
                 new InsertMilestonesAsyncTask(response.body()).execute(getContext());
 
@@ -185,7 +181,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
 
             @Override
             public void onResponse(@NonNull Call<AboutSpaceX> call, @NonNull Response<AboutSpaceX> response) {
-                updateAbout(response.body());
+                //insert into Db
                 new InsertAboutIntoDbAsyncTask(response.body()).execute(getContext());
             }
 

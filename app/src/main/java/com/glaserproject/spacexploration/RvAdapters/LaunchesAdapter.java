@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.R;
+import com.glaserproject.spacexploration.Utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -77,7 +78,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
             holder.timer = new CountDownTimer(timeTo, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    String time = convertMillisToReadable(millisUntilFinished);
+                    String time = DateUtils.formateMillisTo(millisUntilFinished);
                     holder.launchDate.setText(time);
                 }
 
@@ -161,9 +162,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
             //load Patch icon or set app logo as placeholder for loading or for no patch
             Picasso.get()
-                    //.load(currentLaunch.getLinks().getMission_patch_small())
-                    .load(R.mipmap.ic_launcher)
-                    //TODO: change placeholder to actual link
+                    .load(currentLaunch.getLinks().getMission_patch_small())
                     .placeholder(R.mipmap.ic_launcher_round)
                     .into(launchPatchIv);
 
@@ -182,9 +181,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
             if (currentLaunch.getLaunch_date_unix() < currentTime) {
 
                 //set readable date from millis
-                Date date = new java.util.Date(launches.get(index).getLaunch_date_unix()*1000L);
-                SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                String formattedDate = sdf.format(date);
+                String formattedDate = DateUtils.formateDate(currentLaunch.getLaunch_date_unix());
 
                 //getting context from launchDate textview
                 String launchDateFlown = launchDate.getContext().getString(R.string.launch_tile_flied_on_text) + formattedDate;

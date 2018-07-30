@@ -1,17 +1,19 @@
 package com.glaserproject.spacexploration.Room;
 
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
-@Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 1, exportSchema = false)
+@Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 4, exportSchema = false)
 @TypeConverters(DataConverters.class)
 public abstract class LaunchesDatabase extends RoomDatabase {
 
@@ -26,6 +28,7 @@ public abstract class LaunchesDatabase extends RoomDatabase {
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         LaunchesDatabase.class,
                         DB_NAME)
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }

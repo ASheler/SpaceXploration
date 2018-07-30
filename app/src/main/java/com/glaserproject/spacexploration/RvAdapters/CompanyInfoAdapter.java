@@ -12,6 +12,7 @@ import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.R;
+import com.glaserproject.spacexploration.Utils.DateUtils;
 
 import java.util.List;
 
@@ -88,6 +89,10 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @BindView(R.id.milestone_name)
         TextView milestoneName;
+        @BindView(R.id.milestone_date)
+        TextView milestoneDate;
+        @BindView(R.id.milestone_details)
+        TextView milestoneDetails;
 
         public MilestonesViewHolder(View itemView) {
             super(itemView);
@@ -97,7 +102,12 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         void bind(int index){
-            milestoneName.setText(milestones.get(index).getTitle());
+
+            Milestone currentMilestone = milestones.get(index);
+
+            milestoneName.setText(currentMilestone.getTitle());
+            milestoneDetails.setText(currentMilestone.getDetails());
+            milestoneDate.setText(DateUtils.formateDate(currentMilestone.getEvent_date_unix()));
         }
 
     }

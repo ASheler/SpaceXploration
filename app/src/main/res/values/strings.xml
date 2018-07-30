@@ -25,4 +25,6 @@
     <string name="launch_patch_content_desc">Launch patch</string>
     <string name="launch_tile_flied_on_text">Flied on:\u0020</string>
     <string name="launches_tile_t_zero">Launch!</string>
+    <string name="company_name_title">SpaceX</string>
+    <string name="milestones_label">Milestones:</string>
 </resources>
