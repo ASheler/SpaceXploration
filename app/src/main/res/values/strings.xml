@@ -24,4 +24,5 @@
     <string name="widget_loading_string">Loading…</string>
     <string name="launch_patch_content_desc">Launch patch</string>
     <string name="launch_tile_flied_on_text">Flied on:\u0020</string>
+    <string name="launches_tile_t_zero">Launch!</string>
 </resources>

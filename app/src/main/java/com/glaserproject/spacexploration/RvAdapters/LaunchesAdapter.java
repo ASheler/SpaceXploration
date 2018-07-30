@@ -83,7 +83,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
                 @Override
                 public void onFinish() {
-                    holder.launchDate.setText("finished");
+                    holder.launchDate.setText(R.string.launches_tile_t_zero);
                 }
             }.start();
         }
