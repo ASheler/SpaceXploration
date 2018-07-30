@@ -64,6 +64,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
 
 
 
+
     CompanyInfoAdapter infoAdapter;
 
 
@@ -144,6 +145,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
         if (!dbIsFull){
             //hide Loading Bar, show error message
             companyInfoProgressBar.setVisibility(View.GONE);
+            noDataMessageTv.setVisibility(View.VISIBLE);
         }
     }
 

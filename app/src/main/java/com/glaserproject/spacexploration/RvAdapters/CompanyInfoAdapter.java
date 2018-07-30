@@ -1,6 +1,7 @@
 package com.glaserproject.spacexploration.RvAdapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,10 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView companySummaryTv;
         @BindView(R.id.company_name_tv)
         TextView companyNameTv;
+        @BindView(R.id.about_spacex_cardview)
+        CardView aboutSpacexCard;
+        @BindView(R.id.milestones_header_tv)
+        TextView milestonesHeader;
 
         public CompanyInfoViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +84,9 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 companyNameTv.setText(aboutSpaceX.getName());
                 companySummaryTv.setText(aboutSpaceX.getSummary());
+            } else {
+                aboutSpacexCard.setVisibility(View.GONE);
+                milestonesHeader.setVisibility(View.GONE);
             }
 
         }

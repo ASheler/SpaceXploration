@@ -24,6 +24,7 @@
         android:id="@+id/no_data_message_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:gravity="center"
         android:text="@string/no_connection_n_data_message"
 

@@ -6,11 +6,12 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     xmlns:tools="http://schemas.android.com/tools">
+
     <android.support.v7.widget.CardView
-        android:layout_margin="16dp"
+        android:id="@+id/about_spacex_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_margin="16dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,13 +53,14 @@
     </android.support.v7.widget.CardView>
 
     <TextView
+        android:id="@+id/milestones_header_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:typeface="monospace"
         android:paddingTop="16dp"
+        android:text="@string/milestones_label"
         android:textSize="23sp"
-        android:text="@string/milestones_label" />
+        android:typeface="monospace" />
 
 
 </LinearLayout>
