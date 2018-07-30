@@ -10,8 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +77,18 @@ public class LaunchesMainFragment extends Fragment implements
     @BindView(R.id.no_data_message_tv)
     TextView noDataMessageTv;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
+        //Attach Listener for saving rv position on configuration change
+        try {
+            saveRvPosition = (SaveRvPositionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -86,8 +99,10 @@ public class LaunchesMainFragment extends Fragment implements
 
 
         //Setup RecyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), calculateNoOfColumns(getContext()));
         launchesRV.setLayoutManager(layoutManager);
+        launchesRV.setHasFixedSize(true);
         //init Adapter with ClickListener
         launchesAdapter = new LaunchesAdapter(this);
 
@@ -160,18 +175,20 @@ public class LaunchesMainFragment extends Fragment implements
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        //Attach Listener for saving rv position on configuration change
-        try {
-            saveRvPosition = (SaveRvPositionListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
+    //calc the number of columns to create
+    public static int calculateNoOfColumns(Context context) {
+        //get Display Metrics
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        //min width for column
+        int scalingFactor = 600;
+        int noOfColumns = (int) (dpWidth / scalingFactor);
+        //set at least 2 columns
+        if(noOfColumns < 1)
+            noOfColumns = 1;
+        return noOfColumns;
     }
+
 
     //OnClick handler for RV
     @Override

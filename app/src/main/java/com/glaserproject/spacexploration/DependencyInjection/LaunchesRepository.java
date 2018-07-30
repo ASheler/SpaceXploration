@@ -39,7 +39,7 @@ public class LaunchesRepository {
 
     public LiveData<List<Launch>> getLaunches(){
         refreshLaunches();
-
+        Log.d(LOG, "returining Launches");
         return launchesDao.getLaunches();
 
         //return launchesDao.getLaunches();
@@ -56,6 +56,7 @@ public class LaunchesRepository {
             List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
             Launch anyLaunch = launchesDao.getAnyLaunch();
             boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
+            Log.d(LOG, "refreshing Launches");
 
             //if we have some launches to update
             if ((anyLaunch == null) | refreshLaunchesExists) {
@@ -72,7 +73,6 @@ public class LaunchesRepository {
                                 launches.get(i).setLastRefresh(new Date());
                                 i++;
                             }
-                            Log.d("hovno", "hovno");
                             launchesDao.insertLaunches(response.body());
                         });
                     }
