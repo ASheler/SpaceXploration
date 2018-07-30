@@ -3,6 +3,7 @@ package com.glaserproject.spacexploration;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -87,13 +88,18 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
 
         setUpUI();
 
+        //send Ad load into delay for better performance and activity loading time
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            // used Sample Admob App Id
+            MobileAds.initialize(this, getString(R.string.admob_app_id));
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+            //setup AdListener for analytics
+            setAdListener();
+        }, 5000);
 
 
-        // used Sample Admob App Id
-        MobileAds.initialize(this, getString(R.string.admob_app_id));
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-        setAdListener();
     }
 
     private void setUpUI() {
