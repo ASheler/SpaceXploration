@@ -23,12 +23,13 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintWidth_max="500dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
