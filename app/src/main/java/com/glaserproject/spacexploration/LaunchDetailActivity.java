@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.glaserproject.spacexploration.AppConstants.AnalyticsKeys;
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.RvAdapters.DetailLinksAdapter;
@@ -126,8 +127,8 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
                 //send analytics on ad click
                 Bundle analyticsBundle = new Bundle();
                 //send analytics
-                analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ad_banner");
-                analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "ad_clicked");
+                analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, AnalyticsKeys.AD_BANNER_KEY);
+                analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, AnalyticsKeys.AD_CLICKED_KEY);
                 //send analytics
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
             }

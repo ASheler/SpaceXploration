@@ -1,5 +1,6 @@
 package com.glaserproject.spacexploration.RvAdapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -113,29 +114,29 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     }
 
     //get description for Links depending on position
-    private String getIconDesc(int position){
+    private String getIconDesc(int position, Context context) {
 
         switch (position){
             case 0:
-                return "Mission Patch";
+                return context.getString(R.string.icon_desc_mission_patch);
             case 1:
-                return "Mission Patch Small";
+                return context.getString(R.string.icon_desc_mission_patch_small);
             case 2:
-                return "Campaign thread";
+                return context.getString(R.string.icon_desc_campaign);
             case 3:
-                return "Launch thread";
+                return context.getString(R.string.icon_desc_launch);
             case 4:
-                return "Recovery thread";
+                return context.getString(R.string.icon_desc_recovery);
             case 5:
-                return "Media thread";
+                return context.getString(R.string.icon_desc_media);
             case 6:
-                return "Presskit";
+                return context.getString(R.string.icon_desc_presskit);
             case 7:
-                return "Article";
+                return context.getString(R.string.icon_desc_article);
             case 8:
-                return "Wikipedia";
+                return context.getString(R.string.icon_desc_wiki);
             case 9:
-                return "Video";
+                return context.getString(R.string.icon_desc_video);
         }
         return null;
 
@@ -149,27 +150,20 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
                 return R.drawable.ic_mission_patch_gray;
             case 1:
                 return R.drawable.ic_mission_patch_gray;
-
             case 2:
                 return R.drawable.ic_reddit_gray;
             case 3:
                 return R.drawable.ic_reddit_gray;
-
             case 4:
                 return R.drawable.ic_reddit_gray;
-
             case 5:
                 return R.drawable.ic_reddit_gray;
-
             case 6:
                 return R.drawable.ic_presskit_gray;
-
             case 7:
                 return R.drawable.ic_article_gray;
-
             case 8:
                 return R.drawable.ic_wikipedia_gray;
-
             case 9:
                 return R.drawable.ic_youtube_gray;
 
@@ -206,8 +200,8 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
                 linkIcon.setImageResource(getShadowResourceId(position));
             }
             //set Content desc. for icons for better accessibility
-            linkIcon.setContentDescription(getIconDesc(position));
-            linkDesc.setText(getIconDesc(position));
+            linkIcon.setContentDescription(getIconDesc(position, linkDesc.getContext()));
+            linkDesc.setText(getIconDesc(position, linkDesc.getContext()));
         }
 
 

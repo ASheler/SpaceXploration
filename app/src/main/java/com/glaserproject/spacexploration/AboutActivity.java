@@ -35,6 +35,6 @@ public class AboutActivity extends AppCompatActivity {
         Uri uri = Uri.parse(uriText);
 
         intent.setData(uri);
-        startActivity(Intent.createChooser(intent, "Send mail..."));
+        startActivity(Intent.createChooser(intent, getString(R.string.send_mail_chooser_title)));
     }
 }

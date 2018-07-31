@@ -12,10 +12,7 @@ import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 
 public class CheckIfInfoInDb extends AsyncTask<Object, Void, Boolean> {
 
-    /**
-     * @param objects must contain:
-     * object[0] == Context;
-     */
+
 
     private CheckInfoListener listener;
 
@@ -23,6 +20,11 @@ public class CheckIfInfoInDb extends AsyncTask<Object, Void, Boolean> {
     public CheckIfInfoInDb(CheckInfoListener listener) {
         this.listener = listener;
     }
+
+    /**
+     * @param objects must contain:
+     *                object[0] == Context;
+     */
 
     @Override
     protected Boolean doInBackground(Object... objects) {

@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.glaserproject.spacexploration.AppConstants.AnalyticsKeys;
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         //put data into analytics bundle
         analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, fragmentId);
         analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.toString());
-        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "menu_selection");
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, AnalyticsKeys.MENU_SELECTION_KEY);
         //send analytics
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
 

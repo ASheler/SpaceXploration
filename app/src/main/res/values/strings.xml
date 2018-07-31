@@ -37,4 +37,15 @@
     <string name="widget_no_data_detail">run app to fetch info</string>
     <string name="share_app_chooser_message">Share This App</string>
     <string name="share_message">Look what beautiful app I am using!  https://play.google.com/store/apps/developer?id=GlaserProject</string>
+    <string name="icon_desc_mission_patch">Mission Patch</string>
+    <string name="icon_desc_mission_patch_small">Mission Patch Small</string>
+    <string name="icon_desc_campaign">Campaign thread</string>
+    <string name="icon_desc_launch">Launch thread</string>
+    <string name="icon_desc_recovery">Recovery thread</string>
+    <string name="icon_desc_media">Media thread</string>
+    <string name="icon_desc_presskit">Presskit</string>
+    <string name="icon_desc_article">Article</string>
+    <string name="icon_desc_wiki">Wikipedia</string>
+    <string name="icon_desc_video">Video</string>
+    <string name="send_mail_chooser_title">Send mail...</string>
 </resources>
