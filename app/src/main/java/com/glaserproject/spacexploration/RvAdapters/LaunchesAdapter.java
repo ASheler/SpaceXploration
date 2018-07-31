@@ -21,6 +21,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * RecycleView adapter for Launches
+ */
+
 public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.LaunchesViewHolder> {
 
 
@@ -57,20 +61,25 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
         Launch currentLaunch = launches.get(position);
 
+        //cancel timer if it exists
         if (holder.timer != null){
             holder.timer.cancel();
         }
 
+        //if launch time > current time, run timer
         if (new Date().getTime() < currentLaunch.getLaunch_date_unix()*1000L){
 
             //set Alpha for flight to be flied
             holder.launchBaseCard.setAlpha(0.6f);
 
+            //get time to flight
             long timeTo = (currentLaunch.getLaunch_date_unix()*1000L) - new Date().getTime();
 
+            //start timer
             holder.timer = new CountDownTimer(timeTo, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
+                    //update view on every tick
                     String time = DateUtils.formateMillisTo(millisUntilFinished);
                     holder.launchDate.setText(time);
                 }
@@ -133,13 +142,13 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
                     .placeholder(R.mipmap.ic_launcher_round)
                     .into(launchPatchIv);
 
+            //set Mission name and details
             launchTitle.setText(currentLaunch.getMission_name());
             if (currentLaunch.getDetails() == null) {
                 launchDetailTv.setVisibility(View.INVISIBLE);
             } else {
                 launchDetailTv.setText(currentLaunch.getDetails());
             }
-            launchDetailTv.setText(currentLaunch.getDetails());
 
 
             long currentTime = new Date().getTime() / 1000;

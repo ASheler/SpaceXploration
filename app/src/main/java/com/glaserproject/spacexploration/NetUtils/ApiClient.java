@@ -9,6 +9,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
+/**
+ * Api helper interface for Retrofit
+ */
+
 public interface ApiClient {
 
     //get latest launch
@@ -30,8 +34,6 @@ public interface ApiClient {
     //get About SpaceX
     @GET("info")
     Call<AboutSpaceX> getAboutSpaceX();
-
-
 
 
 }

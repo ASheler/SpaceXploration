@@ -1,14 +1,17 @@
-    package com.glaserproject.spacexploration;
+package com.glaserproject.spacexploration;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/**
+ * Activity showing information about the app
+ */
 
-    public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +25,16 @@ import android.view.View;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-
     }
 
-        public void mailMe(View view) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            String uriText = "mailto:" + Uri.encode("ondraglaser@gmail.com") +
-                    "?subject=" + Uri.encode("SpaceXploration");
-            Uri uri = Uri.parse(uriText);
+    //email me method
+    public void mailMe(View view) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        String uriText = "mailto:" + Uri.encode("ondraglaser@gmail.com") +
+                "?subject=" + Uri.encode("SpaceXploration");
+        Uri uri = Uri.parse(uriText);
 
-            intent.setData(uri);
-            startActivity(Intent.createChooser(intent, "Send mail..."));
-        }
+        intent.setData(uri);
+        startActivity(Intent.createChooser(intent, "Send mail..."));
     }
+}

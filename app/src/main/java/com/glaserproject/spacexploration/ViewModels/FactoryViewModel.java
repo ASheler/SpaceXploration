@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+/**
+ * ViewModel Factory for MainViewModel for Dependency Injection
+ */
 
 public class FactoryViewModel implements ViewModelProvider.Factory {
 
@@ -17,7 +20,6 @@ public class FactoryViewModel implements ViewModelProvider.Factory {
     public FactoryViewModel(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
         this.creators = creators;
     }
-
 
 
     @SuppressWarnings("unchecked")

@@ -14,6 +14,10 @@ import com.glaserproject.spacexploration.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * RecycleView adapter for Links in Detail Activity
+ */
+
 public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.LinksViewHolder> {
 
     private Links links;
@@ -46,45 +50,11 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
         if (links == null){
             return 0;
         }
+        //we have always 9 links
         return 9;
     }
 
-    public class LinksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.link_icon)
-        ImageView linkIcon;
-        @BindView(R.id.link_description)
-        TextView linkDesc;
-
-
-        public LinksViewHolder(View itemView) {
-            super(itemView);
-
-            ButterKnife.bind(this, itemView);
-
-
-        }
-
-
-        void bind(int position){
-            if (getLink(position) != null){
-                linkIcon.setImageResource(getResourceId(position));
-                itemView.setOnClickListener(this);
-            } else {
-                linkIcon.setImageResource(getShadowResourceId(position));
-            }
-            linkIcon.setContentDescription(getIconDesc(position));
-            linkDesc.setText(getIconDesc(position));
-        }
-
-
-
-        @Override
-        public void onClick(View v) {
-            clickHandler.onClick(getLink(getAdapterPosition()));
-        }
-    }
-
+    //get link from Links depending on position
     private String getLink(int position){
 
         switch (position){
@@ -113,6 +83,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
 
     }
 
+    //get darkIcon for Links depending on position
     private int getResourceId(int position){
 
         switch (position){
@@ -141,7 +112,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
 
     }
 
-
+    //get description for Links depending on position
     private String getIconDesc(int position){
 
         switch (position){
@@ -170,7 +141,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
 
     }
 
-
+    //get shadowIcon for Links depending on position
     private int getShadowResourceId(int position){
 
         switch (position){
@@ -207,6 +178,44 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
 
     }
 
+    public class LinksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.link_icon)
+        ImageView linkIcon;
+        @BindView(R.id.link_description)
+        TextView linkDesc;
+
+
+        public LinksViewHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
+
+
+        }
+
+
+        void bind(int position) {
+            //check if there is a link at position
+            if (getLink(position) != null) {
+                //set Image resource and clickListener
+                linkIcon.setImageResource(getResourceId(position));
+                itemView.setOnClickListener(this);
+            } else {
+                //if there's no data, set shadow icon
+                linkIcon.setImageResource(getShadowResourceId(position));
+            }
+            //set Content desc. for icons for better accessibility
+            linkIcon.setContentDescription(getIconDesc(position));
+            linkDesc.setText(getIconDesc(position));
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            clickHandler.onClick(getLink(getAdapterPosition()));
+        }
+    }
 
 
     //interface for the click

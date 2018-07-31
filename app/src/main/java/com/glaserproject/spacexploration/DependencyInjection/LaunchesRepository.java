@@ -2,7 +2,6 @@ package com.glaserproject.spacexploration.DependencyInjection;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
@@ -20,11 +19,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Main repository for Launches Architecture
+ */
+
 @Singleton
 public class LaunchesRepository {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private static int FRESH_TIMEOUT_IN_MINUTES = 3;
-    private static final String LOG = "Launches Repo";
 
     private final ApiClient webservice;
     private final LaunchesDao launchesDao;
@@ -38,16 +41,15 @@ public class LaunchesRepository {
         this.executor = executor;
     }
 
+    //refresh launches and return them as LiveData
     public LiveData<List<Launch>> getLaunches(){
-        refreshLaunches();
-        Log.d(LOG, "returining Launches");
-        return launchesDao.getLaunches();
 
-        //return launchesDao.getLaunches();
+        refreshLaunches();
+        return launchesDao.getLaunches();
     }
 
 
-
+    //refresh launches from web
     private void refreshLaunches(){
         executor.execute(() ->  {
 
@@ -56,35 +58,36 @@ public class LaunchesRepository {
             //get all launches with older time
             List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
             Launch anyLaunch = launchesDao.getAnyLaunch();
+            //check if we have any
             boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
-            Log.d(LOG, "refreshing Launches");
 
-            //if we have some launches to update
+            //if we have some launches to update or we don't have any launches at all
             if ((anyLaunch == null) | refreshLaunchesExists) {
-
+                //call for launches
                 webservice.getLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<Launch>> call, @NonNull Response<List<Launch>> response) {
                         executor.execute(() -> {
-                            Log.d(LOG, "got launches from net successfully");
+
+                            //get launches into local variable
                             List<Launch> launches = response.body();
-                            int i = 0;
+
                             //edit last Refresh reference for all launches
-                            while (i < launches.size()){
+                            int i = 0;
+                            while (launches != null && i < launches.size()) {
                                 launches.get(i).setLastRefresh(new Date());
                                 i++;
                             }
+
+                            //insert newly fetched launches into db
                             launchesDao.insertLaunches(response.body());
                         });
                     }
 
                     @Override
-                    public void onFailure(Call<List<Launch>> call, Throwable t) {
-                        Log.d(LOG, "getting launches from net failed: " + t);
+                    public void onFailure(@NonNull Call<List<Launch>> call, @NonNull Throwable t) {
                     }
                 });
-            } else {
-                Log.d(LOG, "Loading from memory");
             }
 
 

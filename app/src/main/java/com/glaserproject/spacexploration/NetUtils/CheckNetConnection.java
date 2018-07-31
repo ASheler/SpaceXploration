@@ -3,6 +3,10 @@ package com.glaserproject.spacexploration.NetUtils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+/**
+ * Class for checking net connection
+ */
+
 public class CheckNetConnection {
 
 

@@ -10,6 +10,10 @@ import java.lang.annotation.Target;
 
 import dagger.MapKey;
 
+/**
+ * Keys interface for Dependency Injection
+ */
+
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

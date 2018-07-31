@@ -35,4 +35,6 @@
     <string name="share_icon_content_desc">Share icon</string>
     <string name="widget_no_data_title">no launch found</string>
     <string name="widget_no_data_detail">run app to fetch info</string>
+    <string name="share_app_chooser_message">Share This App</string>
+    <string name="share_message">Look what beautiful app I am using!  https://play.google.com/store/apps/developer?id=GlaserProject</string>
 </resources>

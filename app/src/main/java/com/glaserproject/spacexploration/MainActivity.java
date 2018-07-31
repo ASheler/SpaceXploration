@@ -3,9 +3,10 @@ package com.glaserproject.spacexploration;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +24,10 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+
+/**
+ * MainActivity handling nav drawer and fragments
+ */
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -91,7 +96,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -103,14 +107,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
-
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         //setup Bundle for Analytics
         Bundle analyticsBundle = new Bundle();
@@ -120,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "menu_selection");
         //send analytics
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
-
 
 
         // Handle navigation view item clicks here.
@@ -186,11 +183,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
     //saving rv position from Launches Fragment
     @Override
     public void saveLaunchesRvPosition(Parcelable position) {
@@ -201,8 +193,6 @@ public class MainActivity extends AppCompatActivity
     public void saveInfoRvPosition(Parcelable position) {
         saveInfoRvPosition = position;
     }
-
-
 
 
     @Override

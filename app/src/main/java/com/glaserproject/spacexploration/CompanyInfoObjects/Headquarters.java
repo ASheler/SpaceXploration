@@ -1,5 +1,9 @@
 package com.glaserproject.spacexploration.CompanyInfoObjects;
 
+/**
+ * Object Headquarters
+ */
+
 public class Headquarters {
 
     private String address;

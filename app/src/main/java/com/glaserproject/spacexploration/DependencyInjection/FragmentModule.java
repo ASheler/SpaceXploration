@@ -5,7 +5,9 @@ import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
-//DI module for fragments
+/**
+ * Dependency injection module for fragments
+ */
 
 @Module
 public abstract class FragmentModule {

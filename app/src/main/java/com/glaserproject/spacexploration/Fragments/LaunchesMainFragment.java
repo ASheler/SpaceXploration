@@ -37,6 +37,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 
+/**
+ * Fragment for Launches display
+ */
+
 public class LaunchesMainFragment extends Fragment implements
         LaunchesAdapter.onClickHandler,
         CheckIfLaunchesInDb.CheckInfoListener {
@@ -58,13 +62,13 @@ public class LaunchesMainFragment extends Fragment implements
     private MainViewModel mainViewModel;
 
 
-
     @BindView(R.id.launches_rv)
     RecyclerView launchesRV;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.no_data_message_tv)
     TextView noDataMessageTv;
+
 
     @Override
     public void onAttach(Context context) {
@@ -88,7 +92,6 @@ public class LaunchesMainFragment extends Fragment implements
 
 
         //Setup RecyclerView
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), calculateNoOfColumns(getContext()));
         launchesRV.setLayoutManager(layoutManager);
         launchesRV.setHasFixedSize(true);
@@ -117,6 +120,7 @@ public class LaunchesMainFragment extends Fragment implements
     private void checkIfDataInDb() {
         new CheckIfLaunchesInDb(this).execute(getContext());
     }
+
     @Override
     public void onDbChecked(Boolean dbIsFull) {
         if (!dbIsFull){
@@ -124,43 +128,6 @@ public class LaunchesMainFragment extends Fragment implements
             progressBar.setVisibility(View.GONE);
             noDataMessageTv.setVisibility(View.VISIBLE);
         }
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-
-
-        //setUp View Model
-        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        mainViewModel.init();
-        mainViewModel.getLaunches().observe(this, this::updateUi);
-
-
-    }
-
-
-
-    private void updateUi(List<Launch> launches){
-        //send data to RvAdapter
-        launchesAdapter.setLaunches(launches);
-
-        //set rv position
-        if (recyclerViewState != null){
-            launchesRV.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-        }
-
-        //hide progressBar if we have data
-        if (launchesAdapter.getItemCount() != 0){
-            progressBar.setVisibility(View.GONE);
-            noDataMessageTv.setVisibility(View.GONE);
-        }
-
-
     }
 
 
@@ -172,10 +139,45 @@ public class LaunchesMainFragment extends Fragment implements
         //min width for column
         int scalingFactor = 600;
         int noOfColumns = (int) (dpWidth / scalingFactor);
-        //set at least 2 columns
+        //set at least 1 column
         if(noOfColumns < 1)
             noOfColumns = 1;
         return noOfColumns;
+    }
+
+
+    private void updateUi(List<Launch> launches) {
+        //send data to RvAdapter
+        launchesAdapter.setLaunches(launches);
+
+        //set rv position
+        if (recyclerViewState != null) {
+            launchesRV.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        }
+
+        //hide progressBar if we have data
+        if (launchesAdapter.getItemCount() != 0) {
+            progressBar.setVisibility(View.GONE);
+            noDataMessageTv.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //dependency injection
+        AndroidSupportInjection.inject(this);
+
+
+        //setUp View Model
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
+        mainViewModel.init();
+        mainViewModel.getLaunches().observe(this, this::updateUi);
+
+
     }
 
 

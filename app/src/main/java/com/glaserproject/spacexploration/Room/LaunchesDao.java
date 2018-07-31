@@ -14,6 +14,10 @@ import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Database Dao for Room
+ */
+
 @Dao
 public interface LaunchesDao {
 

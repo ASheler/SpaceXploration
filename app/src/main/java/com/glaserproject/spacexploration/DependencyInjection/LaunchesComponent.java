@@ -3,17 +3,15 @@ package com.glaserproject.spacexploration.DependencyInjection;
 
 import android.app.Application;
 
-import com.glaserproject.spacexploration.DependencyInjection.ActivityModule;
-import com.glaserproject.spacexploration.DependencyInjection.App;
-import com.glaserproject.spacexploration.DependencyInjection.AppModule;
-import com.glaserproject.spacexploration.DependencyInjection.FragmentModule;
-
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
 
-//Component for launches
+/**
+ * Dependency injection for Launches
+ */
+
 
 @Singleton
 @Component(modules={ActivityModule.class, FragmentModule.class, AppModule.class})

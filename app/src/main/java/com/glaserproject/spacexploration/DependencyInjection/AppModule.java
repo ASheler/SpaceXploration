@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 import com.glaserproject.spacexploration.Room.LaunchesDao;
+import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,8 +19,13 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * AppModule for Dependency Injection
+ */
+
 @Module(includes = ViewModelModule.class)
 public class AppModule {
+
 
     @Provides
     @Singleton
@@ -44,9 +49,7 @@ public class AppModule {
         return new LaunchesRepository(webservice, userDao, executor);
     }
 
-    // NETWORK INJECTION
-
-    private static String BASE_URL = NetConstants.API_BASE_URL;
+    /* NETWORK INJECTION */
 
     @Provides
     Gson provideGson() { return new GsonBuilder().create(); }
@@ -55,7 +58,7 @@ public class AppModule {
     Retrofit provideRetrofit(Gson gson) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(BASE_URL)
+                .baseUrl(NetConstants.API_BASE_URL)
                 .build();
         return retrofit;
     }

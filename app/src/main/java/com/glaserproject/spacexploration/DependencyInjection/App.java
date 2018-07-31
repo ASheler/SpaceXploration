@@ -9,6 +9,11 @@ import javax.inject.Inject;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 
+/**
+ * Dependency Injection App
+ * serves for initialization of Dagger
+ */
+
 public class App extends Application implements HasActivityInjector {
 
     @Inject

@@ -10,13 +10,17 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 
+/**
+ * ViewModel module for Dependency Injection
+ */
+
 @Module
 public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel.class)
-    abstract ViewModel bindUserProfileViewModel(MainViewModel repoViewModel);
+    abstract ViewModel bindMainViewModel(MainViewModel repoViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(FactoryViewModel factory);

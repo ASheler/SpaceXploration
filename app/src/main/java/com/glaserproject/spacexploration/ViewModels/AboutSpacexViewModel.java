@@ -8,6 +8,10 @@ import android.support.annotation.NonNull;
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 
+/**
+ * ViewModel for AboutSpaceX data from room Db
+ */
+
 public class AboutSpacexViewModel extends AndroidViewModel {
 
     private LiveData<AboutSpaceX> aboutSpaceX;
@@ -15,6 +19,7 @@ public class AboutSpacexViewModel extends AndroidViewModel {
     public AboutSpacexViewModel(@NonNull Application application) {
         super(application);
 
+        //init db and get LiveData
         LaunchesDatabase db = LaunchesDatabase.getInstance(application);
         aboutSpaceX = db.pastLaunchesDao().getAboutSpaceX();
     }

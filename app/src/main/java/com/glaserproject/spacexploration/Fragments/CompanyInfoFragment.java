@@ -41,6 +41,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Fragment for Company Info display
+ */
+
 public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.CheckInfoListener{
 
     public CompanyInfoFragment() {
@@ -50,6 +54,10 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     private SaveCompanyInfoRvPositionListener positionListener;
     private Parcelable recyclerViewState;
 
+    private MilestonesViewModel milestonesViewModel;
+    private AboutSpacexViewModel aboutSpacexViewModel;
+
+    private CompanyInfoAdapter infoAdapter;
 
     @BindView(R.id.company_info_rv)
     RecyclerView recyclerView;
@@ -57,15 +65,6 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     TextView noDataMessageTv;
     @BindView(R.id.company_info_progress_bar)
     ProgressBar companyInfoProgressBar;
-
-
-
-
-    private CompanyInfoAdapter infoAdapter;
-
-
-    private MilestonesViewModel milestonesViewModel;
-    private AboutSpacexViewModel aboutSpacexViewModel;
 
 
     @Override
@@ -81,13 +80,12 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     }
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragmnet_company_info, container, false);
 
+        //Bind views
         ButterKnife.bind(this, rootView);
 
         //Setup RV
@@ -106,10 +104,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
         milestonesViewModel.getMilestones().observe(this, this::updateRv);
 
 
-
-
-
-
+        //get rv state from Bundle from MainActivity
         Bundle bundle = getArguments();
         if (bundle != null){
             recyclerViewState = bundle.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
@@ -136,6 +131,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     private void checkIfDataInDb(){
         new CheckIfInfoInDb(this).execute(getContext());
     }
+
     @Override
     public void onDbChecked(Boolean dbIsFull) {
         if (!dbIsFull){
@@ -146,8 +142,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     }
 
 
-
-
+    //fetch data via retrofit
     private void fetchDataFromNet() {
 
         //init retrofit
@@ -190,31 +185,34 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
         });
     }
 
-
+    //update Rv with milestones
     private void updateRv (List<Milestone> milestones){
         infoAdapter.setMilestones(milestones);
         if (recyclerViewState != null){
             recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }
+        //hide progressBar
         companyInfoProgressBar.setVisibility(View.GONE);
     }
 
+    //updateRv with AboutSpaceX data
     private void updateAbout(AboutSpaceX aboutSpaceX){
         infoAdapter.setAboutSpaceX(aboutSpaceX);
+        //hide proressbar
         companyInfoProgressBar.setVisibility(View.GONE);
     }
-
 
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        //save rv position
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
         positionListener.saveInfoRvPosition(recyclerViewState);
     }
 
 
-
+    //interface for rv position save
     public interface SaveCompanyInfoRvPositionListener{
         void saveInfoRvPosition(Parcelable position);
     }

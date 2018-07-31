@@ -7,6 +7,13 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
+/**
+ * Object Milestone
+ * object serves as Entity for Room Db
+ * <p>
+ * PrimaryKey for db is event_date_unix for chronological sorting
+ */
+
 @Entity (tableName = "milestones")
 public class Milestone {
 

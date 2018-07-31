@@ -25,6 +25,11 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activity showing Launch Detail.
+ * Activity needs to receive Launch as an object in incoming intent
+ */
+
 public class LaunchDetailActivity extends AppCompatActivity implements DetailLinksAdapter.onClickHandler{
 
     private Launch launch;
@@ -33,7 +38,6 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
     private FirebaseAnalytics mFirebaseAnalytics;
 
     DetailLinksAdapter linksAdapter;
-
 
 
     @BindView(R.id.launch_name)
@@ -77,7 +81,6 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
-
         setUpUI();
 
         //send Ad load into delay for better performance and activity loading time
@@ -95,14 +98,16 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
     }
 
     private void setUpUI() {
-        launchTitle.setText(launch.getMission_name());
+        //get formatted launch date
         String formattedDate = DateUtils.formateDate(launch.getLaunch_date_unix());
+
+        launchTitle.setText(launch.getMission_name());
         launchDate.setText(formattedDate);
         launchSite.setText(launch.getLaunch_site().getSite_name_long());
         launchRocket.setText(launch.getRocket().getRocket_name());
         launchDetail.setText(launch.getDetails());
 
-
+        //setup Rv for links
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         linksRv.setLayoutManager(layoutManager);

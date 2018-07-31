@@ -11,6 +11,15 @@ import com.glaserproject.spacexploration.Room.DataConverters;
 
 import java.util.Date;
 
+/**
+ * Object Launch
+ * object serves as Entity for Room Db
+ * <p>
+ * object has extra primary key Flight Number
+ * <p>
+ * Launch object is Parcelable for easier sending between activities
+ */
+
 @Entity (tableName = "launches")
 public class Launch implements Parcelable {
 

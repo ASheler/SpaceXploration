@@ -6,8 +6,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class for methods to format the date from millis and so
+ */
+
 public class DateUtils {
 
+    /**
+     * @param dateToFormat is millis to be formated
+     * @return formated string
+     */
     public static String formateDate(long dateToFormat){
 
         Date date = new java.util.Date(dateToFormat*1000L);
@@ -16,6 +24,11 @@ public class DateUtils {
 
     }
 
+    /**
+     *
+     * @param millisUntilFinished is time till zero for timer
+     * @return formatted time until T = 00
+     */
     public static String formateMillisTo(long millisUntilFinished) {
 
         //create Strings from millis

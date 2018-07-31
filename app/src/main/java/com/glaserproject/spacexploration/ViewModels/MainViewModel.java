@@ -3,12 +3,16 @@ package com.glaserproject.spacexploration.ViewModels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.DependencyInjection.LaunchesRepository;
+import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+/**
+ * ViewModel for Launches data
+ */
 
 public class MainViewModel extends ViewModel {
 
@@ -22,6 +26,7 @@ public class MainViewModel extends ViewModel {
 
     }
 
+    //init
     public void init(){
         if (launches != null){
             return;

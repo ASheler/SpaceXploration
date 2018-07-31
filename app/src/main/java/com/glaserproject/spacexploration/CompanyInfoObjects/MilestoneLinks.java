@@ -1,5 +1,10 @@
 package com.glaserproject.spacexploration.CompanyInfoObjects;
 
+
+/**
+ * Object MilestoneLinks
+ */
+
 public class MilestoneLinks {
 
     private String reddit;

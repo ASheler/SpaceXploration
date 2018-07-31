@@ -11,6 +11,10 @@ import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
+/**
+ * Database class for Room
+ */
+
 @Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 4, exportSchema = false)
 @TypeConverters(DataConverters.class)
 public abstract class LaunchesDatabase extends RoomDatabase {
@@ -19,6 +23,7 @@ public abstract class LaunchesDatabase extends RoomDatabase {
     private static final String DB_NAME = "SpaceXdatabase.db";
     private static LaunchesDatabase sInstance;
 
+    //get instance
     public static LaunchesDatabase getInstance(final Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {

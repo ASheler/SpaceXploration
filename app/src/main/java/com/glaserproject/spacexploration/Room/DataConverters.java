@@ -16,6 +16,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Date;
 
+/**
+ * Data converters class for storing data converters on one place
+ * <p>
+ * data converters serves for converting object from and to String for
+ * easy db work
+ */
+
 public class DataConverters {
 
     @TypeConverter

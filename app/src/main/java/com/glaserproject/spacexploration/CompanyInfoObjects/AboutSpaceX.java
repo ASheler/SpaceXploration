@@ -6,12 +6,18 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
+/**
+ * Object AboutSpaceX
+ * object serves as Entity for Room Db
+ * <p>
+ * object has extra field id that is autoIncremented for db purposes
+ */
+
 @Entity(tableName = "about_spacex")
 public class AboutSpaceX {
 
     @PrimaryKey(autoGenerate = true)
-    private
-    int id;
+    private int id;
     private String name;
     private String founder;
     private String founded;
@@ -25,8 +31,7 @@ public class AboutSpaceX {
     private String cto_propulsion;
     private long valuation;
     @TypeConverters(DataConverters.class)
-    private
-    Headquarters headquarters;
+    private Headquarters headquarters;
     private String summary;
 
 

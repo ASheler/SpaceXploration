@@ -18,6 +18,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * RecycleView adapter for Company Info
+ * <p>
+ * Adapter has 2 layout that will get inflated - one with company description
+ * and other with milestones
+ */
+
 public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Milestone> milestones;
@@ -39,11 +46,13 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int position) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
+        //select different layout for first item - company info
         if (position == 0){
             View view = inflater.inflate(R.layout.company_info_tile, parent, false);
             return new CompanyInfoViewHolder(view);
         } else {
 
+            //select different layout for all other items - milestones
             View view = inflater.inflate(R.layout.milestone_tile, parent, false);
             return new MilestonesViewHolder(view);
         }
@@ -51,16 +60,27 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //Bind views
         if (holder.getItemViewType() == 0){
             CompanyInfoViewHolder infoViewHolder = (CompanyInfoViewHolder) holder;
             infoViewHolder.bind();
         } else {
             MilestonesViewHolder milestonesHolder = (MilestonesViewHolder) holder;
+            //due to insertion of first item, we have to move position
             milestonesHolder.bind(position - 1);
         }
     }
 
+    @Override
+    public int getItemCount() {
+        if (milestones == null) {
+            return 0;
+        }
+        //due to insertion of first item, we have to increase size of rv
+        return milestones.size() + 1;
+    }
 
+    //Company Info ViewHolder
     public class CompanyInfoViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.company_summary_tv)
@@ -77,12 +97,15 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ButterKnife.bind(this, itemView);
         }
+
         void bind() {
+            //if data != null, setText to textviews
             if (aboutSpaceX != null){
 
                 companyNameTv.setText(aboutSpaceX.getName());
                 companySummaryTv.setText(aboutSpaceX.getSummary());
             } else {
+                //if data == null, hide UI
                 aboutSpacexCard.setVisibility(View.GONE);
                 milestonesHeader.setVisibility(View.GONE);
             }
@@ -90,6 +113,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    //Milestones ViewHolder
     public class MilestonesViewHolder extends RecyclerView.ViewHolder{
 
 
@@ -107,23 +131,16 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
 
-        void bind(int index){
-
+        void bind(int index) {
+            //get current Milestone
             Milestone currentMilestone = milestones.get(index);
 
+            //set text to TextViews
             milestoneName.setText(currentMilestone.getTitle());
             milestoneDetails.setText(currentMilestone.getDetails());
             milestoneDate.setText(DateUtils.formateDate(currentMilestone.getEvent_date_unix()));
         }
 
-    }
-
-    @Override
-    public int getItemCount() {
-        if (milestones == null){
-            return 0;
-        }
-        return milestones.size() + 1;
     }
 
     @Override
