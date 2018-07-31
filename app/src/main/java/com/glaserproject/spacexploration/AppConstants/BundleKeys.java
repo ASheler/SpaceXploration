@@ -1,5 +1,9 @@
 package com.glaserproject.spacexploration.AppConstants;
 
+/**
+ * Class for keys for bundles
+ */
+
 public class BundleKeys {
 
     public static final String LAUNCHES_RV_POSITION_KEY = "launches rv position";

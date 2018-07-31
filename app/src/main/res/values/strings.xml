@@ -33,4 +33,6 @@
     <string name="patreon_logo_content_desc">Patreon Logo</string>
     <string name="activity_support_share_text">or by sharing the app</string>
     <string name="share_icon_content_desc">Share icon</string>
+    <string name="widget_no_data_title">no launch found</string>
+    <string name="widget_no_data_detail">run app to fetch info</string>
 </resources>
