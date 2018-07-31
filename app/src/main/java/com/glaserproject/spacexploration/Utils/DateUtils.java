@@ -16,16 +16,15 @@ public class DateUtils {
      * @param dateToFormat is millis to be formated
      * @return formated string
      */
-    public static String formateDate(long dateToFormat){
+    public static String formateDate(long dateToFormat) {
 
-        Date date = new java.util.Date(dateToFormat*1000L);
+        Date date = new java.util.Date(dateToFormat * 1000L);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.US);
         return sdf.format(date);
 
     }
 
     /**
-     *
      * @param millisUntilFinished is time till zero for timer
      * @return formatted time until T = 00
      */
@@ -43,7 +42,7 @@ public class DateUtils {
         sb.append("T - ");
 
         //don't display days if there is none
-        if (!daysToLaunch.equals("00")){
+        if (!daysToLaunch.equals("00")) {
             sb.append(daysToLaunch);
             sb.append("d ");
         }

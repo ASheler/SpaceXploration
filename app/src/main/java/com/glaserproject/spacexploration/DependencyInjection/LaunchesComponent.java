@@ -14,13 +14,14 @@ import dagger.Component;
 
 
 @Singleton
-@Component(modules={ActivityModule.class, FragmentModule.class, AppModule.class})
+@Component(modules = {ActivityModule.class, FragmentModule.class, AppModule.class})
 public interface LaunchesComponent {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(Application application);
+
         LaunchesComponent build();
     }
 

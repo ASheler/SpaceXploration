@@ -46,7 +46,7 @@ public class LaunchesMainFragment extends Fragment implements
         CheckIfLaunchesInDb.CheckInfoListener {
 
     //Default empty constructor
-    public LaunchesMainFragment (){
+    public LaunchesMainFragment() {
     }
 
 
@@ -103,12 +103,12 @@ public class LaunchesMainFragment extends Fragment implements
 
         //get rv position from bundle
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             recyclerViewState = bundle.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
         }
 
         //check connection
-        if (!CheckNetConnection.isNetworkAvailable(Objects.requireNonNull(getContext()))){
+        if (!CheckNetConnection.isNetworkAvailable(Objects.requireNonNull(getContext()))) {
             //no connection - check if we have data stored
             checkIfDataInDb();
         }
@@ -123,7 +123,7 @@ public class LaunchesMainFragment extends Fragment implements
 
     @Override
     public void onDbChecked(Boolean dbIsFull) {
-        if (!dbIsFull){
+        if (!dbIsFull) {
             //hide Loading Bar, show error message
             progressBar.setVisibility(View.GONE);
             noDataMessageTv.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class LaunchesMainFragment extends Fragment implements
         int scalingFactor = 600;
         int noOfColumns = (int) (dpWidth / scalingFactor);
         //set at least 1 column
-        if(noOfColumns < 1)
+        if (noOfColumns < 1)
             noOfColumns = 1;
         return noOfColumns;
     }
@@ -202,7 +202,7 @@ public class LaunchesMainFragment extends Fragment implements
 
 
     //sending rv position to activity
-    public interface SaveRvPositionListener{
+    public interface SaveRvPositionListener {
         void saveLaunchesRvPosition(Parcelable position);
     }
 

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="18dp"
-    android:paddingEnd="18dp"
-    >
+    android:paddingEnd="18dp">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -25,16 +24,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.15" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/launches_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/launches_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
     <TextView
         android:id="@+id/no_data_message_tv"
@@ -42,7 +41,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/no_connection_n_data_message"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

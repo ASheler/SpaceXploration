@@ -14,7 +14,7 @@ import com.glaserproject.spacexploration.Room.DataConverters;
  * PrimaryKey for db is event_date_unix for chronological sorting
  */
 
-@Entity (tableName = "milestones")
+@Entity(tableName = "milestones")
 public class Milestone {
 
 

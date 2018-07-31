@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:padding="@dimen/widget_margin"
-    android:id="@+id/wrapper_widget_rl"
-    >
+    android:id="@+id/wrapper_widget_rl">
 
     <TextView
         android:id="@+id/launch_title_widget_tv"

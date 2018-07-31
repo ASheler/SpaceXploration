@@ -13,7 +13,6 @@ import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 public class CheckIfInfoInDb extends AsyncTask<Object, Void, Boolean> {
 
 
-
     private CheckInfoListener listener;
 
     //init with listener for onPostExecute Interface

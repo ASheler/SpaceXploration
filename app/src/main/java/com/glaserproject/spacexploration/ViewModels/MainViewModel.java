@@ -21,14 +21,14 @@ public class MainViewModel extends ViewModel {
 
 
     @Inject
-    public MainViewModel(LaunchesRepository launchesRepository){
+    public MainViewModel(LaunchesRepository launchesRepository) {
         this.launchesRepository = launchesRepository;
 
     }
 
     //init
-    public void init(){
-        if (launches != null){
+    public void init() {
+        if (launches != null) {
             return;
         }
         launches = launchesRepository.getLaunches();

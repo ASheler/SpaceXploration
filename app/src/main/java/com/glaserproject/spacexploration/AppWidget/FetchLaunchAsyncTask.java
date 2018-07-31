@@ -45,7 +45,7 @@ class FetchLaunchAsyncTask extends AsyncTask<Object, Void, Launch> {
         LaunchesDatabase db = LaunchesDatabase.getInstance(context);
 
         //Get Next Launch from Db
-        long currentTime = new Date().getTime()/1000L;
+        long currentTime = new Date().getTime() / 1000L;
         Launch nextLaunch = db.pastLaunchesDao().getNextLaunch(currentTime);
 
         //init Intent

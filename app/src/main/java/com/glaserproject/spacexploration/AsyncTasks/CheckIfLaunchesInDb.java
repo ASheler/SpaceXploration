@@ -41,7 +41,7 @@ public class CheckIfLaunchesInDb extends AsyncTask<Object, Void, Boolean> {
         listener.onDbChecked(dbIsFull);
     }
 
-    public interface CheckInfoListener{
+    public interface CheckInfoListener {
         void onDbChecked(Boolean dbIsFull);
     }
 }

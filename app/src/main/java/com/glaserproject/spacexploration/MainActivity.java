@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //retrieve data from savedInstanceState
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             //rv position for fragments
             saveLaunchesRvPosition = savedInstanceState.getParcelable(BundleKeys.LAUNCHES_RV_POSITION_KEY);
             saveInfoRvPosition = savedInstanceState.getParcelable(BundleKeys.INFO_RV_POSITION_KEY);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //setup fragment from savedState or default(0)
-        MenuItem item =  navigationView.getMenu().getItem(fragmentId);
+        MenuItem item = navigationView.getMenu().getItem(fragmentId);
         onNavigationItemSelected(item);
         //set menu item as checked for UI consistency
         item.setChecked(true);
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
 
         Intent activityIntent = null;
 
-        switch (id){
+        switch (id) {
             case R.id.nav_launches:
                 fragment = new LaunchesMainFragment();
 
@@ -158,13 +158,13 @@ public class MainActivity extends AppCompatActivity
 
 
         //check if we are running new activity
-        if (activityIntent != null){
+        if (activityIntent != null) {
             startActivity(activityIntent);
             return true;
 
 
             //if not, run fragment
-        } else if (fragment != null){
+        } else if (fragment != null) {
 
             //send data into Fragment
             fragment.setArguments(fragmentExtraBundle);

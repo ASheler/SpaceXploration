@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
  * Activity needs to receive Launch as an object in incoming intent
  */
 
-public class LaunchDetailActivity extends AppCompatActivity implements DetailLinksAdapter.onClickHandler{
+public class LaunchDetailActivity extends AppCompatActivity implements DetailLinksAdapter.onClickHandler {
 
     private Launch launch;
 
@@ -119,8 +119,8 @@ public class LaunchDetailActivity extends AppCompatActivity implements DetailLin
     }
 
 
-    public void setAdListener (){
-        adView.setAdListener(new AdListener(){
+    public void setAdListener() {
+        adView.setAdListener(new AdListener() {
             @Override
             public void onAdOpened() {
                 super.onAdOpened();

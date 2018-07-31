@@ -32,7 +32,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
     private final onClickHandler mClickHandler;
 
     //Constructor for clickHandler
-    public LaunchesAdapter (onClickHandler clickHandler){
+    public LaunchesAdapter(onClickHandler clickHandler) {
         this.mClickHandler = clickHandler;
     }
 
@@ -62,18 +62,18 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         Launch currentLaunch = launches.get(position);
 
         //cancel timer if it exists
-        if (holder.timer != null){
+        if (holder.timer != null) {
             holder.timer.cancel();
         }
 
         //if launch time > current time, run timer
-        if (new Date().getTime() < currentLaunch.getLaunch_date_unix()*1000L){
+        if (new Date().getTime() < currentLaunch.getLaunch_date_unix() * 1000L) {
 
             //set Alpha for flight to be flied
             holder.launchBaseCard.setAlpha(0.6f);
 
             //get time to flight
-            long timeTo = (currentLaunch.getLaunch_date_unix()*1000L) - new Date().getTime();
+            long timeTo = (currentLaunch.getLaunch_date_unix() * 1000L) - new Date().getTime();
 
             //start timer
             holder.timer = new CountDownTimer(timeTo, 100) {
@@ -99,14 +99,14 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
 
     @Override
     public int getItemCount() {
-        if (launches == null){
+        if (launches == null) {
             return 0;
         }
         return launches.size();
     }
 
 
-    public class LaunchesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class LaunchesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         @BindView(R.id.launch_title)
@@ -132,7 +132,7 @@ public class LaunchesAdapter extends RecyclerView.Adapter<LaunchesAdapter.Launch
         }
 
 
-        void bind (int index){
+        void bind(int index) {
 
             Launch currentLaunch = launches.get(index);
 

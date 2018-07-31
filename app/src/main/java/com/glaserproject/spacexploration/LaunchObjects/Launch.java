@@ -20,7 +20,7 @@ import java.util.Date;
  * Launch object is Parcelable for easier sending between activities
  */
 
-@Entity (tableName = "launches")
+@Entity(tableName = "launches")
 public class Launch implements Parcelable {
 
     @PrimaryKey

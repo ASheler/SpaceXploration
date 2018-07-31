@@ -35,14 +35,14 @@ public class LaunchesRepository {
 
 
     @Inject
-    public LaunchesRepository (ApiClient webservice, LaunchesDao launchesDao, Executor executor){
+    public LaunchesRepository(ApiClient webservice, LaunchesDao launchesDao, Executor executor) {
         this.webservice = webservice;
         this.launchesDao = launchesDao;
         this.executor = executor;
     }
 
     //refresh launches and return them as LiveData
-    public LiveData<List<Launch>> getLaunches(){
+    public LiveData<List<Launch>> getLaunches() {
 
         refreshLaunches();
         return launchesDao.getLaunches();
@@ -50,8 +50,8 @@ public class LaunchesRepository {
 
 
     //refresh launches from web
-    private void refreshLaunches(){
-        executor.execute(() ->  {
+    private void refreshLaunches() {
+        executor.execute(() -> {
 
             //set new Refresh reference
             Date maxRefresh = getMaxRefreshTime(new Date());

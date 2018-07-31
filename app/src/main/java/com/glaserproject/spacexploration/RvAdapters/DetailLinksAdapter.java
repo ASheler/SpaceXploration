@@ -48,7 +48,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
 
     @Override
     public int getItemCount() {
-        if (links == null){
+        if (links == null) {
             return 0;
         }
         //we have always 9 links
@@ -56,9 +56,9 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     }
 
     //get link from Links depending on position
-    private String getLink(int position){
+    private String getLink(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 return links.getMission_patch();
             case 1:
@@ -85,9 +85,9 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     }
 
     //get darkIcon for Links depending on position
-    private int getResourceId(int position){
+    private int getResourceId(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 return R.drawable.ic_mission_patch;
             case 1:
@@ -116,7 +116,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     //get description for Links depending on position
     private String getIconDesc(int position, Context context) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 return context.getString(R.string.icon_desc_mission_patch);
             case 1:
@@ -143,9 +143,9 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     }
 
     //get shadowIcon for Links depending on position
-    private int getShadowResourceId(int position){
+    private int getShadowResourceId(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 return R.drawable.ic_mission_patch_gray;
             case 1:

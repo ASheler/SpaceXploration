@@ -30,12 +30,12 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Milestone> milestones;
     private AboutSpaceX aboutSpaceX;
 
-    public void setMilestones (List<Milestone> milestones){
+    public void setMilestones(List<Milestone> milestones) {
         this.milestones = milestones;
         notifyDataSetChanged();
     }
 
-    public void setAboutSpaceX (AboutSpaceX aboutSpaceX){
+    public void setAboutSpaceX(AboutSpaceX aboutSpaceX) {
         this.aboutSpaceX = aboutSpaceX;
         notifyDataSetChanged();
     }
@@ -47,7 +47,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         //select different layout for first item - company info
-        if (position == 0){
+        if (position == 0) {
             View view = inflater.inflate(R.layout.company_info_tile, parent, false);
             return new CompanyInfoViewHolder(view);
         } else {
@@ -61,7 +61,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         //Bind views
-        if (holder.getItemViewType() == 0){
+        if (holder.getItemViewType() == 0) {
             CompanyInfoViewHolder infoViewHolder = (CompanyInfoViewHolder) holder;
             infoViewHolder.bind();
         } else {
@@ -100,7 +100,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void bind() {
             //if data != null, setText to textviews
-            if (aboutSpaceX != null){
+            if (aboutSpaceX != null) {
 
                 companyNameTv.setText(aboutSpaceX.getName());
                 companySummaryTv.setText(aboutSpaceX.getSummary());
@@ -114,7 +114,7 @@ public class CompanyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     //Milestones ViewHolder
-    public class MilestonesViewHolder extends RecyclerView.ViewHolder{
+    public class MilestonesViewHolder extends RecyclerView.ViewHolder {
 
 
         @BindView(R.id.milestone_name)

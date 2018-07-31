@@ -35,7 +35,9 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LaunchesDao provideLaunchesDao(LaunchesDatabase database) { return database.pastLaunchesDao(); }
+    LaunchesDao provideLaunchesDao(LaunchesDatabase database) {
+        return database.pastLaunchesDao();
+    }
 
 
     @Provides
@@ -52,7 +54,9 @@ public class AppModule {
     /* NETWORK INJECTION */
 
     @Provides
-    Gson provideGson() { return new GsonBuilder().create(); }
+    Gson provideGson() {
+        return new GsonBuilder().create();
+    }
 
     @Provides
     Retrofit provideRetrofit(Gson gson) {

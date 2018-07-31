@@ -1,42 +1,30 @@
 <resources>
+    <!-- app and activity names -->
     <string name="app_name">SpaceXploration</string>
+    <string name="title_activity_launch_detail">LaunchDetailActivity</string>
+    <string name="support_us_activity_title">Support Us</string>
+    <string name="about_activity_title">About SpaceXploration</string>
+
+
+    <!-- Nav Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">SpaceXploration</string>
     <string name="nav_header_subtitle">Explore the world of space launches</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="title_activity_launch_detail">LaunchDetailActivity</string>
-    <string name="support_us_activity_title">Support Us</string>
-    <string name="about_activity_title">About SpaceXploration</string>
+
+    <!-- AdMob -->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!-- error messages -->
     <string name="no_connection_n_data_message">No data available offline and no connection. Please check your connection and retry</string>
-    <string name="email_button_description">Email button</string>
-    <string name="contact_me_label">Contact Me:</string>
-    <string name="libraries_used_text">Libraries used: Dagger2, Picasso, ButterKnife, Retrofit</string>
-    <string name="special_thank_to_text">Special thanks to everyone at r/SpaceX and r/SpaceXLounge.</string>
-    <string name="created_by_label">created by:</string>
-    <string name="created_by_name">Andrew Glaser</string>
-    <string name="about_heading">SpaceXploration</string>
-    <string name="widget_loading_string">Loading…</string>
+
+    <!-- image descriptions -->
     <string name="launch_patch_content_desc">Launch patch</string>
-    <string name="launch_tile_flied_on_text">Flied on:\u0020</string>
-    <string name="launches_tile_t_zero">Launch!</string>
-    <string name="company_name_title">SpaceX</string>
-    <string name="milestones_label">Milestones:</string>
-    <string name="menu_label_launches">Launches</string>
-    <string name="menu_label_about_spacex">About SpaceX</string>
-    <string name="menu_label_group_other">Other</string>
-    <string name="menu_label_support_us">Support Us</string>
-    <string name="menu_label_about_app">About App</string>
-    <string name="activity_about_support_us_text">Please support us on patreon:</string>
-    <string name="patreon_logo_content_desc">Patreon Logo</string>
-    <string name="activity_support_share_text">or by sharing the app</string>
+    <string name="email_button_description">Email button</string>
     <string name="share_icon_content_desc">Share icon</string>
-    <string name="widget_no_data_title">no launch found</string>
-    <string name="widget_no_data_detail">run app to fetch info</string>
-    <string name="share_app_chooser_message">Share This App</string>
-    <string name="share_message">Look what beautiful app I am using!  https://play.google.com/store/apps/developer?id=GlaserProject</string>
+    <string name="patreon_logo_content_desc">Patreon Logo</string>
     <string name="icon_desc_mission_patch">Mission Patch</string>
     <string name="icon_desc_mission_patch_small">Mission Patch Small</string>
     <string name="icon_desc_campaign">Campaign thread</string>
@@ -47,5 +35,41 @@
     <string name="icon_desc_article">Article</string>
     <string name="icon_desc_wiki">Wikipedia</string>
     <string name="icon_desc_video">Video</string>
-    <string name="send_mail_chooser_title">Send mail...</string>
+
+
+    <!-- About App Activity -->
+    <string name="contact_me_label">Contact Me:</string>
+    <string name="libraries_used_text">Libraries used: Dagger2, Picasso, ButterKnife, Retrofit</string>
+    <string name="special_thank_to_text">Special thanks to everyone at r/SpaceX and r/SpaceXLounge.</string>
+    <string name="created_by_label">created by:</string>
+    <string name="created_by_name">Andrew Glaser</string>
+    <string name="about_heading">SpaceXploration</string>
+    <string name="send_mail_chooser_title">Send mail…</string>
+
+    <!-- Support us Activity -->
+    <string name="activity_about_support_us_text">Please support us on patreon:</string>
+    <string name="activity_support_share_text">or by sharing the app</string>
+    <string name="share_app_chooser_message">Share This App</string>
+    <string name="share_message">Look what beautiful app I am using!  https://play.google.com/store/apps/developer?id=GlaserProject</string>
+
+
+    <!-- Widget -->
+    <string name="widget_loading_string">Loading…</string>
+    <string name="widget_no_data_title">no launch found</string>
+    <string name="widget_no_data_detail">run app to fetch info</string>
+
+
+    <!-- About company fragment -->
+    <string name="launch_tile_flied_on_text">Flied on:\u0020</string>
+    <string name="launches_tile_t_zero">Launch!</string>
+    <string name="company_name_title">SpaceX</string>
+    <string name="milestones_label">Milestones:</string>
+
+    <!-- Menu Labels -->
+    <string name="menu_label_launches">Launches</string>
+    <string name="menu_label_about_spacex">About SpaceX</string>
+    <string name="menu_label_group_other">Other</string>
+    <string name="menu_label_support_us">Support Us</string>
+    <string name="menu_label_about_app">About App</string>
+
 </resources>
