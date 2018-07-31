@@ -8,8 +8,8 @@ import java.util.List;
 
 class SecondStage implements Parcelable {
 
-    int block;
-    List<Payload> payloads;
+    private int block;
+    private List<Payload> payloads;
 
     @Override
     public int describeContents() {
@@ -27,7 +27,7 @@ class SecondStage implements Parcelable {
 
     protected SecondStage(Parcel in) {
         this.block = in.readInt();
-        this.payloads = new ArrayList<Payload>();
+        this.payloads = new ArrayList<>();
         in.readList(this.payloads, Payload.class.getClassLoader());
     }
 

@@ -2,9 +2,9 @@ package com.glaserproject.spacexploration.CompanyInfoObjects;
 
 public class Headquarters {
 
-    String address;
-    String city;
-    String state;
+    private String address;
+    private String city;
+    private String state;
 
     public String getAddress() {
         return address;

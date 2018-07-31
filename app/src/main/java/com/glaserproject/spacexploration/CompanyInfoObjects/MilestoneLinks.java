@@ -2,9 +2,9 @@ package com.glaserproject.spacexploration.CompanyInfoObjects;
 
 public class MilestoneLinks {
 
-    String reddit;
-    String article;
-    String wikipedia;
+    private String reddit;
+    private String article;
+    private String wikipedia;
 
     public String getReddit() {
         return reddit;

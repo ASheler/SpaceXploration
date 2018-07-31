@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Rocket implements Parcelable {
 
-    String rocket_id;
-    String rocket_name;
-    String rocket_type;
-    FirstStage first_stage;
-    SecondStage second_stage;
+    private String rocket_id;
+    private String rocket_name;
+    private String rocket_type;
+    private FirstStage first_stage;
+    private SecondStage second_stage;
 
     public String getRocket_id() {
         return rocket_id;
@@ -40,7 +40,7 @@ public class Rocket implements Parcelable {
     public Rocket() {
     }
 
-    protected Rocket(Parcel in) {
+    Rocket(Parcel in) {
         this.rocket_id = in.readString();
         this.rocket_name = in.readString();
         this.rocket_type = in.readString();

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Telemetry implements Parcelable {
 
-    String flight_club;
+    private String flight_club;
 
     @Override
     public int describeContents() {

@@ -10,22 +10,24 @@ import com.glaserproject.spacexploration.Room.DataConverters;
 public class AboutSpaceX {
 
     @PrimaryKey(autoGenerate = true)
+    private
     int id;
-    String name;
-    String founder;
-    String founded;
-    int employees;
-    int vehicles;
-    int launch_sites;
-    int test_sites;
-    String ceo;
-    String cto;
-    String coo;
-    String cto_propulsion;
-    long valuation;
+    private String name;
+    private String founder;
+    private String founded;
+    private int employees;
+    private int vehicles;
+    private int launch_sites;
+    private int test_sites;
+    private String ceo;
+    private String cto;
+    private String coo;
+    private String cto_propulsion;
+    private long valuation;
     @TypeConverters(DataConverters.class)
+    private
     Headquarters headquarters;
-    String summary;
+    private String summary;
 
 
     public int getId() {

@@ -4,13 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 class Core implements Parcelable {
-    String core_serial;
-    String flight;
-    String block;
-    boolean reused;
-    boolean land_success;
-    String landing_type;
-    String landing_vehicle;
+    private String core_serial;
+    private String flight;
+    private String block;
+    private boolean reused;
+    private boolean land_success;
+    private String landing_type;
+    private String landing_vehicle;
 
     @Override
     public int describeContents() {
@@ -31,7 +31,7 @@ class Core implements Parcelable {
     public Core() {
     }
 
-    protected Core(Parcel in) {
+    Core(Parcel in) {
         this.core_serial = in.readString();
         this.flight = in.readString();
         this.block = in.readString();

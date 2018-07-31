@@ -3,7 +3,6 @@ package com.glaserproject.spacexploration.AppWidget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.widget.RemoteViews;
 
 import com.glaserproject.spacexploration.R;

@@ -1,7 +1,6 @@
 package com.glaserproject.spacexploration;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;

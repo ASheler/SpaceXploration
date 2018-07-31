@@ -9,13 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
@@ -27,7 +25,6 @@ import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 import com.glaserproject.spacexploration.RvAdapters.CompanyInfoAdapter;
 import com.glaserproject.spacexploration.ViewModels.AboutSpacexViewModel;
 import com.glaserproject.spacexploration.ViewModels.MilestonesViewModel;
@@ -35,7 +32,6 @@ import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,11 +61,11 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
 
 
 
-    CompanyInfoAdapter infoAdapter;
+    private CompanyInfoAdapter infoAdapter;
 
 
-    MilestonesViewModel milestonesViewModel;
-    AboutSpacexViewModel aboutSpacexViewModel;
+    private MilestonesViewModel milestonesViewModel;
+    private AboutSpacexViewModel aboutSpacexViewModel;
 
 
     @Override
@@ -137,7 +133,7 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     }
 
     //check db if we have data
-    public void checkIfDataInDb (){
+    private void checkIfDataInDb(){
         new CheckIfInfoInDb(this).execute(getContext());
     }
     @Override

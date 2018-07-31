@@ -20,11 +20,7 @@ public class CheckIfLaunchesInDb extends AsyncTask<Object, Void, Boolean> {
 
         LaunchesDatabase db = LaunchesDatabase.getInstance(context);
         Launch launch = db.pastLaunchesDao().getAnyLaunch();
-        if (launch == null){
-            return false;
-        } else {
-            return true;
-        }
+        return launch != null;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.glaserproject.spacexploration.DependencyInjection;
 
-import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 
 import dagger.Module;

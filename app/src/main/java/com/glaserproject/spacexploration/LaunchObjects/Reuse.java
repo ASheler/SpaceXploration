@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Reuse implements Parcelable {
 
-    boolean core;
-    boolean side_core1;
-    boolean side_core2;
-    boolean fairings;
-    boolean capsule;
+    private boolean core;
+    private boolean side_core1;
+    private boolean side_core2;
+    private boolean fairings;
+    private boolean capsule;
 
     @Override
     public int describeContents() {
@@ -28,7 +28,7 @@ public class Reuse implements Parcelable {
     public Reuse() {
     }
 
-    protected Reuse(Parcel in) {
+    Reuse(Parcel in) {
         this.core = in.readByte() != 0;
         this.side_core1 = in.readByte() != 0;
         this.side_core2 = in.readByte() != 0;

@@ -1,7 +1,6 @@
 package com.glaserproject.spacexploration.DependencyInjection;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;

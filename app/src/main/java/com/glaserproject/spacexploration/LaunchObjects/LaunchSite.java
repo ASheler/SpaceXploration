@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 public class LaunchSite implements Parcelable {
 
-    String site_id;
-    String site_name;
-    String site_name_long;
+    private String site_id;
+    private String site_name;
+    private String site_name_long;
 
     public String getSite_id() {
         return site_id;

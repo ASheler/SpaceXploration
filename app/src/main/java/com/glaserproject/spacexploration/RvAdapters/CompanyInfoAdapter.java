@@ -6,12 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.Utils.DateUtils;
 

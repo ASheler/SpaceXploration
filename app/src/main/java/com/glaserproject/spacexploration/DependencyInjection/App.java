@@ -14,7 +14,7 @@ public class App extends Application implements HasActivityInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
-    public static Context context;
+    public Context context;
 
     @Override
     public void onCreate() {

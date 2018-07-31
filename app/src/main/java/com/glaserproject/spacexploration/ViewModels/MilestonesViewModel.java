@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.Room.LaunchesDatabase;

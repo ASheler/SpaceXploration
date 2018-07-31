@@ -1,6 +1,7 @@
 package com.glaserproject.spacexploration.DependencyInjection;
 
 import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
@@ -63,7 +64,7 @@ public class LaunchesRepository {
 
                 webservice.getLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
-                    public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
+                    public void onResponse(@NonNull Call<List<Launch>> call, @NonNull Response<List<Launch>> response) {
                         executor.execute(() -> {
                             Log.d(LOG, "got launches from net successfully");
                             List<Launch> launches = response.body();

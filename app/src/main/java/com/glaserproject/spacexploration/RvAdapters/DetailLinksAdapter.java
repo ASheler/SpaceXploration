@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.glaserproject.spacexploration.LaunchObjects.Links;
@@ -86,7 +85,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
         }
     }
 
-    public String getLink(int position){
+    private String getLink(int position){
 
         switch (position){
             case 0:
@@ -172,7 +171,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
     }
 
 
-    public int getShadowResourceId(int position){
+    private int getShadowResourceId(int position){
 
         switch (position){
             case 0:
@@ -192,7 +191,7 @@ public class DetailLinksAdapter extends RecyclerView.Adapter<DetailLinksAdapter.
                 return R.drawable.ic_reddit_gray;
 
             case 6:
-                return R.drawable.ic_article_gray;
+                return R.drawable.ic_presskit_gray;
 
             case 7:
                 return R.drawable.ic_article_gray;

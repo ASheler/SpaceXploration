@@ -20,11 +20,7 @@ public class CheckIfInfoInDb extends AsyncTask<Object, Void, Boolean> {
 
         LaunchesDatabase db = LaunchesDatabase.getInstance(context);
         Milestone milestone = db.pastLaunchesDao().getOneMilestone();
-        if (milestone == null){
-            return false;
-        } else {
-            return true;
-        }
+        return milestone != null;
     }
 
     @Override

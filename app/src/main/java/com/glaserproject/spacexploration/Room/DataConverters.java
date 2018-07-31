@@ -15,7 +15,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.List;
 
 public class DataConverters {
 
@@ -27,8 +26,7 @@ public class DataConverters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<Rocket>(){}.getType();
-        String json = gson.toJson(rocket, type);
-        return json;
+        return gson.toJson(rocket, type);
     }
 
 
@@ -39,8 +37,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Rocket>() {}.getType();
-        Rocket rocket = gson.fromJson(rocketString, type);
-        return rocket;
+        return gson.fromJson(rocketString, type);
     }
 
 
@@ -52,8 +49,7 @@ public class DataConverters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<Telemetry>(){}.getType();
-        String json = gson.toJson(telemetry, type);
-        return json;
+        return gson.toJson(telemetry, type);
     }
 
 
@@ -64,8 +60,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Telemetry>() {}.getType();
-        Telemetry telemetry = gson.fromJson(telemetryString, type);
-        return telemetry;
+        return gson.fromJson(telemetryString, type);
     }
 
 
@@ -77,8 +72,7 @@ public class DataConverters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<Reuse>(){}.getType();
-        String json = gson.toJson(reuse, type);
-        return json;
+        return gson.toJson(reuse, type);
     }
 
 
@@ -89,8 +83,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Reuse>() {}.getType();
-        Reuse reuse = gson.fromJson(reuseString, type);
-        return reuse;
+        return gson.fromJson(reuseString, type);
     }
 
 
@@ -102,8 +95,7 @@ public class DataConverters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<LaunchSite>(){}.getType();
-        String json = gson.toJson(launchSite, type);
-        return json;
+        return gson.toJson(launchSite, type);
     }
 
 
@@ -114,8 +106,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<LaunchSite>() {}.getType();
-        LaunchSite launchSite = gson.fromJson(launchSiteString, type);
-        return launchSite;
+        return gson.fromJson(launchSiteString, type);
     }
 
     @TypeConverter
@@ -126,8 +117,7 @@ public class DataConverters {
 
         Gson gson = new Gson();
         Type type = new TypeToken<Links>(){}.getType();
-        String json = gson.toJson(links, type);
-        return json;
+        return gson.toJson(links, type);
     }
 
 
@@ -138,8 +128,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Links>() {}.getType();
-        Links links = gson.fromJson(linksString, type);
-        return links;
+        return gson.fromJson(linksString, type);
     }
 
     @TypeConverter
@@ -165,8 +154,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Milestone>() {}.getType();
-        Milestone milestone = gson.fromJson(milestoneString, type);
-        return milestone;
+        return gson.fromJson(milestoneString, type);
     }
 
     @TypeConverter
@@ -176,8 +164,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Milestone>(){}.getType();
-        String json = gson.toJson(milestone, type);
-        return json;
+        return gson.toJson(milestone, type);
     }
 
     @TypeConverter
@@ -187,8 +174,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<MilestoneLinks>() {}.getType();
-        MilestoneLinks links = gson.fromJson(linksString, type);
-        return links;
+        return gson.fromJson(linksString, type);
     }
 
     @TypeConverter
@@ -198,8 +184,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<MilestoneLinks>(){}.getType();
-        String json = gson.toJson(milestoneLinks, type);
-        return json;
+        return gson.toJson(milestoneLinks, type);
     }
 
     @TypeConverter
@@ -209,8 +194,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Headquarters>() {}.getType();
-        Headquarters headquarters = gson.fromJson(headquartersString, type);
-        return headquarters;
+        return gson.fromJson(headquartersString, type);
     }
 
     @TypeConverter
@@ -220,8 +204,7 @@ public class DataConverters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<Headquarters>(){}.getType();
-        String json = gson.toJson(headquarters, type);
-        return json;
+        return gson.toJson(headquarters, type);
     }
 
 }

@@ -9,26 +9,20 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
 import com.glaserproject.spacexploration.AppConstants.ExtrasKeys;
-import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.AsyncTasks.CheckIfLaunchesInDb;
 import com.glaserproject.spacexploration.LaunchDetailActivity;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
-import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.RvAdapters.LaunchesAdapter;
@@ -42,11 +36,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LaunchesMainFragment extends Fragment implements
         LaunchesAdapter.onClickHandler,
@@ -61,11 +50,11 @@ public class LaunchesMainFragment extends Fragment implements
     ViewModelProvider.Factory viewModelFactory;
 
     //Rv Position
-    SaveRvPositionListener saveRvPosition;
+    private SaveRvPositionListener saveRvPosition;
     private Parcelable recyclerViewState;
 
 
-    LaunchesAdapter launchesAdapter;
+    private LaunchesAdapter launchesAdapter;
     private MainViewModel mainViewModel;
 
 
@@ -176,7 +165,7 @@ public class LaunchesMainFragment extends Fragment implements
 
 
     //calc the number of columns to create
-    public static int calculateNoOfColumns(Context context) {
+    private static int calculateNoOfColumns(Context context) {
         //get Display Metrics
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;

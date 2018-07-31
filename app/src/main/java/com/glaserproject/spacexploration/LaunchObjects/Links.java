@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 public class Links implements Parcelable {
 
-    String mission_patch;
-    String mission_patch_small;
-    String reddit_campaign;
-    String reddit_launch;
-    String reddit_recovery;
-    String reddit_media;
-    String presskit;
-    String article_link;
-    String wikipedia;
-    String video_link;
+    private String mission_patch;
+    private String mission_patch_small;
+    private String reddit_campaign;
+    private String reddit_launch;
+    private String reddit_recovery;
+    private String reddit_media;
+    private String presskit;
+    private String article_link;
+    private String wikipedia;
+    private String video_link;
 
 
     @Override

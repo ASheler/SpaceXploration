@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class FetchLaunchAsyncTask extends AsyncTask<Object, Void, Launch> {
+class FetchLaunchAsyncTask extends AsyncTask<Object, Void, Launch> {
     @Override
     protected Launch doInBackground(Object... objects) {
 

@@ -9,24 +9,24 @@
         <item
             android:id="@+id/nav_launches"
             android:icon="@drawable/ic_launches"
-            android:title="Launches" />
+            android:title="@string/menu_label_launches" />
         <item
             android:id="@+id/nav_about_spacex"
             android:icon="@drawable/ic_spacex_logo_xonly"
-            android:title="About SpaceX" />
+            android:title="@string/menu_label_about_spacex" />
     </group>
 
-    <item android:title="Other">
+    <item android:title="@string/menu_label_group_other">
         <menu>
 
             <item
                 android:id="@+id/nav_support"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Support Us" />
+                android:title="@string/menu_label_support_us" />
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_menu_send"
-                android:title="About App" />
+                android:title="@string/menu_label_about_app" />
         </menu>
     </item>
 

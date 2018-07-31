@@ -8,7 +8,7 @@ import java.util.List;
 
 class FirstStage implements Parcelable {
 
-    List<Core> cores;
+    private List<Core> cores;
 
     @Override
     public int describeContents() {
@@ -24,7 +24,7 @@ class FirstStage implements Parcelable {
     }
 
     protected FirstStage(Parcel in) {
-        this.cores = new ArrayList<Core>();
+        this.cores = new ArrayList<>();
         in.readList(this.cores, Core.class.getClassLoader());
     }
 

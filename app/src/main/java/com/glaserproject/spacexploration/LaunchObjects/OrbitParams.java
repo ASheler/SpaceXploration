@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 class OrbitParams implements Parcelable {
 
-    String reference_system;
-    String regime;
-    String longitude;
-    String semi_major_axis_km;
-    String eccentricity;
-    String periapsis_km;
-    String apoapsis_km;
-    String inclination_deg;
-    String period_min;
-    String lifespan_years;
+    private String reference_system;
+    private String regime;
+    private String longitude;
+    private String semi_major_axis_km;
+    private String eccentricity;
+    private String periapsis_km;
+    private String apoapsis_km;
+    private String inclination_deg;
+    private String period_min;
+    private String lifespan_years;
 
     @Override
     public int describeContents() {
@@ -38,7 +38,7 @@ class OrbitParams implements Parcelable {
     public OrbitParams() {
     }
 
-    protected OrbitParams(Parcel in) {
+    OrbitParams(Parcel in) {
         this.reference_system = in.readString();
         this.regime = in.readString();
         this.longitude = in.readString();

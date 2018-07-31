@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.Room.LaunchesDatabase;
 
 import java.util.List;

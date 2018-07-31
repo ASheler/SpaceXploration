@@ -7,19 +7,19 @@ import java.util.List;
 
 class Payload implements Parcelable {
 
-    String payload_id;
-    String cap_serial;
-    boolean reused;
-    List<String> customers;
-    String payload_type;
-    String payload_mass_kg;
-    String payload_mass_lbs;
-    String orbit;
-    OrbitParams orbit_params;
-    String mass_returned_kg;
-    String mass_returned_lbs;
-    String flight_time_sec;
-    String cargo_manifest;
+    private String payload_id;
+    private String cap_serial;
+    private boolean reused;
+    private List<String> customers;
+    private String payload_type;
+    private String payload_mass_kg;
+    private String payload_mass_lbs;
+    private String orbit;
+    private OrbitParams orbit_params;
+    private String mass_returned_kg;
+    private String mass_returned_lbs;
+    private String flight_time_sec;
+    private String cargo_manifest;
 
     @Override
     public int describeContents() {

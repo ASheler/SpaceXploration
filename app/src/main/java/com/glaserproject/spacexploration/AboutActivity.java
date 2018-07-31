@@ -2,7 +2,6 @@
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
