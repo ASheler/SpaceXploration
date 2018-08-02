@@ -1,5 +1,6 @@
 package com.glaserproject.spacexploration.Fragments;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,30 +17,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.glaserproject.spacexploration.AppConstants.BundleKeys;
-import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.AsyncTasks.CheckIfInfoInDb;
-import com.glaserproject.spacexploration.AsyncTasks.InsertAboutIntoDbAsyncTask;
-import com.glaserproject.spacexploration.AsyncTasks.InsertMilestonesAsyncTask;
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.RvAdapters.CompanyInfoAdapter;
 import com.glaserproject.spacexploration.ViewModels.AboutSpacexViewModel;
 import com.glaserproject.spacexploration.ViewModels.MilestonesViewModel;
-import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * Fragment for Company Info display
@@ -50,6 +44,9 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     public CompanyInfoFragment() {
     }
 
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private SaveCompanyInfoRvPositionListener positionListener;
     private Parcelable recyclerViewState;
@@ -80,6 +77,23 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
     }
 
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        aboutSpacexViewModel = ViewModelProviders.of(this, viewModelFactory).get(AboutSpacexViewModel.class);
+        aboutSpacexViewModel.init();
+        aboutSpacexViewModel.getAboutSpaceX().observe(this, this::updateAbout);
+
+        milestonesViewModel = ViewModelProviders.of(this, viewModelFactory).get(MilestonesViewModel.class);
+        milestonesViewModel.init();
+        milestonesViewModel.getMilestones().observe(this, this::updateRv);
+
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,16 +108,6 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
         infoAdapter = new CompanyInfoAdapter();
         recyclerView.setAdapter(infoAdapter);
 
-
-        //init AboutSpacex ViewModel
-        aboutSpacexViewModel = ViewModelProviders.of(this).get(AboutSpacexViewModel.class);
-        aboutSpacexViewModel.getAboutSpaceX().observe(this, this::updateAbout);
-
-        //init milestones ViewModel
-        milestonesViewModel = ViewModelProviders.of(this).get(MilestonesViewModel.class);
-        milestonesViewModel.getMilestones().observe(this, this::updateRv);
-
-
         //get rv state from Bundle from MainActivity
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -116,8 +120,6 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
             //Hide message saying there's no data
             noDataMessageTv.setVisibility(View.GONE);
 
-            //reload Data from Net
-            fetchDataFromNet();
         } else {
             //no connection - check if we have data stored
             checkIfDataInDb();
@@ -139,50 +141,6 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
             companyInfoProgressBar.setVisibility(View.GONE);
             noDataMessageTv.setVisibility(View.VISIBLE);
         }
-    }
-
-
-    //fetch data via retrofit
-    private void fetchDataFromNet() {
-
-        //init retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-                .baseUrl(NetConstants.API_BASE_URL)
-                .build();
-        ApiClient webservice = retrofit.create(ApiClient.class);
-
-        //get Milestones
-        Call<List<Milestone>> milestones = webservice.getAllMilestones();
-        milestones.enqueue(new Callback<List<Milestone>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Milestone>> call, @NonNull Response<List<Milestone>> response) {
-                //insert newly fetched data into roomDb
-                new InsertMilestonesAsyncTask(response.body()).execute(getContext());
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Milestone>> call, @NonNull Throwable t) {
-
-            }
-        });
-
-        //call for AboutSpaceX data
-        Call<AboutSpaceX> aboutSpacex = webservice.getAboutSpaceX();
-        aboutSpacex.enqueue(new Callback<AboutSpaceX>() {
-
-            @Override
-            public void onResponse(@NonNull Call<AboutSpaceX> call, @NonNull Response<AboutSpaceX> response) {
-                //insert into Db
-                new InsertAboutIntoDbAsyncTask(response.body()).execute(getContext());
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<AboutSpaceX> call, @NonNull Throwable t) {
-
-            }
-        });
     }
 
     //update Rv with milestones

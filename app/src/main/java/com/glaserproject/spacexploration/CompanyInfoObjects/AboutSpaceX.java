@@ -6,6 +6,8 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
+import java.util.Date;
+
 /**
  * Object AboutSpaceX
  * object serves as Entity for Room Db
@@ -33,6 +35,8 @@ public class AboutSpaceX {
     @TypeConverters(DataConverters.class)
     private Headquarters headquarters;
     private String summary;
+    @TypeConverters(DataConverters.class)
+    private Date lastRefresh;
 
 
     public int getId() {
@@ -95,6 +99,10 @@ public class AboutSpaceX {
         return summary;
     }
 
+    public Date getLastRefresh() {
+        return lastRefresh;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -153,5 +161,9 @@ public class AboutSpaceX {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public void setLastRefresh(Date lastRefresh) {
+        this.lastRefresh = lastRefresh;
     }
 }

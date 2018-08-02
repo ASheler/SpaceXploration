@@ -3,6 +3,7 @@ package com.glaserproject.spacexploration.DependencyInjection;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
 import com.glaserproject.spacexploration.Room.LaunchesDao;
@@ -25,9 +26,6 @@ import retrofit2.Response;
 
 @Singleton
 public class LaunchesRepository {
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private static int FRESH_TIMEOUT_IN_MINUTES = 3;
 
     private final ApiClient webservice;
     private final LaunchesDao launchesDao;
@@ -80,7 +78,7 @@ public class LaunchesRepository {
                             }
 
                             //insert newly fetched launches into db
-                            launchesDao.insertLaunches(response.body());
+                            launchesDao.insertLaunches(launches);
                         });
                     }
 
@@ -97,7 +95,7 @@ public class LaunchesRepository {
     private Date getMaxRefreshTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.MINUTE, -FRESH_TIMEOUT_IN_MINUTES);
+        cal.add(Calendar.MINUTE, NetConstants.LAUNCHES_FRESH_TIMEOUT_MINUTES);
         return cal.getTime();
     }
 

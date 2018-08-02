@@ -15,7 +15,7 @@ import com.glaserproject.spacexploration.LaunchObjects.Launch;
  * Database class for Room
  */
 
-@Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 4, exportSchema = false)
+@Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 6, exportSchema = false)
 @TypeConverters(DataConverters.class)
 public abstract class LaunchesDatabase extends RoomDatabase {
 

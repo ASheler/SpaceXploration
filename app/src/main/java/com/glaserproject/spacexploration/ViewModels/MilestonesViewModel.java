@@ -1,29 +1,36 @@
 package com.glaserproject.spacexploration.ViewModels;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.ViewModel;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.ViewModels.Repositories.MilestonesRepository;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * ViewModel for AboutSpaceX data from room Db
  */
 
-public class MilestonesViewModel extends AndroidViewModel {
+public class MilestonesViewModel extends ViewModel {
 
     private LiveData<List<Milestone>> milestones;
+    private MilestonesRepository milestonesRepository;
 
 
-    public MilestonesViewModel(@NonNull Application application) {
-        super(application);
-        //init db and get LiveData
-        LaunchesDatabase db = LaunchesDatabase.getInstance(application);
-        milestones = db.pastLaunchesDao().getAllMilestones();
+    @Inject
+    public MilestonesViewModel(MilestonesRepository milestonesRepository) {
+        this.milestonesRepository = milestonesRepository;
+    }
+
+    //init
+    public void init() {
+        if (milestones != null) {
+            return;
+        }
+        milestones = milestonesRepository.getMilestones();
     }
 
 

@@ -51,11 +51,17 @@ public interface LaunchesDao {
     @Query("SELECT * FROM milestones LIMIT 1")
     Milestone getOneMilestone();
 
+    @Query("SELECT * FROM milestones WHERE lastRefresh < :lastRefreshMax")
+    List<Milestone> milestonesToRefresh(Date lastRefreshMax);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMilestones(List<Milestone> milestones);
 
     @Query("SELECT * FROM about_spacex LIMIT 1")
-    LiveData<AboutSpaceX> getAboutSpaceX();
+    LiveData<AboutSpaceX> getAboutSpaceXLiveData();
+
+    @Query("SELECT * FROM about_spacex LIMIT 1")
+    AboutSpaceX getAboutSpaceX();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAboutSpaceX(AboutSpaceX aboutSpaceX);

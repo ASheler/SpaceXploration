@@ -7,6 +7,8 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.glaserproject.spacexploration.Room.DataConverters;
 
+import java.util.Date;
+
 /**
  * Object Milestone
  * object serves as Entity for Room Db
@@ -26,6 +28,8 @@ public class Milestone {
     private String details;
     @TypeConverters(DataConverters.class)
     private MilestoneLinks links;
+    @TypeConverters(DataConverters.class)
+    private Date lastRefresh;
 
 
     public String getTitle() {
@@ -52,6 +56,10 @@ public class Milestone {
         return links;
     }
 
+    public Date getLastRefresh() {
+        return lastRefresh;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -74,5 +82,9 @@ public class Milestone {
 
     public void setLinks(MilestoneLinks links) {
         this.links = links;
+    }
+
+    public void setLastRefresh(Date lastRefresh) {
+        this.lastRefresh = lastRefresh;
     }
 }

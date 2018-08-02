@@ -1,5 +1,6 @@
 package com.glaserproject.spacexploration.DependencyInjection;
 
+import com.glaserproject.spacexploration.Fragments.CompanyInfoFragment;
 import com.glaserproject.spacexploration.Fragments.LaunchesMainFragment;
 
 import dagger.Module;
@@ -13,4 +14,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract LaunchesMainFragment contributeLaunchesMainFragment();
+
+    @ContributesAndroidInjector
+    abstract CompanyInfoFragment contributeCompanyInfoFragment();
 }
