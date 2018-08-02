@@ -175,7 +175,7 @@ public class LaunchesMainFragment extends Fragment implements
         //setUp View Model
         launchesViewModel = ViewModelProviders.of(this, viewModelFactory).get(LaunchesViewModel.class);
         launchesViewModel.init();
-        launchesViewModel.getLaunches().observe(this, this::updateUi);
+        launchesViewModel.getLaunches().observe(getViewLifecycleOwner(), this::updateUi);
 
 
     }

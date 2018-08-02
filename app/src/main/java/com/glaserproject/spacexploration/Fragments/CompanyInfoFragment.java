@@ -85,11 +85,11 @@ public class CompanyInfoFragment extends Fragment implements CheckIfInfoInDb.Che
 
         aboutSpacexViewModel = ViewModelProviders.of(this, viewModelFactory).get(AboutSpacexViewModel.class);
         aboutSpacexViewModel.init();
-        aboutSpacexViewModel.getAboutSpaceX().observe(this, this::updateAbout);
+        aboutSpacexViewModel.getAboutSpaceX().observe(getViewLifecycleOwner(), this::updateAbout);
 
         milestonesViewModel = ViewModelProviders.of(this, viewModelFactory).get(MilestonesViewModel.class);
         milestonesViewModel.init();
-        milestonesViewModel.getMilestones().observe(this, this::updateRv);
+        milestonesViewModel.getMilestones().observe(getViewLifecycleOwner(), this::updateRv);
 
 
     }
