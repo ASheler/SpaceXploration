@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 /**
- * ViewModel Factory for MainViewModel for Dependency Injection
+ * ViewModel Factory for LaunchesViewModel for Dependency Injection
  */
 
 public class FactoryViewModel implements ViewModelProvider.Factory {

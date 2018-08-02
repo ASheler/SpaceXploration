@@ -14,14 +14,14 @@ import javax.inject.Inject;
  * ViewModel for Launches data
  */
 
-public class MainViewModel extends ViewModel {
+public class LaunchesViewModel extends ViewModel {
 
     private LiveData<List<Launch>> launches;
     private LaunchesRepository launchesRepository;
 
 
     @Inject
-    public MainViewModel(LaunchesRepository launchesRepository) {
+    public LaunchesViewModel(LaunchesRepository launchesRepository) {
         this.launchesRepository = launchesRepository;
 
     }

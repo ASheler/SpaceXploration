@@ -26,7 +26,7 @@ import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.CheckNetConnection;
 import com.glaserproject.spacexploration.R;
 import com.glaserproject.spacexploration.RvAdapters.LaunchesAdapter;
-import com.glaserproject.spacexploration.ViewModels.MainViewModel;
+import com.glaserproject.spacexploration.ViewModels.LaunchesViewModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -59,7 +59,7 @@ public class LaunchesMainFragment extends Fragment implements
 
 
     private LaunchesAdapter launchesAdapter;
-    private MainViewModel mainViewModel;
+    private LaunchesViewModel launchesViewModel;
 
 
     @BindView(R.id.launches_rv)
@@ -173,9 +173,9 @@ public class LaunchesMainFragment extends Fragment implements
 
 
         //setUp View Model
-        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        mainViewModel.init();
-        mainViewModel.getLaunches().observe(this, this::updateUi);
+        launchesViewModel = ViewModelProviders.of(this, viewModelFactory).get(LaunchesViewModel.class);
+        launchesViewModel.init();
+        launchesViewModel.getLaunches().observe(this, this::updateUi);
 
 
     }
