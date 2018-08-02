@@ -36,7 +36,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    SpacexDao provideLaunchesDao(SpacexDatabase database) {
+    SpacexDao provideSpacexDao(SpacexDatabase database) {
         return database.spacexDao();
     }
 
