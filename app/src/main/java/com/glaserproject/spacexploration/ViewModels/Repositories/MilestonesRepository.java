@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.LaunchesDao;
+import com.glaserproject.spacexploration.Room.SpacexDao;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,13 +29,13 @@ public class MilestonesRepository {
 
 
     private final ApiClient webservice;
-    private final LaunchesDao launchesDao;
+    private final SpacexDao spacexDao;
     private final Executor executor;
 
     @Inject
-    public MilestonesRepository(ApiClient webservice, LaunchesDao launchesDao, Executor executor) {
+    public MilestonesRepository(ApiClient webservice, SpacexDao spacexDao, Executor executor) {
         this.webservice = webservice;
-        this.launchesDao = launchesDao;
+        this.spacexDao = spacexDao;
         this.executor = executor;
     }
 
@@ -44,7 +44,7 @@ public class MilestonesRepository {
         //refresh from net
         refreshAboutSpacex();
         //return liveData from Db
-        return launchesDao.getAllMilestones();
+        return spacexDao.getAllMilestones();
     }
 
 
@@ -55,8 +55,8 @@ public class MilestonesRepository {
             //set new Refresh reference
             Date maxRefresh = getMaxRefreshTime(new Date());
             //get all milestones with older time
-            List<Milestone> milestonesToRefresh = launchesDao.milestonesToRefresh(maxRefresh);
-            Milestone anyMilestone = launchesDao.getOneMilestone();
+            List<Milestone> milestonesToRefresh = spacexDao.milestonesToRefresh(maxRefresh);
+            Milestone anyMilestone = spacexDao.getOneMilestone();
             //check if we have any
             boolean refreshMilestonesExists = (milestonesToRefresh.size() > 0);
 
@@ -78,7 +78,7 @@ public class MilestonesRepository {
                                 i++;
                             }
                             //insert newly fetched launches into db
-                            launchesDao.insertMilestones(milestones);
+                            spacexDao.insertMilestones(milestones);
 
                         });
 

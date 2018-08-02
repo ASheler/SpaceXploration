@@ -3,8 +3,8 @@ package com.glaserproject.spacexploration.ViewModels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.glaserproject.spacexploration.DependencyInjection.LaunchesRepository;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
+import com.glaserproject.spacexploration.ViewModels.Repositories.LaunchesRepository;
 
 import java.util.List;
 

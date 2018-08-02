@@ -1,4 +1,4 @@
-package com.glaserproject.spacexploration.DependencyInjection;
+package com.glaserproject.spacexploration.ViewModels.Repositories;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.LaunchesDao;
+import com.glaserproject.spacexploration.Room.SpacexDao;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -28,14 +28,14 @@ import retrofit2.Response;
 public class LaunchesRepository {
 
     private final ApiClient webservice;
-    private final LaunchesDao launchesDao;
+    private final SpacexDao spacexDao;
     private final Executor executor;
 
 
     @Inject
-    public LaunchesRepository(ApiClient webservice, LaunchesDao launchesDao, Executor executor) {
+    public LaunchesRepository(ApiClient webservice, SpacexDao spacexDao, Executor executor) {
         this.webservice = webservice;
-        this.launchesDao = launchesDao;
+        this.spacexDao = spacexDao;
         this.executor = executor;
     }
 
@@ -43,7 +43,7 @@ public class LaunchesRepository {
     public LiveData<List<Launch>> getLaunches() {
 
         refreshLaunches();
-        return launchesDao.getLaunches();
+        return spacexDao.getLaunches();
     }
 
 
@@ -54,8 +54,8 @@ public class LaunchesRepository {
             //set new Refresh reference
             Date maxRefresh = getMaxRefreshTime(new Date());
             //get all launches with older time
-            List<Launch> launchesToRefresh = launchesDao.launchesToRefresh(maxRefresh);
-            Launch anyLaunch = launchesDao.getAnyLaunch();
+            List<Launch> launchesToRefresh = spacexDao.launchesToRefresh(maxRefresh);
+            Launch anyLaunch = spacexDao.getAnyLaunch();
             //check if we have any
             boolean refreshLaunchesExists = (launchesToRefresh.size() > 0);
 
@@ -78,7 +78,7 @@ public class LaunchesRepository {
                             }
 
                             //insert newly fetched launches into db
-                            launchesDao.insertLaunches(launches);
+                            spacexDao.insertLaunches(launches);
                         });
                     }
 

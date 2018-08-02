@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Dao
-public interface LaunchesDao {
+public interface SpacexDao {
 
     @Query("SELECT * FROM launches ORDER BY flight_number DESC")
     LiveData<List<Launch>> getLaunches();

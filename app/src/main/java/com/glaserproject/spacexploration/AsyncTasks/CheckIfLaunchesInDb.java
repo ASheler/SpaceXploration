@@ -4,7 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
+
 
 /**
  * AsyncTask to check if we have any Launches data in db
@@ -29,8 +30,8 @@ public class CheckIfLaunchesInDb extends AsyncTask<Object, Void, Boolean> {
         Context context = (Context) objects[0];
 
         //get db and any launch
-        LaunchesDatabase db = LaunchesDatabase.getInstance(context);
-        Launch launch = db.pastLaunchesDao().getAnyLaunch();
+        SpacexDatabase db = SpacexDatabase.getInstance(context);
+        Launch launch = db.spacexDao().getAnyLaunch();
         //return logic if launch != null
         return launch != null;
     }

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.LaunchesDao;
+import com.glaserproject.spacexploration.Room.SpacexDao;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -27,13 +27,13 @@ import retrofit2.Response;
 public class AboutSpacexRepository {
 
     private final ApiClient webservice;
-    private final LaunchesDao launchesDao;
+    private final SpacexDao spacexDao;
     private final Executor executor;
 
     @Inject
-    public AboutSpacexRepository(ApiClient webservice, LaunchesDao launchesDao, Executor executor) {
+    public AboutSpacexRepository(ApiClient webservice, SpacexDao spacexDao, Executor executor) {
         this.webservice = webservice;
-        this.launchesDao = launchesDao;
+        this.spacexDao = spacexDao;
         this.executor = executor;
     }
 
@@ -42,7 +42,7 @@ public class AboutSpacexRepository {
         //refresh from net
         refreshAboutSpacex();
         //return  liveData
-        return launchesDao.getAboutSpaceXLiveData();
+        return spacexDao.getAboutSpaceXLiveData();
     }
 
 
@@ -54,7 +54,7 @@ public class AboutSpacexRepository {
             Date maxRefresh = getMaxRefreshTime(new Date());
 
             //get old to check if we need to update
-            AboutSpaceX aboutSpaceX = launchesDao.getAboutSpaceX();
+            AboutSpaceX aboutSpaceX = spacexDao.getAboutSpaceX();
 
             //check if we got something
             boolean refreshNeeded;
@@ -76,7 +76,7 @@ public class AboutSpacexRepository {
                             //if response != null, insert new refresh date and insert into db
                             if (newAboutSpaceX != null) {
                                 newAboutSpaceX.setLastRefresh(new Date());
-                                launchesDao.insertAboutSpaceX(newAboutSpaceX);
+                                spacexDao.insertAboutSpaceX(newAboutSpaceX);
                             }
 
                         });

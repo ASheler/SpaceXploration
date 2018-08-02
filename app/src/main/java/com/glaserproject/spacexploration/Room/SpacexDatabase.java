@@ -17,19 +17,19 @@ import com.glaserproject.spacexploration.LaunchObjects.Launch;
 
 @Database(entities = {Launch.class, Milestone.class, AboutSpaceX.class}, version = 6, exportSchema = false)
 @TypeConverters(DataConverters.class)
-public abstract class LaunchesDatabase extends RoomDatabase {
+public abstract class SpacexDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
     private static final String DB_NAME = "SpaceXdatabase.db";
-    private static LaunchesDatabase sInstance;
+    private static SpacexDatabase sInstance;
 
     //get instance
-    public static LaunchesDatabase getInstance(final Context context) {
+    public static SpacexDatabase getInstance(final Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {
                 //build DB
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
-                        LaunchesDatabase.class,
+                        SpacexDatabase.class,
                         DB_NAME)
                         .fallbackToDestructiveMigration()
                         .build();
@@ -39,5 +39,5 @@ public abstract class LaunchesDatabase extends RoomDatabase {
     }
 
     //call for DAO
-    public abstract LaunchesDao pastLaunchesDao();
+    public abstract SpacexDao spacexDao();
 }

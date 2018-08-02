@@ -4,8 +4,9 @@ import android.app.Application;
 
 import com.glaserproject.spacexploration.AppConstants.NetConstants;
 import com.glaserproject.spacexploration.NetUtils.ApiClient;
-import com.glaserproject.spacexploration.Room.LaunchesDao;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDao;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
+import com.glaserproject.spacexploration.ViewModels.Repositories.LaunchesRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,14 +30,14 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LaunchesDatabase provideDatabase(Application application) {
-        return LaunchesDatabase.getInstance(application);
+    SpacexDatabase provideDatabase(Application application) {
+        return SpacexDatabase.getInstance(application);
     }
 
     @Provides
     @Singleton
-    LaunchesDao provideLaunchesDao(LaunchesDatabase database) {
-        return database.pastLaunchesDao();
+    SpacexDao provideLaunchesDao(SpacexDatabase database) {
+        return database.spacexDao();
     }
 
 
@@ -47,7 +48,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LaunchesRepository provideLaunchesRepository(ApiClient webservice, LaunchesDao userDao, Executor executor) {
+    LaunchesRepository provideLaunchesRepository(ApiClient webservice, SpacexDao userDao, Executor executor) {
         return new LaunchesRepository(webservice, userDao, executor);
     }
 

@@ -4,7 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
+
 
 /**
  * AsyncTask to check if we have any Company Info data in db
@@ -29,9 +30,9 @@ public class CheckIfInfoInDb extends AsyncTask<Object, Void, Boolean> {
     protected Boolean doInBackground(Object... objects) {
         Context context = (Context) objects[0];
         //create db connection
-        LaunchesDatabase db = LaunchesDatabase.getInstance(context);
+        SpacexDatabase db = SpacexDatabase.getInstance(context);
         //get one milestone from Db
-        Milestone milestone = db.pastLaunchesDao().getOneMilestone();
+        Milestone milestone = db.spacexDao().getOneMilestone();
         //return logic if Milestone != null
         return milestone != null;
     }

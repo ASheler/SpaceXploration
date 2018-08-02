@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.Milestone;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
 
 import java.util.List;
 
@@ -32,10 +32,10 @@ public class InsertMilestonesAsyncTask extends AsyncTask<Object, Void, Void> {
         Context context = (Context) objects[0];
 
         //get db instance
-        LaunchesDatabase db = LaunchesDatabase.getInstance(context);
+        SpacexDatabase db = SpacexDatabase.getInstance(context);
 
         //insert data
-        db.pastLaunchesDao().insertMilestones(mMilestones);
+        db.spacexDao().insertMilestones(mMilestones);
 
         return null;
     }

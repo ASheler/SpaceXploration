@@ -13,7 +13,7 @@ import com.glaserproject.spacexploration.LaunchDetailActivity;
 import com.glaserproject.spacexploration.LaunchObjects.Launch;
 import com.glaserproject.spacexploration.MainActivity;
 import com.glaserproject.spacexploration.R;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
 import com.glaserproject.spacexploration.Utils.DateUtils;
 
 import java.util.Date;
@@ -42,11 +42,11 @@ class FetchLaunchAsyncTask extends AsyncTask<Object, Void, Launch> {
 
         //setup Db and RemoteViews
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.next_launch_widget);
-        LaunchesDatabase db = LaunchesDatabase.getInstance(context);
+        SpacexDatabase db = SpacexDatabase.getInstance(context);
 
         //Get Next Launch from Db
         long currentTime = new Date().getTime() / 1000L;
-        Launch nextLaunch = db.pastLaunchesDao().getNextLaunch(currentTime);
+        Launch nextLaunch = db.spacexDao().getNextLaunch(currentTime);
 
         //init Intent
         Intent intent;

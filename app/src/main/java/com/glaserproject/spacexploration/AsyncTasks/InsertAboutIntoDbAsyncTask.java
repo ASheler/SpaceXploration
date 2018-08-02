@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.glaserproject.spacexploration.CompanyInfoObjects.AboutSpaceX;
-import com.glaserproject.spacexploration.Room.LaunchesDatabase;
+import com.glaserproject.spacexploration.Room.SpacexDatabase;
 
 /**
  * AsyncTask to insert AboutSpacex data into Db
@@ -27,10 +27,10 @@ public class InsertAboutIntoDbAsyncTask extends AsyncTask<Object, Void, Void> {
     protected Void doInBackground(Object... objects) {
         Context context = (Context) objects[0];
         //get Instance
-        LaunchesDatabase db = LaunchesDatabase.getInstance(context);
+        SpacexDatabase db = SpacexDatabase.getInstance(context);
 
         //insert data
-        db.pastLaunchesDao().insertAboutSpaceX(aboutSpaceX);
+        db.spacexDao().insertAboutSpaceX(aboutSpaceX);
 
         return null;
     }
