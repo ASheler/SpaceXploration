@@ -38,6 +38,24 @@ public class AboutSpaceX {
     @TypeConverters(DataConverters.class)
     private Date lastRefresh;
 
+    public AboutSpaceX(int id, String name, String founder, String founded, int employees, int vehicles, int launch_sites, int test_sites, String ceo, String cto, String coo, String cto_propulsion, long valuation, Headquarters headquarters, String summary, Date lastRefresh) {
+        this.id = id;
+        this.name = name;
+        this.founder = founder;
+        this.founded = founded;
+        this.employees = employees;
+        this.vehicles = vehicles;
+        this.launch_sites = launch_sites;
+        this.test_sites = test_sites;
+        this.ceo = ceo;
+        this.cto = cto;
+        this.coo = coo;
+        this.cto_propulsion = cto_propulsion;
+        this.valuation = valuation;
+        this.headquarters = headquarters;
+        this.summary = summary;
+        this.lastRefresh = lastRefresh;
+    }
 
     public int getId() {
         return id;

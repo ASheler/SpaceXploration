@@ -19,6 +19,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -77,6 +78,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$androidArchVersion"
     implementation "android.arch.lifecycle:viewmodel:$androidArchVersion"
     implementation "android.arch.lifecycle:livedata:$androidArchVersion"
+    testImplementation "android.arch.core:core-testing:$androidArchVersion"
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -93,6 +95,10 @@ dependencies {
 
     //Firebase for analytics
     implementation 'com.google.firebase:firebase-core:16.0.1'
+
+    //mockito
+    implementation 'org.mockito:mockito-core:2.21.0'
+    implementation 'org.mockito:mockito-android:2.21.0'
 }
 
 
